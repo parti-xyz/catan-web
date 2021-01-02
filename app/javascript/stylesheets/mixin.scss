@@ -103,15 +103,35 @@
     cursor: default;
   }
 
-  table {
-    border-collapse: collapse;
+  .tableWrapper {
+    overflow-x: auto;
+    margin: 1rem 0;
   }
 
-  td {
-    vertical-align: top;
-    border: 1px solid #ddd;
-    padding: 3px 5px;
+  table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid global-variables.$color-gray-300;
   }
+  table p {
+    margin-top: 1rem;
+  }
+  table td > *,
+  table th > * {
+    margin-bottom: 0;
+  }
+
+  td,
+  th {
+    vertical-align: top;
+    border: 1px solid global-variables.$color-gray-300;
+    padding: 3px 5px;
+    box-sizing: border-box;
+    position: relative;
+  }
+
 
   a,
   .mention {
@@ -124,39 +144,40 @@
   h4,
   h5,
   h6 {
-    margin-top: .5rem;
+    margin-top: .75rem;
     margin-bottom: .5rem;
-    font-weight: 600;
     line-height: 1.25;
+    color: global-variables.$color-brand-400;
+    font-weight: 600;
   }
   h1 {
-    font-size: 1.25rem + 0.125rem * 2;
-    font-weight: 900;
+    font-size: 1.25rem;
     padding-bottom: 0.3em;
     margin-top: 1.5rem;
     margin-bottom: 1rem;
-    border-bottom: 1px solid global-variables.$color-gray-200;
+    border-bottom: 2px solid global-variables.$color-brand-200;
   }
   h2 {
-    font-size: 1.25rem;
-    padding-bottom: 0.3em;
+    font-size: 1.125rem;
+    padding-bottom: 0.15em;
     margin-top: 1rem;
     margin-bottom: 0.75rem;
-    border-bottom: 1px solid global-variables.$color-gray-200;
+    border-bottom: 1px solid global-variables.$color-brand-100;
+    font-weight: 400;
   }
   h3 {
-    font-size: 1.125rem;
-    padding-left: 8px;
-    position: relative;
-    &:before {
-      content: ' ';
-      height: 100%;
-      width: 4px;
-      background-color: global-variables.$color-gray-300;
-      position: absolute;
-      left: 0;
-      top: 0;
-    }
+    font-size: 1rem;
+    // padding-left: 8px;
+    // position: relative;
+    // &:before {
+    //   content: ' ';
+    //   height: 100%;
+    //   width: 4px;
+    //   background-color: global-variables.$color-gray-300;
+    //   position: absolute;
+    //   left: 0;
+    //   top: 0;
+    // }
   }
   h4 {
     font-size: 1.125rem - 0.125rem;
