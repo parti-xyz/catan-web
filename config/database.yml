@@ -1,10 +1,21 @@
 <%
   local_env = {}
   if Rails.env.development? || Rails.env.test?
-    branch = `git rev-parse --abbrev-ref HEAD`.strip rescue nil
+    branch = %x[git rev-parse --abbrev-ref HEAD].strip rescue nil
     branch = branch.gsub('/', '_')
     branch = branch.gsub('.', '_')
     local_env = YAML.load_file("#{Rails.root}/local_env.yml").dig(Rails.env) || {}
+
+    changes_count = %x[git ls-files -mo --exclude-standard -- #{Rails.root}/db | wc -l].strip rescue nil
+    diffs_count = %x[git diff --cached master --name-only -- #{Rails.root}/db | wc -l].strip rescue nil
+
+    if 0 >= changes_count.to_i + diffs_count.to_i
+      branch = 'master'
+    end
+
+    if(local_env.dig('devdb') != nil)
+      branch = local_env.dig('devdb')
+    end
   end
 %>
 
