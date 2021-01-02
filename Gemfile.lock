@@ -243,7 +243,7 @@ GEM
     enumerize (2.3.1)
       activesupport (>= 3.2)
     equalizer (0.0.11)
-    erubi (1.9.0)
+    erubi (1.10.0)
     erubis (2.7.0)
     et-orbi (1.2.2)
       tzinfo
@@ -375,18 +375,18 @@ GEM
       concurrent-ruby
       rails (>= 4.0)
     jwt (2.2.1)
-    kaminari (1.1.1)
+    kaminari (1.2.1)
       activesupport (>= 4.1.0)
-      kaminari-actionview (= 1.1.1)
-      kaminari-activerecord (= 1.1.1)
-      kaminari-core (= 1.1.1)
-    kaminari-actionview (1.1.1)
+      kaminari-actionview (= 1.2.1)
+      kaminari-activerecord (= 1.2.1)
+      kaminari-core (= 1.2.1)
+    kaminari-actionview (1.2.1)
       actionview
-      kaminari-core (= 1.1.1)
-    kaminari-activerecord (1.1.1)
+      kaminari-core (= 1.2.1)
+    kaminari-activerecord (1.2.1)
       activerecord
-      kaminari-core (= 1.1.1)
-    kaminari-core (1.1.1)
+      kaminari-core (= 1.2.1)
+    kaminari-core (1.2.1)
     kgio (2.11.3)
     koala (2.5.0)
       addressable
@@ -402,7 +402,7 @@ GEM
     listen (3.2.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    loofah (2.4.0)
+    loofah (2.8.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.2.0)
@@ -696,7 +696,7 @@ GEM
       multipart-post (~> 2.0)
       naught (~> 1.0)
       simple_oauth (~> 0.3.0)
-    tzinfo (1.2.7)
+    tzinfo (1.2.9)
       thread_safe (~> 0.1)
     uber (0.1.0)
     uglifier (4.2.0)
@@ -799,7 +799,7 @@ DEPENDENCIES
   jquery-rails
   jquery-slick-rails
   jsonapi-resources (~> 0.8.0.beta2)
-  kaminari (~> 1.1, >= 1.1.1)
+  kaminari (~> 1.2)
   koala (~> 2.4)
   letter_opener_web
   luminosity_contrast

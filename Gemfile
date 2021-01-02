@@ -132,7 +132,7 @@ end
 gem 'luminosity_contrast'
 
 # paging
-gem 'kaminari', '~> 1.1', '>= 1.1.1'
+gem 'kaminari', '~> 1.2'
 gem 'bootstrap-kaminari-views', '~> 0.0.5'
 
 # scheduler
