@@ -520,7 +520,7 @@ GEM
     puma (4.3.5)
       nio4r (~> 2.0)
     raabro (1.1.6)
-    rack (2.2.2)
+    rack (2.2.3)
     rack-accept (0.4.5)
       rack (>= 0.4)
     rack-cors (1.1.1)
