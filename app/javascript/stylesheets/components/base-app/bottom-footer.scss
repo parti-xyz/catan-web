@@ -1,0 +1,35 @@
+@use "../../global-variables";
+@use "../../mq";
+
+.base-app .bottom-footer {
+  min-height: 2.5rem;
+  background-color: global-variables.$color-gray-100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  > .box {
+    text-align: center;
+    @include mq.media("<=tablet") {
+      margin: 1rem 0;
+    }
+    > .link {
+      font-size: 0.75rem;
+      line-height: 1rem;
+      margin: 0 1.5rem;
+      @include mq.media("<=tablet") {
+        margin: 0 1rem;
+      }
+      color: global-variables.$color-gray-500;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    > .br {
+      display: none;
+      @include mq.media("<=tablet") {
+        display: block;
+        height: 1rem;
+      }
+    }
+  }
+}

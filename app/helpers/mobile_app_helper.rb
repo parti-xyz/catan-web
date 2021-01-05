@@ -26,7 +26,7 @@ module MobileAppHelper
   def history_base_page_in_mobile_app?(current_group)
     return false unless is_mobile_app_get_request?(request)
     (
-      (request.params[:controller] == 'pages' and request.params[:action] == 'discover') or
+      (request.params[:controller] == 'pages' and request.params[:action] == 'landing') or
       (request.params[:controller] == 'dashboard' and request.params[:action] == 'index') or
       (request.params[:controller] == 'messages' and request.params[:action] == 'index') or
       (request.params[:controller] == 'posts' and request.params[:action] == 'pinned') or

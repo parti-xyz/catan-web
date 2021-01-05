@@ -1,0 +1,31 @@
+@use "../../global-variables";
+@use "../../bootstrap";
+@use "../../mq";
+
+.pages-app .nav-box {
+  background-color: global-variables.$color-brand-000;
+  border-color: global-variables.$color-brand-100;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  @include mq.media("<=phone") {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  > .text {
+    font-size: bootstrap.$font-size-sm;
+    color: global-variables.$color-gray-600;
+    overflow-wrap: break-word;
+    word-break: keep-all;
+    @include mq.media("<=phone") {
+      margin-bottom: .5rem;
+    }
+  }
+  > .btn {
+    @include mq.media("<=phone") {
+      display: block;
+      width: 100%;
+    }
+  }
+}

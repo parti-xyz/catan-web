@@ -10,3 +10,11 @@
 * 그룹홈 : last_stroked_at 기준으로
 * $.scrollTo ==> 토론정리 시작하기
 * Issue / comments_count 주기적으로 업데이트하기
+
+* LandingPage 테이블 삭제
+
+* 가입
+* intro
+
+* search_by_tags
+

@@ -1,0 +1,28 @@
+@use "../mq";
+
+@forward "./pages-app/dock-page";
+@forward "./pages-app/expedition-page";
+@forward "./pages-app/landing-page";
+@forward "./pages-app/nav-box";
+@forward "./pages-app/groups-panel";
+
+.pages-app {
+  > .main {
+    padding-bottom: 100px;
+    @include mq.media("<=tablet") {
+      padding-bottom: 180px;
+    }
+  }
+  > .bottom-footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    z-index: 10;
+  }
+  > .landing-page {
+    padding-bottom: 2.5rem;
+    @include mq.media("<=tablet") {
+      padding-bottom: 8.5rem;
+    }
+  }
+}

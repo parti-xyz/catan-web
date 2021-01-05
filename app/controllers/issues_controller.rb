@@ -31,7 +31,6 @@ class IssuesController < ApplicationController
       @no_tags_selected = 'yes'
     else
       base = Issue.tagged_with(params[:selected_tags], any: true).except(:select).select(:id).union(Issue.search_for(params[:selected_tags].join(' OR ')).select(:id))
-      base = base.union(LandingPage.parsed_section_for_all_issue_subject(params[:selected_tags]).select(:id))
 
       @issues = @issues.where(id: base)
     end

@@ -3,106 +3,140 @@
 @use './mq';
 @use './mixin';
 
-.cursor-pointer {
-  cursor: pointer;
-}
-
-.cursor-move {
-  cursor: move;
-}
-
-legend.legend-default {
-  margin-bottom: 1rem;
-  font-size: bootstrap.$font-size-lg;
-  color: global-variables.$color-gray-500;
-  font-weight: 600;
-  margin-top: 3rem;
-}
-
-.simple-box {
-  word-break: keep-all;
-  padding: 3rem 0;
-  width: 100%;
-  max-width: 600px;
-  min-width: 300px;
-  text-align: left;
-  margin-left: auto;
-  margin-right: auto;
-  @include mq.media('<=phone') {
-    max-width: auto;
-    min-width: auto;
-    width: 100%;
+body.-pack {
+  .cursor-pointer {
+    cursor: pointer;
   }
-}
-.simple-box p {
-  word-break: keep-all;
-}
-.simple-box.-half {
-  width: 300px;
-}
 
-.small.fa {
-  font-size: 80%;
-  font-weight: 400;
-}
-
-.clean-p-parent > p:last-child {
-  margin-bottom: 0;
-}
-
-.texet-nowrap {
-  white-space: nowrap;
-}
-
-.text-keepall {
-  word-break: keep-all;
-  white-space: normal;
-  overflow-wrap: break-word;
-}
-
-.font-size-sm {
-  font-size: bootstrap.$font-size-sm;
-}
-
-.font-size-xs {
-  font-size: bootstrap.$font-size-xs;
-}
-
-.font-size-xxs {
-  font-size: bootstrap.$font-size-xxs;
-}
-
-@include mq.media('<=phone') {
-  .font-size-base-phone {
-    font-size: 1rem;
+  .cursor-move {
+    cursor: move;
   }
-  .font-size-lg-phone {
+
+  legend.legend-default {
+    margin-bottom: 1rem;
     font-size: bootstrap.$font-size-lg;
+    color: global-variables.$color-gray-500;
+    font-weight: 600;
+    margin-top: 3rem;
+  }
+
+  .simple-box {
+    word-break: keep-all;
+    padding: 3rem 0;
+    width: 100%;
+    max-width: 600px;
+    min-width: 300px;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    @include mq.media("<=phone") {
+      max-width: auto;
+      min-width: auto;
+      width: 100%;
+    }
+  }
+  .simple-box p {
+    word-break: keep-all;
+  }
+  .simple-box.-half {
+    width: 300px;
+  }
+
+  .small.fa {
+    font-size: 80%;
+    font-weight: 400;
+  }
+
+  .clean-p-parent > p:last-child {
+    margin-bottom: 0;
+  }
+
+  .texet-nowrap {
+    white-space: nowrap;
+  }
+
+  .text-keepall {
+    word-break: keep-all;
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
+
+  .font-size-sm {
+    font-size: bootstrap.$font-size-sm;
+  }
+
+  .font-size-xs {
+    font-size: bootstrap.$font-size-xs;
+  }
+
+  .font-size-xxs {
+    font-size: bootstrap.$font-size-xxs;
+  }
+
+  @include mq.media("<=phone") {
+    .font-size-base-phone {
+      font-size: 1rem;
+    }
+    .font-size-lg-phone {
+      font-size: bootstrap.$font-size-lg;
+    }
+  }
+
+  .unicode-bidi-plaintext {
+    unicode-bidi: plaintext;
+  }
+
+  @include mixin.keyframes(fade-out) {
+    20% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .fade-out-base {
+    opacity: 1;
+    @include mixin.animation("fade-out 1.5s linear .5s 1");
+  }
+
+  .user-select-none {
+    user-select: none;
+  }
+
+  .text-decoration-underline {
+    text-decoration: underline;
+  }
+
+  .hover\:text-decoration-underline:hover {
+    text-decoration: underline;
   }
 }
 
-.unicode-bidi-plaintext {
-  unicode-bidi: plaintext;
+.form-control-underlined {
+  border-width: 0;
+  border-bottom-width: 1px;
+  border-radius: 0;
+  padding-left: 0;
 }
 
-@include mixin.keyframes(fade-out) {
-  20% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-.fade-out-base {
-  opacity: 1;
-  @include mixin.animation('fade-out 1.5s linear .5s 1')
-}
-
-.user-select-none {
-  user-select: none;
-}
-
-.text-decoration-underline {
-  text-decoration: underline;
-}
-
-.hover\:text-decoration-underline:hover {
-  text-decoration: underline;
+@each $breakpoint in map-keys(bootstrap.$grid-breakpoints) {
+  @include bootstrap.media-breakpoint-up($breakpoint) {
+    $sizes: (
+      25: 25%,
+      50: 50%,
+      75: 75%,
+      100: 100%,
+      60px: 60px,
+      80px: 80px,
+      100px: 100px,
+      auto: auto
+    );
+    $infix: bootstrap.breakpoint-infix($breakpoint, bootstrap.$grid-breakpoints);
+    @each $prop, $abbrev in (width: w, height: h) {
+      @each $size, $length in $sizes {
+        .#{$abbrev}#{$infix}-#{$size} { #{$prop}: $length !important; }
+      }
+    }
+  }
 }

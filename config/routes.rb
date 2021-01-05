@@ -2,7 +2,7 @@ include GroupHelper
 include MobileAppHelper
 
 Rails.application.routes.draw do
-  class DefaultGroupRouteConstraint
+  class NoGroupRouteConstraint
     def matches?(request)
       fetch_group(request).blank?
     end
@@ -46,11 +46,11 @@ Rails.application.routes.draw do
     match '*path', to: redirect(subdomain: '', path: '/p/role'), via: :all
   end
 
-  constraints(DefaultGroupRouteConstraint.new) do
+  constraints(NoGroupRouteConstraint.new) do
     authenticated :user do
-      root 'pages#authenticated_home'
+      root 'pages#dock', as: :dock_root
     end
-    root 'pages#discover', as: :discover_root
+    root 'pages#landing', as: :landing_root
   end
   constraints(FrontGroupRouteConstraint.new) do
     root 'front/pages#root'
@@ -354,7 +354,6 @@ Rails.application.routes.draw do
   get '/u/:slug', to: "users#posts", as: 'slug_user'
 
   get '/about', to: "pages#about", as: 'about'
-  get '/discover', to: "pages#discover", as: 'discover'
   get '/privacy', to: "pages#privacy", as: 'privacy'
   get '/pricing', to: "pages#pricing", as: 'pricing'
   get '/privacy/v1', to: "pages#privacy_v1", as: 'privacy_v1'
@@ -445,6 +444,7 @@ Rails.application.routes.draw do
     get :coc, to: 'pages#coc'
     get :menu, to: 'pages#menu'
     get :search_form, to: 'pages#search_form'
+    get :expedition, to: '/pages#expedition'
 
     resources :channels, only: [:show, :edit, :new] do
       member do

@@ -78,9 +78,8 @@ class SearchController < ApplicationController
     result = Issue.searchable_issues(current_user)
     result = result.of_group(current_search_group) if current_search_group.present?
     if keyword.present?
-      issues_by_landing_page_subject = LandingPage.parsed_section_for_all_issue_subject(tags)
       result = result.where(id:
-        Issue.search_for(smart_search_keyword(keyword)).union(Issue.tagged_with(tags, any: true)).union(issues_by_landing_page_subject).except(:select).select(:id)
+        Issue.search_for(smart_search_keyword(keyword)).union(Issue.tagged_with(tags, any: true)).except(:select).select(:id)
       )
     end
     result = result.hottest
