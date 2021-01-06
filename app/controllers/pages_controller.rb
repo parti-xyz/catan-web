@@ -4,19 +4,22 @@ class PagesController < ApplicationController
   end
 
   def dock
-    redirect_to landing_root_path and return unless user_signed_in?
+    redirect_to landing_path and return unless user_signed_in?
 
     if params[:group_subdomain].present? && Group.exists?(slug: params[:group_subdomain])
       redirect_to root_url(subdomain: params[:group_subdomain]) and return
     end
 
+    @groups = current_user.member_groups.sort_by_name.load
+    if @groups.empty?
+      redirect_to expedition_path and return
+    end
 
-    @groups = current_user.member_groups.sort_by_name
     render layout: 'bpplication'
   end
 
   def expedition
-    redirect_to landing_root_path and return unless user_signed_in?
+    redirect_to landing_path and return unless user_signed_in?
 
     @groups = Group.hottest.memberable_and_unfamiliar(current_user)
 

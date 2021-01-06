@@ -48,9 +48,9 @@ Rails.application.routes.draw do
 
   constraints(NoGroupRouteConstraint.new) do
     authenticated :user do
-      root 'pages#dock', as: :dock_root
+      root 'pages#dock'
     end
-    root 'pages#landing', as: :landing_root
+    root 'pages#landing'
   end
   constraints(FrontGroupRouteConstraint.new) do
     root 'front/pages#root'
@@ -433,6 +433,10 @@ Rails.application.routes.draw do
   end
 
   # front
+  get :dock, to: 'pages#dock', as: :dock
+  get :landing, to: 'pages#landing', as: :landing
+  get :expedition, to: 'pages#expedition', as: :expedition
+
   namespace :front, defaults: { namespace_slug: 'front' } do
     get :all, to: 'pages#all'
     get :announcements, to: 'pages#announcements'
@@ -444,7 +448,6 @@ Rails.application.routes.draw do
     get :coc, to: 'pages#coc'
     get :menu, to: 'pages#menu'
     get :search_form, to: 'pages#search_form'
-    get :expedition, to: '/pages#expedition'
 
     resources :channels, only: [:show, :edit, :new] do
       member do

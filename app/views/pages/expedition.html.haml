@@ -10,7 +10,7 @@
       새로운 그룹을 만나보세요.
 
     .search
-      = form_with url: front_expedition_path, method: :get do |f|
+      = form_with url: expedition_path, method: :get do |f|
         .d-flex.flex-column.flex-md-row.align-items-center
           .form-group.flex-grow-1.flex-shrink-1.my-md-0.pr-md-2.w-100.w-md-auto
             = f.text_field :q, value: params[:q], placeholder: '검색할 키워드를 입력하세요.', class: 'form-control form-control-underlined px-1 text-center text-md-left'
@@ -57,7 +57,7 @@
     - if current_user.member_groups.any?
       .nav-box
         .text #{current_user.nickname}님이 가입한 그룹 목록으로 이동하겠습니까?
-        = link_to '내 그룹', dock_root_path, class: 'btn btn-sm btn-primary'
+        = link_to '내 그룹', dock_path, class: 'btn btn-sm btn-primary'
     .different.font-size-sm.text-muted
       #{current_user.nickname}님이 아니세요?
       = link_to '로그아웃', destroy_user_session_path, method: :delete, class: 'hover:text-decoration-underline'

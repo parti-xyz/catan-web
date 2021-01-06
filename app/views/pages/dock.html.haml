@@ -10,7 +10,7 @@
       비슷한 관심을 가진 멤버와 이야기 나누세요.
 
     .go
-      = form_with url: dock_root_path, method: :get do |f|
+      = form_with url: dock_path, method: :get do |f|
         .d-flex.flex-column.flex-md-row.align-items-center
           .form-group.flex-grow-1.flex-shrink-1.my-md-0.pr-md-2.w-100.w-md-auto
             .d-flex.align-items-center
@@ -41,7 +41,7 @@
               %i.fa.fa-arrow-right
     .nav-box
       .text 새로운 그룹을 만나보세요.
-      = link_to '그룹 탐색', front_expedition_path, class: 'btn btn-sm btn-primary'
+      = link_to '그룹 탐색', expedition_path, class: 'btn btn-sm btn-primary'
     .different.font-size-sm.text-muted
       #{current_user.nickname}님이 아니세요?
       = link_to '로그아웃', destroy_user_session_path, method: :delete, class: 'hover:text-decoration-underline'
