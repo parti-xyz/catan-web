@@ -2,7 +2,7 @@
   = render_scss 'layouts/front/group_style'
 
 - content_for :content do
-  .front-app{ data: { controller: 'dirty-page back-page' } }
+  .front-app.base-app{ data: { controller: 'dirty-page back-page' } }
     = render 'layouts/front/header'
 
     - recommend_to_join = user_signed_in? && !current_group.member?(current_user) && (!current_group.private? || current_user.admin?)

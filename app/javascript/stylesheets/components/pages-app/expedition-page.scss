@@ -1,0 +1,60 @@
+@use "../../global-variables";
+@use "../../mq";
+@use "../../bootstrap";
+
+.pages-app .expedition-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  > .logo {
+    margin: 2.5rem auto;
+    display: block;
+    width: 3.75rem;
+    height: 3.75rem;
+    color: global-variables.$color-brand-700;
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 2.5rem;
+    text-align: center;
+    padding: 0.625rem 0;
+    border-radius: 1rem;
+    border: solid 1px global-variables.$color-brand-700;
+  }
+  > .leading {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.25px;
+    line-height: 38px;
+    max-width: 700px;
+  }
+  > .guide {
+    margin-bottom: 2rem;
+    font-size: 0.875rem;
+    line-height: 0.875rem;
+    color: global-variables.$color-gray-800;
+  }
+  > .search,
+  > .groups-panel,
+  > .empty,
+  > .nav-box {
+    width: 37.5rem;
+    max-width: 37.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 2.5rem;
+    border-radius: 4px;
+    @include mq.media("<=tablet") {
+      width: calc(100% - 2rem);
+    }
+  }
+  > .empty {
+    margin-bottom: 4rem;
+    text-align: center;
+    .fa {
+      font-size: 8rem;
+      color: global-variables.$color-gray-100;
+    }
+    .label {
+      color: global-variables.$color-gray-400;
+    }
+  }
+}
