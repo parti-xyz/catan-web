@@ -57,12 +57,20 @@
     .text 관심있는 이슈로 새로운 그룹을 만드세요.
     = link_to '그룹 만들기', new_group_configuration_url(subdomain: nil), class: 'btn btn-sm btn-primary'
 
-  - if current_user.member_groups.any?
+  - if current_user&.member_groups&.any?
     .nav-box
       .text #{current_user.nickname}님이 가입한 그룹 목록으로 이동하겠습니까?
       = link_to '내 그룹', dock_path, class: 'btn btn-sm btn-white'
 
-  .different.font-size-sm.text-muted
-    #{current_user.nickname}님이 아니세요?
-    = link_to '로그아웃', destroy_user_session_path, method: :delete, class: 'hover:text-decoration-underline'
+  .different.font-size-sm.text-muted.text-keepall
+    - if user_signed_in?
+      #{current_user.nickname}님이 아니세요?
+      = link_to '로그아웃', destroy_user_session_path, method: :delete, class: 'hover:text-decoration-underline'
+    - else
+      처음 오셨나요?
+      = link_to '계정 만들기', pre_sign_up_front_users_path
+      %br
+      이미 빠띠 그룹스 계정이 있으세요?
+      = link_to '로그인', new_user_session_path
+
 = render 'bpplication/bottom_footer'

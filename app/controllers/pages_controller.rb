@@ -19,8 +19,6 @@ class PagesController < ApplicationController
   end
 
   def expedition
-    redirect_to landing_path and return unless user_signed_in?
-
     @groups = Group.hottest.memberable_and_unfamiliar(current_user)
 
     if params[:q].present?
