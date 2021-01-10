@@ -13,14 +13,14 @@ class Ability
 
     if user
       can [:update, :destroy, :destroy_form, :remove_logo, :remove_cover, :new_admit_members, :admit_members], Issue do |issue|
-        user.is_organizer?(issue)
+        user.is_organizer?(issue) || user.is_organizer?(issue.group)
       end
       can [:create, :new_intro, :search_by_tags, :selections], [Issue]
       can [:update_category, :destroy_category], Issue do |issue|
         user.is_organizer?(issue.group)
       end
       can [:pin, :freeze, :wake], Issue do |issue|
-        user.is_organizer?(issue)
+        user.is_organizer?(issue) || user.is_organizer?(issue.group)
       end
       can [:announce], Issue do |issue|
         user.is_organizer?(issue.group)
@@ -35,7 +35,7 @@ class Ability
 
       can [:pinned, :new], [Post]
       can [:update, :destroy, :move_to_issue, :move_to_issue_form], [Post] do |post|
-        post.user_id == user.id || user.is_organizer?(post.issue) || post.group.organized_by?(user)
+        post.user_id == user.id || user.is_organizer?(post.issue) || user.is_organizer?(post.issue.group)
       end
       can [:create], [Post]
 
@@ -52,7 +52,7 @@ class Ability
         wiki.try(:post).issue.try(:postable?, user)
       end
       can [:pin, :unpin], Post do |post|
-        user.is_organizer?(post.issue)
+        user.is_organizer?(post.issue) || user.is_organizer?(post.issue.group)
       end
       can [ :beholders, :unbeholders], Post do |post|
         post.issue.present? and post.issue.try(:postable?, user)
