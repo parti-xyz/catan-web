@@ -1,13 +1,16 @@
 %section.text-center
   .container
-    %h3.text-center.sign-up__txt
-      비밀번호 분실
-    %p.text-center
-      비밀번호를 잊으셨어요?
-    %p.text-center
-      가입 시 등록한 이메일을 입력하세요.
-      %br
-      비밀번호를 다시 설정할 수 있는 메일을 보내드릴게요.
+    = render 'application/easy_jumbotron' do |p|
+      - p.content_for :leading do
+        비밀번호 분실
+      - p.content_for :guide do
+        %p.text-center
+          비밀번호를 잊으셨어요?
+        %p.text-center
+          가입 시 등록한 이메일을 입력하세요.
+          %br
+          비밀번호를 다시 설정할 수 있는 메일을 보내드릴게요.
+
     .simple-box.-half{ style: 'padding: 3rem 0' }
       = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
         = devise_error_messages!

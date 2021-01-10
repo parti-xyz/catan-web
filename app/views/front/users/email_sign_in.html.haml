@@ -1,8 +1,10 @@
 %section.text-center
   .container
-    %h3.text-keepall
-      %i.fa.fa-sign-in
-      이메일 로그인
+    = render 'application/easy_jumbotron' do |p|
+      - p.content_for :leading do
+        %i.fa.fa-sign-in
+        이메일 로그인
+
     .simple-box.-half{ style: 'padding: 3rem 0' }
       = form_for User.new(remember_me: true), url: user_session_path do |f|
         = f.hidden_field :provider, value: 'email'
@@ -16,7 +18,7 @@
         .form-group
           = f.submit '로그인', class: 'btn btn-primary btn-block', data: { disable_with: "로그인 중..." }
 
-  %section
+  %section.mt-4
     .container.text-center
       %p
         다른 방법으로 로그인하시겠어요?

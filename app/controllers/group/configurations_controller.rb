@@ -7,7 +7,7 @@ class Group::ConfigurationsController < Group::BaseController
     @group = Group.new
     @group.user = current_user
     @group.members.build(user: current_user, is_organizer: true)
-    render layout: 'application'
+    render layout: 'front/simple'
   end
 
   def create

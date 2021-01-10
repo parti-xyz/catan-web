@@ -13,10 +13,10 @@ $_navbar-height-phone: 3rem;
 $_joinbar-height-default: 10rem;
 $_joinbar-height-phone: 13.5rem;
 
-@mixin navbar-height($property) {
-  #{$property}: $_navbar-height-default;
+@mixin navbar-height($property, $delta:0) {
+  #{$property}: $_navbar-height-default + $delta;
   @include mq.media("<=phone") {
-    #{$property}: $_navbar-height-phone;
+    #{$property}: $_navbar-height-phone + $delta;
   }
 }
 

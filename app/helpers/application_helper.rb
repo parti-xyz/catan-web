@@ -514,7 +514,7 @@ module ApplicationHelper
   end
 
   def implict_front_namespace?(group = nil)
-    (group || current_group)&.frontable?
+    (group || current_group)&.frontable? || implict_front_namespace_pages?
   end
 
   def explict_front_namespace?
@@ -606,5 +606,32 @@ module ApplicationHelper
 
   def jj(*args)
     args.join(' ')
+  end
+
+  def extract_unobtrusive_flash_frontable!
+    existing_cookie = cookies[:flash]
+    cookies.delete :flash, domain: :all
+
+    cookie_flashes = (existing_cookie && safe_json_parse(existing_cookie)) || []
+    cookie_flashes.map do |cookie_flash|
+      (key, html_escaped_message) = cookie_flash
+      message = CGI.unescapeHTML(html_escaped_message)
+      [key, message]
+    end
+  end
+
+  private
+
+  def safe_json_parse(json)
+    JSON.parse(json)
+  rescue JSON::JSONError
+    nil
+  end
+
+  def implict_front_namespace_pages?
+    (controller_name == 'users' && action_name == 'pre_sign_up')  ||
+    (controller_name == 'users' && action_name == 'inactive_sign_up') ||
+    (controller_name == 'users' && action_name == 'email_sign_in') ||
+    (controller_name == 'users' && action_name == 'cancel_form')
   end
 end

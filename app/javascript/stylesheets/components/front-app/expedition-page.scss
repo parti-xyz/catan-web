@@ -1,0 +1,38 @@
+@use "../../global-variables";
+@use "../../mq";
+@use "../../bootstrap";
+
+.front-app .expedition-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  > .search,
+  > .groups-panel,
+  > .empty,
+  > .nav-box {
+    width: 37.5rem;
+    max-width: 37.5rem;
+    margin-bottom: .5rem;
+    border-radius: 4px;
+    @include mq.media("<=tablet") {
+      width: calc(100% - 2rem);
+    }
+  }
+  > .groups-panel {
+    margin-bottom: 2.5rem;
+  }
+  > .empty {
+    margin-bottom: 4rem;
+    text-align: center;
+    .fa {
+      font-size: 8rem;
+      color: global-variables.$color-gray-100;
+    }
+    .label {
+      color: global-variables.$color-gray-400;
+    }
+  }
+  .different {
+    margin-top: 2.5rem;
+  }
+}

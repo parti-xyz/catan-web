@@ -1,3 +1,5 @@
+- return if current_group.blank?
+
 .front-navbar{ data: { controller: ('watermark' unless Rails.env.production?), 'watermark-text': Rails.env } }
 
   - if current_group.private_blocked?(current_user)
@@ -87,17 +89,17 @@
                 %i.fa.fa-check
           - if current_group.organization.default?
             .dropdown-divider
-            = link_to issues_url(subdomain: nil), class: 'dropdown-item', target: '_blank' do
+            = link_to expedition_url(subdomain: nil), class: 'dropdown-item', target: '_blank' do
               다른 그룹 탐색
               %i.fa.fa-external-link.small.text-muted
             = link_to new_group_configuration_url(subdomain: nil), class: 'dropdown-item', target: '_blank' do
               그룹 만들기
               %i.fa.fa-external-link.small.text-muted
     - else
-      -# .menuitem
-      -#   = link_to issues_url(subdomain: nil), target: '_blank', class: 'link' do
-      -#     다른 그룹 탐색
-      -#     %i.fa.fa-external-link.small
+      .menuitem
+        = link_to expedition_url(subdomain: nil), target: '_blank', class: 'link' do
+          다른 그룹 탐색
+          %i.fa.fa-external-link.small
       .menuitem
         = link_to '멤버 가입', pre_sign_up_front_users_path, class: 'link'
       .menuitem

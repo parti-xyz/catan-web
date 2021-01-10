@@ -13,6 +13,4 @@
 
 * 가입
 * intro
-
 * search_by_tags
-

@@ -1,8 +1,10 @@
 %section.text-center
   .container
-    %h3.text-keepall
-      %i.fa.fa-user
-      로그인
+    = render 'application/easy_jumbotron' do |p|
+      - p.content_for :leading do
+        %i.fa.fa-sign-in
+        로그인
+
     .simple-box.-half{ style: 'padding: 3rem 0', data: { controller: 'form-dynamic-action' } }
       = link_to '#', data: { action: 'click->form-dynamic-action#submit', 'form-url': omniauth_authorize_url(:user, :facebook, subdomain: false), 'mobile-app-handler': 'startSocialSignIn', 'mobile-app-url': mobile_app_auth_url(subdomain: nil, provider: :facebook, remember_me: true, fallback_url: omniauth_authorize_url(:user, :facebook, subdomain: false)) }, class: 'btn btn-white btn-block', style: 'border-radius: 999px;' do
         %i.fa.fa-facebook{style: 'font-size: 22px; color: #2a3ab0; vertical-align: top;'}

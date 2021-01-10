@@ -1,11 +1,12 @@
-- content_for :style do
-  = render_scss 'layouts/front/group_style'
+- if current_group.present?
+  - content_for :style do
+    = render_scss 'layouts/front/group_style'
 
 - content_for :content do
-  .front-app.base-app
+  .front-app.base-app{
+    class: ('-no-header' if current_group.blank?)
+  }
     = render 'layouts/front/header'
-
-    .front-simple
-      = yield
+    = yield
 
 = render template: 'layouts/bpplication', locals: { additional_body_class: '-simple' }

@@ -242,7 +242,6 @@ class ApplicationController < ActionController::Base
     "dashboard#intro" => "시작",
     "bookmark#index" => "북마크",
     "pages#landing" => "시작",
-    "pages#about" => "소개",
     "pages#privacy" => "방침",
     "pages#terms" => "약관",
     "issues#home" => nil,
