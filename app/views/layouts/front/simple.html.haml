@@ -8,5 +8,7 @@
   }
     = render 'layouts/front/header'
     = yield
+    - if current_group.blank?
+      = render 'bpplication/bottom_footer'
 
 = render template: 'layouts/bpplication', locals: { additional_body_class: '-simple' }
