@@ -148,7 +148,6 @@ body.-simple .front-app {
 }
 
 body.-simple.app-pages--landing .front-app {
-  padding-top: 0;
-  @include front-variables.navbar-height(padding-bottom);
+  padding: 0;
 }
 
