@@ -211,7 +211,7 @@ class ApplicationController < ActionController::Base
     {
       title: current_group.try(:title) || "팀과 커뮤니티를 위한 민주주의 플랫폼, #{I18n.t('labels.app_name_human')}",
       description: current_group.try(:site_description) || "#{I18n.t('labels.app_name_human')}로 더 민주적인 일상을 만들어요",
-      keywords: current_group.try(:site_keywords) || "정치, 민주주의, 조직, 투표, 모임, 의사결정, 일상 민주주의, 토의, 토론, 논쟁, 논의, 회의",
+      keywords: current_group.try(:site_keywords) || "빠띠 카누, 정치, 민주주의, 조직, 투표, 모임, 의사결정, 일상 민주주의, 토의, 토론, 논쟁, 논의, 회의",
       image: view_context.asset_url(current_group.try(:seo_image) || "parti_seo.png"),
       twitter_card_type: "summary_card"
     }

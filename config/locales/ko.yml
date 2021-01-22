@@ -273,7 +273,7 @@ ko:
             title:
               taken: 이미 사용 중입니다. 새 폴더를 다른 이름으로 만들어주세요.
   labels:
-    app_name_human: 빠띠 그룹스
+    app_name_human: 빠띠 카누
     new_post_file_source_button: "사진\xB7파일"
     new_post_poll_button: 찬반투표
     new_post_survey_button: 설문
