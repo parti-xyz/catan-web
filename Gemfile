@@ -116,7 +116,7 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'apple-app-site-association', '~> 0.1.2'
 
 # crawling
-gem 'mechanize', '~> 2.7', '>= 2.7.5'
+gem 'mechanize', '~> 2.7'
 gem 'video_info', '~> 2.6'
 gem 'fastimage', '~> 2.1'
 
