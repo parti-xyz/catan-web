@@ -30,7 +30,8 @@ body.-pack {
     margin-left: auto;
     margin-right: auto;
     @include mq.media("<=phone") {
-      max-width: auto;
+      padding: 2rem 0;
+      max-width: none;
       min-width: auto;
       width: 100%;
     }
@@ -39,7 +40,10 @@ body.-pack {
     word-break: keep-all;
   }
   .simple-box.-half {
-    width: 300px;
+    width: 400px;
+    @include mq.media("<=phone") {
+      width: 100%;
+    }
   }
 
   .small.fa {

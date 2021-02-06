@@ -1,37 +1,33 @@
-.pages-app.base-app
-  .landing-page.main
-    .left
-      .g
+.landing-page.-full
+  .left
+    .g
+      G
+    .features
+      .feature
+        .icon
+          🗃
+        .text
+          관심사가 비슷한 사람들과 느슨하게 연결하고 협력하세요.
+      .feature
+        .icon
+          📋
+        .text
+          공동문서 도구 &ldquo;위키&rdquo;로 정보와 지식을 함께 모으고 정리하세요.
+      .feature
+        .icon
+          🗳
+        .text
+          찬반 투표와 설문으로 섬세하게 대화하며 서로의 생각을 나누세요.
+  .right{ style: 'flex: 1;' }
+    .box
+      .logo
         G
-      .features
-        .feature
-          .icon
-            🗃
-          .text
-            관심사가 비슷한 사람들과 함께 느슨하게 연결하고 협력하세요.
-        .feature
-          .icon
-            📋
-          .text
-            공동문서 도구 &ldquo;위키&rdquo;로 정보와 지식을 모으고 정리하세요.
-        .feature
-          .icon
-            🗳
-          .text
-            찬반 투표와 설문으로 섬세하게 대화하며 생각을 나누세요.
-
-
-    .right{ style: 'flex: 1;' }
-      .box
-        .logo
-          G
-        .leading
-          %span.text-nowrap 빠띠 그룹스
-          %br
-          %span.text-nowrap 소셜 이슈 플랫폼
-        .links
-          .text 지금 빠띠 그룹스에 가입하세요.
-          = link_to '가입하기', pre_sign_up_front_users_path, class: 'btn btn-md btn-primary btn-block'
-          = link_to '로그인', new_user_session_path, class: 'btn btn-md btn-outline-primary btn-block'
-  = render 'bpplication/bottom_footer'
+      .leading
+        %span.text-nowrap 빠띠 그룹스
+        %br
+        %span.text-nowrap 소셜 이슈 플랫폼
+      .links
+        .text 지금 빠띠 그룹스 계정을 만드세요.
+        = link_to '계정 만들기', pre_sign_up_front_users_path, class: 'btn btn-md btn-primary btn-block'
+        = link_to '로그인', new_user_session_path, class: 'btn btn-md btn-outline-primary btn-block'
 

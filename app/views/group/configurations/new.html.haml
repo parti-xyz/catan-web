@@ -1,15 +1,15 @@
-- if @group.errors.blank? and @group.new_record?
-  = render "group/configurations/new_guide"
+.d-flex.flex-column.align-items-center
+  - if user_signed_in?
+    .mb-4
+      = render 'application/easy_jumbotron' do |p|
+        - p.content_for :leading do
+          그룹 만들기
 
-- if user_signed_in?
-  %section#form
-    .container
-      %h2.page-header 그룹 만들기
-      = render 'form'
-- else
-  %section
-    .container
-      = link_to '로그인하고 계속하기', new_user_session_path, class: 'btn btn-primary'
-      .help-block
-        처음 오셨나요?
-        = link_to '계정 만들기', pre_sign_up_users_path, style: 'text-decoration: underline'
+    = render 'form'
+  - else
+    %section
+      .container
+        = link_to '로그인하고 계속하기', new_user_session_path, class: 'btn btn-primary'
+        .help-block
+          처음 오셨나요?
+          = link_to '계정 만들기', pre_sign_up_users_path, style: 'text-decoration: underline'

@@ -1,64 +1,74 @@
-.pages-app.base-app
-  .expedition-page.main
-    .logo
-      G
-    .leading
-      %span.text-nowrap 그룹 탐색
-    .guide
-      내가 가입하지 않은
-      .br.d-block.d-md-inline
-      새로운 그룹을 만나보세요.
+.expedition-page
+  .mb-5
+    = render 'application/easy_jumbotron' do |p|
+      - p.content_for :leading do
+        %span.text-nowrap 그룹 탐색
+      - p.content_for :guide do
+        새로운 그룹을 만나보세요.
+  .search
+    = form_with url: expedition_path, method: :get do |f|
+      .d-flex.flex-column.flex-md-row.align-items-center
+        .form-group.flex-grow-1.flex-shrink-1.my-md-0.pr-md-2.w-100.w-md-auto
+          = f.text_field :q, value: params[:q], placeholder: '검색할 키워드를 입력하세요.', class: 'form-control form-control-underlined px-1 text-center text-md-left'
+        .form-group.my-0.w-100.w-md-auto
+          = f.button class: 'btn btn-primary btn-sm btn-block' do
+            %i.fa.fa-search
+            찾기
 
-    .search
-      = form_with url: expedition_path, method: :get do |f|
-        .d-flex.flex-column.flex-md-row.align-items-center
-          .form-group.flex-grow-1.flex-shrink-1.my-md-0.pr-md-2.w-100.w-md-auto
-            = f.text_field :q, value: params[:q], placeholder: '검색할 키워드를 입력하세요.', class: 'form-control form-control-underlined px-1 text-center text-md-left'
-          .form-group.my-0.w-100.w-md-auto
-            = f.submit '찾기', class: 'btn btn-primary btn-sm btn-block'
+  - if @groups&.any?
+    .groups-panel
+      .subtitle
+        - if @mode == :search
+          .text
+            %strong #{params[:q]}
+            검색 결과
+            %span<
+              %strong<> #{@groups.total_count}
+              개
+        - else
+          .text 뜨는 그룹
+          = link_to url_for(), class: 'action btn btn-light btn-sm' do
+            새로 고침
+            %i.fa.fa-refresh
+      - @groups.try(:each) do |group|
+        = link_to root_url(subdomain: group.subdomain), class: 'group' do
+          .content
+            .title
+              = group_basic_title(group)
+            .members
+              .users
+                - group.member_users.recent.limit(6).each do |user|
+                  %span.user-byline
+                    .image.m-0{ style: "background-image: url(#{user.image.sm.url});",
+                            title: user.nickname }
+              .count #{number_with_delimiter(group.members_count)}명의 멤버
+            .desc= group.site_description
+          .action
+            %i.fa.fa-arrow-right
+    - if @mode == :search
+      .text-center.mb-5
+        = paginate @groups, theme: 'catan'
+  - else
+    .empty
+      %i.fa.fa-cubes
+      .label.font-size-base 해당 그룹이 없습니다.
 
-    - if @groups&.any?
-      .groups-panel
-        .subtitle
-          - if @mode == :search
-            .text
-              %strong #{params[:q]}
-              검색 결과
-              %span<
-                %strong<> #{@groups.total_count}
-                개
-          - else
-            .text 뜨는 그룹
-            = link_to url_for(), class: 'action btn btn-light btn-sm' do
-              %i.fa.fa-refresh
-        - @groups.try(:each) do |group|
-          = link_to root_url(subdomain: group.subdomain), class: 'group' do
-            .content
-              .title
-                = group_basic_title(group)
-              .members
-                .users
-                  - group.member_users.recent.limit(6).each do |user|
-                    %span.user-byline
-                      .image.m-0{ style: "background-image: url(#{user.image.sm.url});",
-                              title: user.nickname }
-                .count #{number_with_delimiter(group.members_count)}명의 멤버
-              .desc= group.site_description
-            .action
-              %i.fa.fa-arrow-right
-      - if @mode == :search
-        .text-center.mb-5
-          = paginate @groups, theme: 'catan'
-    - else
-      .empty
-        %i.fa.fa-cubes
-        .label.font-size-base 해당 그룹이 없습니다.
+  .nav-box
+    .text 관심있는 이슈로 새로운 그룹을 만드세요.
+    = link_to '그룹 만들기', new_group_configuration_url(subdomain: nil), class: 'btn btn-sm btn-primary'
 
-    - if current_user.member_groups.any?
-      .nav-box
-        .text #{current_user.nickname}님이 가입한 그룹 목록으로 이동하겠습니까?
-        = link_to '내 그룹', dock_path, class: 'btn btn-sm btn-primary'
-    .different.font-size-sm.text-muted
+  - if current_user&.member_groups&.any?
+    .nav-box
+      .text #{current_user.nickname}님이 가입한 그룹 목록으로 이동하겠습니까?
+      = link_to '내 그룹', dock_path, class: 'btn btn-sm btn-white'
+
+  .different.font-size-sm.text-muted.text-keepall
+    - if user_signed_in?
       #{current_user.nickname}님이 아니세요?
       = link_to '로그아웃', destroy_user_session_path, method: :delete, class: 'hover:text-decoration-underline'
-  = render 'bpplication/bottom_footer'
+    - else
+      처음 오셨나요?
+      = link_to '계정 만들기', pre_sign_up_front_users_path
+      %br
+      이미 빠띠 그룹스 계정이 있으세요?
+      = link_to '로그인', new_user_session_path

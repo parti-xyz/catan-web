@@ -1,0 +1,11 @@
+@use "../../global-variables";
+@use "../../mq";
+@use "../../bootstrap";
+
+.front-app .group-new-form {
+  width: 37.5rem;
+  max-width: 37.5rem;
+  @include mq.media("<=tablet") {
+    width: calc(100% - 2rem);
+  }
+}

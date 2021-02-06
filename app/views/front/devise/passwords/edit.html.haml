@@ -1,9 +1,11 @@
 %section.text-center
   .container
-    %h3.text-center.sign-up__txt
-      비밀번호 변경
-    %p.text-center
-      새로운 비밀번호를 입력해 주세요.
+    = render 'application/easy_jumbotron' do |p|
+      - p.content_for :leading do
+        비밀번호 변경
+      - p.content_for :guide do
+        새로운 비밀번호를 입력해 주세요.
+
     .simple-box.-half{ style: 'padding: 3rem 0' }
       = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
         = devise_error_messages!

@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   def landing
-    render layout: 'bpplication'
+    render layout: 'front/simple'
   end
 
   def dock
@@ -15,12 +15,10 @@ class PagesController < ApplicationController
       redirect_to expedition_path and return
     end
 
-    render layout: 'bpplication'
+    render layout: 'front/simple'
   end
 
   def expedition
-    redirect_to landing_path and return unless user_signed_in?
-
     @groups = Group.hottest.memberable_and_unfamiliar(current_user)
 
     if params[:q].present?
@@ -31,22 +29,23 @@ class PagesController < ApplicationController
       @mode = :random
     end
 
-    render layout: 'bpplication'
+    render layout: 'front/simple'
   end
 
-  def about
-  end
-
-  def pricing
-    redirect_to about_path
+  def privacy
+    render layout: 'front/simple'
   end
 
   def privacy_v1
-    render 'pages/privacy/v1'
+    render 'pages/privacy/v1', layout: 'front/simple'
+  end
+
+  def terms
+    render layout: 'front/simple'
   end
 
   def terms_v1
-    render 'pages/terms/v1'
+    render 'pages/terms/v1', layout: 'front/simple'
   end
 
   def robots

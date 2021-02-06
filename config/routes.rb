@@ -64,7 +64,6 @@ Rails.application.routes.draw do
     collection do
       get 'access_token'
       get 'pre_sign_up'
-      get 'email_sign_in'
       put 'notification'
       get 'inactive_sign_up'
       get 'cancel_form'
@@ -353,9 +352,7 @@ Rails.application.routes.draw do
   get '/p/:slug/hashtags/:hashtag', to: "issues#slug_hashtag", as: :slug_issue_hashtags
   get '/u/:slug', to: "users#posts", as: 'slug_user'
 
-  get '/about', to: "pages#about", as: 'about'
   get '/privacy', to: "pages#privacy", as: 'privacy'
-  get '/pricing', to: "pages#pricing", as: 'pricing'
   get '/privacy/v1', to: "pages#privacy_v1", as: 'privacy_v1'
   get '/terms', to: "pages#terms", as: 'terms'
   get '/terms/v1', to: "pages#terms_v1", as: 'terms_v1'

@@ -1,48 +1,50 @@
-.pages-app.base-app
-  .dock-page.main
-    .logo
-      G
-    .leading
-      %span.text-nowrap #{current_user.nickname}님이 가입한 그룹
-    .guide
-      아래에서 이동할 그룹을 선택하여
-      .br.d-block.d-md-inline
-      비슷한 관심을 가진 멤버와 이야기 나누세요.
+.dock-page
+  .mb-5
+    = render 'application/easy_jumbotron' do |p|
+      - p.content_for :leading do
+        %span.text-nowrap #{current_user.nickname}님이 가입한 그룹
+      - p.content_for :guide do
+        아래에서 이동할 그룹을 선택하여
+        .br.d-block.d-md-inline
+        비슷한 관심을 가진 멤버와 이야기 나누세요.
+  .go
+    = form_with url: dock_path, method: :get do |f|
+      .d-flex.flex-column.flex-md-row.align-items-center
+        .form-group.flex-grow-1.flex-shrink-1.my-md-0.pr-md-2.w-100.w-md-auto
+          .d-flex.align-items-center
+            = f.text_field :group_subdomain, value: params[:group_subdomain], placeholder: '그룹 주소를 아시나요?', class: 'form-control form-control-underlined px-1 w-75'
+            %strong.text-nowrap .parti.xyz
+        .form-group.my-0.w-100.w-md-auto
+          = f.submit '바로 이동', class: 'btn btn-primary btn-sm btn-block'
+    - if params[:group_subdomain].present?
+      .error
+        해당 주소를 가진 그룹이 없습니다.
 
-    .go
-      = form_with url: dock_path, method: :get do |f|
-        .d-flex.flex-column.flex-md-row.align-items-center
-          .form-group.flex-grow-1.flex-shrink-1.my-md-0.pr-md-2.w-100.w-md-auto
-            .d-flex.align-items-center
-              = f.text_field :group_subdomain, value: params[:group_subdomain], placeholder: '주소를 아시나요?', class: 'form-control form-control-underlined px-1 w-75'
-              %strong.text-nowrap .parti.xyz
-          .form-group.my-0.w-100.w-md-auto
-            = f.submit '바로 이동', class: 'btn btn-primary btn-sm btn-block'
-      - if params[:group_subdomain].present?
-        .error
-          해당 주소를 가진 그룹이 없습니다.
+  - if @groups&.any?
+    .groups-panel
+      - @groups.each do |group|
+        = link_to root_url(subdomain: group.subdomain), class: 'group' do
+          .content
+            .title
+              = group_basic_title(group)
+            .members
+              .users
+                - group.member_users.recent.limit(6).each do |user|
+                  %span.user-byline
+                    .image.m-0{ style: "background-image: url(#{user.image.sm.url});",
+                            title: user.nickname }
+              .count #{number_with_delimiter(group.members_count)}명의 멤버
+            .desc= group.site_description
+          .action
+            %i.fa.fa-arrow-right
 
-    - if @groups&.any?
-      .groups-panel
-        - @groups.each do |group|
-          = link_to root_url(subdomain: group.subdomain), class: 'group' do
-            .content
-              .title
-                = group_basic_title(group)
-              .members
-                .users
-                  - group.member_users.recent.limit(6).each do |user|
-                    %span.user-byline
-                      .image.m-0{ style: "background-image: url(#{user.image.sm.url});",
-                              title: user.nickname }
-                .count #{number_with_delimiter(group.members_count)}명의 멤버
-              .desc= group.site_description
-            .action
-              %i.fa.fa-arrow-right
-    .nav-box
-      .text 새로운 그룹을 만나보세요.
-      = link_to '그룹 탐색', expedition_path, class: 'btn btn-sm btn-primary'
-    .different.font-size-sm.text-muted
-      #{current_user.nickname}님이 아니세요?
-      = link_to '로그아웃', destroy_user_session_path, method: :delete, class: 'hover:text-decoration-underline'
-  = render 'bpplication/bottom_footer'
+  .nav-box
+    .text 관심있는 이슈로 새로운 그룹을 만드세요.
+    = link_to '그룹 만들기', new_group_configuration_url(subdomain: nil), class: 'btn btn-sm btn-primary'
+
+  .nav-box
+    .text 새로운 그룹을 만나보세요.
+    = link_to '그룹 탐색', expedition_path, class: 'btn btn-sm btn-white'
+  .different.font-size-sm.text-muted
+    #{current_user.nickname}님이 아니세요?
+    = link_to '로그아웃', destroy_user_session_path, method: :delete, class: 'hover:text-decoration-underline'

@@ -1,21 +1,11 @@
 %section.text-center
   .container
-    %h3.text-center
-      %i.fa.fa-user
-      계정 설정
+    .mb-2
+      = render 'application/easy_jumbotron' do |p|
+        - p.content_for :leading do
+          %i.fa.fa-user
+          계정 설정
     .simple-box
-      -# .content-tab-section
-      -#   %ul.nav.nav-tabs
-      -#     %li.active
-      -#       = link_to '#profile', 'data-toggle': 'tab'  do
-      -#         프로필
-      -#     %li
-      -#       = link_to '#groups_notification', 'data-toggle': 'tab' do
-      -#         그룹별 앱 알림
-      -#     %li
-      -#       = link_to '#channels_notification', 'data-toggle': 'tab' do
-      -#         채널별 앱 알림
-
       %h5
         기본 정보
       .card.mb-3
@@ -84,4 +74,4 @@
             .text-basic-wrap
               작성한 게시글의 삭제를 원하시는 경우, 탈퇴 신청 전에 삭제를 진행해주세요.
               탈퇴 처리가 완료된 후에는 작성하신 글과 댓글의 삭제를 요청할 수 없습니다.
-          = link_to '탈퇴하기', cancel_form_users_path, class: 'btn btn-danger btn-block'
+          = link_to '탈퇴하기', cancel_form_front_users_path, class: 'btn btn-danger btn-block'

@@ -1,11 +1,14 @@
 %section.text-center
   .container
-    %h3.text-center.sign-up__txt
-      계정확인 메일 재발송
-    %p.text-center
-      계정에 등록한 이메일을 입력하시면
-      %br
-      계정확인 메일을 다시 보내드릴게요.
+    .mb-4
+      = render 'application/easy_jumbotron' do |p|
+        - p.content_for :leading do
+          계정확인 메일 재발송
+        - p.content_for :guide do
+          계정으로 등록한 이메일을 입력하면
+          %br
+          확인 메일을 다시 보내드릴게요.
+
     .simple-box.-half{ style: 'padding: 3rem 0' }
       = form_for resource, as: resource_name, url: confirmation_path(resource_name), method: :post do |f|
         - if resource.errors.messages.any?
@@ -13,7 +16,7 @@
             - resource.errors.messages.each do |message|
               - attribute_name = User.human_attribute_name(message[0])
               - if message[0] == :email
-                %div 찾을 수 없거나 이미 확인된 이메일입니다.
+                %div.text-keepall 찾을 수 없거나 이미 확인된 이메일입니다.
               - elsif %i(provider confirmation_token).include? message[0]
                 %div 다시 시도해 주세요.
               - else

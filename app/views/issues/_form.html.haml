@@ -1,10 +1,8 @@
 - if current_group.try(:met_issues_quota?)
   .alert.alert-danger
     %p
-      #{current_group.title}그룹은
-      = link_to about_url(subdomain: nil), style:"text-decoration:underline;", target: '_blank' do
-        #{current_group.plan_text} 그룹
-      입니다. 최대
+      #{current_group.title} 그룹은
+      "#{current_group.plan_text}"입니다. 최대
       - if current_group.private?
         %stong #{Group::ISSUE_QUOTA_FOR_LITE_PLAN}개
         채널을 만들 수 있습니다.
@@ -18,18 +16,16 @@
       %p
         현재 #{current_group.issues.only_private.count}개 비공개 채널을 사용 중입니다. 무제한으로 비공개 채널을 만들려면 지금 업그레이드해 보세요.
     %p
-      = link_to '맞춤형 그룹으로 업그레이드 하기', about_url(subdomain: nil), target: '_blank', class: 'btn btn-primary'
+      = link_to '맞춤형 그룹으로 업그레이드 문의하기', 'mailto:help@parti.coop', target: '_blank', class: 'btn btn-primary'
 - elsif current_group.try(:trial?)
   .alert.alert-danger
     %p
       #{current_group.title}그룹은
-      = link_to about_url(subdomain: nil), style:"text-decoration:underline;", target: '_blank' do
-        #{current_group.plan_text} 그룹
-      입니다.
+      "#{current_group.plan_text}"입니다.
     %p
       현재 #{current_group.issues.count}개 채널을 사용 중입니다.
     %p
-      = link_to '맞춤형 그룹으로 업그레이드 하기', about_url(subdomain: nil), target: '_blank', class: 'btn btn-primary'
+      = link_to '맞춤형 그룹으로 업그레이드 문의하기', 'mailto:help@parti.coop', target: '_blank', class: 'btn btn-primary'
 
 .well
   - if @issue.errors.any?
@@ -193,16 +189,14 @@
             .alert.alert-danger
               %p
                 #{current_group.title}그룹은
-                = link_to about_url(subdomain: nil), style:"text-decoration:underline;", target: '_blank' do
-
-                  #{current_group.plan_text} 그룹
+                "#{current_group.plan_text}"
                 입니다. 최대
                 %stong #{Group::ISSUE_QUOTA_FOR_LITE_PLAN}개
                 비공개 채널을 만들 수 있습니다.
               %p
                 현재 #{current_group.issues.only_private.count}개 비공개 채널을 사용 중입니다. 무제한 비공개 채널을 만들려면 지금 업그레이드해 보세요.
               %p
-                = link_to '업그레이드 하기', about_url(subdomain: nil), target: '_blank', class: 'btn btn-primary'
+                = link_to '업그레이드 하기', 'mailto:help@parti.coop', target: '_blank', class: 'btn btn-primary'
 
         .form-group{class: ('has-error' if has_error_attr?(@issue, :listable_even_private))}
           = f.label :listable_even_private
