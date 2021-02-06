@@ -576,7 +576,7 @@ GEM
       ffi (~> 1.0)
     rb-readline (0.5.5)
     recursive-open-struct (1.1.0)
-    redcarpet (3.5.0)
+    redcarpet (3.5.1)
     redis (3.3.5)
     redis-namespace (1.7.0)
       redis (>= 3.0.4)
@@ -834,7 +834,7 @@ DEPENDENCIES
   railties (= 5.2.2)
   rb-readline
   recursive-open-struct (~> 1.0, >= 1.0.1)
-  redcarpet (~> 3.3, >= 3.3.4)
+  redcarpet (~> 3.5)
   redis (~> 3.2, >= 3.2.2)
   redis-namespace (~> 1.5, >= 1.5.2)
   remotipart
