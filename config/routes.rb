@@ -450,9 +450,11 @@ Rails.application.routes.draw do
       member do
         get :destroy_form
         patch :read_all_posts
+        patch :wake
       end
       collection do
         get :sync
+        get :frozen
       end
 
       resources :folders, only: [] do
