@@ -1,4 +1,17 @@
 class Front::MembersController < Front::BaseController
+  def index
+    base = current_group.members.recent
+    if params[:keyword].present?
+      base = smart_search_for(base, params[:keyword], profile: (:admin if current_user&.admin?))
+    end
+    @members = base.page(params[:page]).per(4 * 10).load
+
+    @invitations = current_group.invitations
+    @member_requests = current_group.member_requests
+
+    render layout: 'front/simple'
+  end
+
   def show
     @member = Member.find(params[:id])
 

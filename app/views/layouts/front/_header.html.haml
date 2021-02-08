@@ -37,9 +37,8 @@
               = link_to edit_front_group_path(current_group), class: 'dropdown-item' do
                 그룹 관리
             - if current_group.organized_by?(current_user) || current_user&.admin?
-              = link_to group_members_path, class: 'dropdown-item', target: '_blank' do
+              = link_to front_members_path, class: 'dropdown-item' do
                 멤버 관리
-                %i.fa.fa-external-link
             - if current_group.organized_by?(current_user) || current_user&.admin?
               = link_to edit_current_group_front_categories_path, class: 'dropdown-item' do
                 채널 카테고리 관리

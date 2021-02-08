@@ -1,0 +1,21 @@
+%section
+  .container
+    %h3.text-keepall.text-center
+      %i.fa.fa-users
+      멤버 관리
+
+    .simple-box.pt-3
+      .form-text.text-muted.small.mb-3 #{@members.total_count}명의 그룹 멤버입니다.
+
+      %ul.list-group.mb-0
+        - @members.each do |member|
+          - user = member.user
+          %li.list-group-item.member-line
+            .userimagebg{ style: "background-image: url(#{user.image.sm.url})" }
+            .content
+              .top
+                .usernickname= user.nickname
+                .role= member.role
+              .description= member.description
+            .controls
+
