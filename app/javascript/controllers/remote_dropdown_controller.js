@@ -3,21 +3,32 @@ import { smartFetch } from '../helpers/smart_fetch'
 
 export default class extends Controller {
   static targets = ['toggle', 'spinner', 'item', 'menu']
+
+  initialize() {
+    this.element[`${this.identifier}-controller`] = this
+  }
+
   connect() {
     jQuery(this.element).on('show.bs.dropdown', this.handleShow.bind(this))
     jQuery(this.element).on('hide.bs.dropdown', this.handleHide.bind(this))
-    jQuery(this.toggleTarget).dropdown()
+    if (this.hasToggleTarget) {
+      jQuery(this.toggleTarget).dropdown()
+    }
     this.loading = false
 
     if (this.hasSpinnerTarget) {
       this.spinnerHTML = this.spinnerTarget.outerHTML
     }
+
+    this.url = this.data.get('url')
   }
 
   disconnect() {
     jQuery(this.element).off('show.bs.dropdown', this.handleShow.bind(this))
     jQuery(this.element).off('hide.bs.dropdown', this.handleHide.bind(this))
-    jQuery(this.toggleTarget).dropdown('dispose')
+    if (this.hasToggleTarget) {
+      jQuery(this.toggleTarget).dropdown('dispose')
+    }
     this.loading = false
   }
 
@@ -29,6 +40,9 @@ export default class extends Controller {
   }
 
   handleShow(event) {
+    if (!this.url) {
+      return
+    }
     if (this.loading) {
       return
     }
@@ -41,7 +55,9 @@ export default class extends Controller {
       this.menuTarget.insertAdjacentHTML('beforeend', this.spinnerHTML)
     }
 
-    smartFetch(this.data.get('url'))
+    let currentUrl = this.url
+
+    smartFetch(currentUrl)
       .then(response => {
         if (response) {
           return response.text()
@@ -49,9 +65,15 @@ export default class extends Controller {
       })
       .then(html => {
         this.menuTarget.insertAdjacentHTML('beforeend', html)
+
+        if (this.url != currentUrl) {
+          handleShow(event)
+        }
       })
       .catch(e => {
-        jQuery(this.toggleTarget).dropdown('hide')
+        if (this.hasToggleTarget) {
+          jQuery(this.toggleTarget).dropdown('hide')
+        }
       })
       .finally(() => {
         if (this.hasSpinnerTarget) {
@@ -59,5 +81,9 @@ export default class extends Controller {
         }
         this.loading = false
       })
+  }
+
+  changeUrl(url) {
+    this.url = url
   }
 }

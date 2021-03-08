@@ -12,11 +12,12 @@ import scrollIntoView from 'scroll-into-view'
 
 import { linkTooltipPlugin } from '../compoments/editor/link_tooltip_plugin'
 import { imageUploadPlugin } from '../compoments/editor/image_upload_plugin'
+import { mentionsPlugin, addMentionNodes } from '../compoments/editor/mentions_plugin'
 import { dirtyPlugin } from '../compoments/editor/dirty_plugin'
 import { buildMenuItems } from '../compoments/editor/menus'
 import { recreateTransform } from '@technik-sde/prosemirror-recreate-transform'
 import ParamMap from '../helpers/param_map'
-import { resizableImage } from '../compoments/editor/schema'
+import { updateImageNodeForResizable } from '../compoments/editor/resizable_image_node'
 import { ImageView } from '../compoments/editor/image_view'
 
 export default class extends Controller {
@@ -32,10 +33,13 @@ export default class extends Controller {
 
     // Mix the nodes from prosemirror-schema-list into the basic schema to
     // create a schema with list support.
-    let nodes = basicSchema.spec.nodes.update('image', resizableImage)
+    let nodes = basicSchema.spec.nodes
+    nodes = updateImageNodeForResizable(nodes)
+    nodes = addMentionNodes(nodes)
+    nodes = addListNodes(nodes, "paragraph block*", "block")
 
     const currentSchema = new Schema({
-      nodes: addListNodes(nodes, "paragraph block*", "block"),
+      nodes,
       marks: basicSchema.spec.marks.append(this.customMarks())
     })
 
@@ -56,8 +60,9 @@ export default class extends Controller {
     }).concat(
       linkTooltipPlugin,
       imageUploadPlugin,
+      mentionsPlugin,
       dirtyPlugin(this.element),
-      keymap(mapKeys)
+      keymap(mapKeys),
     )
 
     let editorFormClasses = this.sourceTarget.dataset.editorFormClasses

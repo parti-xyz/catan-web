@@ -1,4 +1,4 @@
-export const resizableImage = {
+const resizableImage = {
   inline: true,
   attrs: {
     src: {},
@@ -25,4 +25,9 @@ export const resizableImage = {
     const attrs = { style: `width: ${node.attrs.width}` }
     return ["img", { ...node.attrs, ...attrs }]
   }
+}
+
+export function updateImageNodeForResizable(nodes) {
+  nodes.update('image', resizableImage)
+  return nodes
 }
