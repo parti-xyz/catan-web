@@ -445,6 +445,7 @@ Rails.application.routes.draw do
     get :coc, to: 'pages#coc'
     get :menu, to: 'pages#menu'
     get :search_form, to: 'pages#search_form'
+    get 'autocomplete', to: 'pages#autocomplete'
 
     resources :channels, only: [:show, :edit, :new] do
       member do

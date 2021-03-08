@@ -130,6 +130,10 @@ class Front::PagesController < Front::BaseController
     turbolinks_redirect_to front_all_path
   end
 
+  def autocomplete
+    render layout: nil
+  end
+
   private
 
   def group_sidebar_content
