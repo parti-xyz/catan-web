@@ -211,7 +211,7 @@ class ApplicationController < ActionController::Base
     {
       title: current_group.try(:title) || "팀과 커뮤니티를 위한 민주주의 플랫폼, #{I18n.t('labels.app_name_human')}",
       description: current_group.try(:site_description) || "#{I18n.t('labels.app_name_human')}로 더 민주적인 일상을 만들어요",
-      keywords: current_group.try(:site_keywords) || "정치, 민주주의, 조직, 투표, 모임, 의사결정, 일상 민주주의, 토의, 토론, 논쟁, 논의, 회의",
+      keywords: current_group.try(:site_keywords) || "빠띠 카누, 정치, 민주주의, 조직, 투표, 모임, 의사결정, 일상 민주주의, 토의, 토론, 논쟁, 논의, 회의",
       image: view_context.asset_url(current_group.try(:seo_image) || "parti_seo.png"),
       twitter_card_type: "summary_card"
     }
@@ -241,8 +241,7 @@ class ApplicationController < ActionController::Base
     "dashboard#index" => "내 홈",
     "dashboard#intro" => "시작",
     "bookmark#index" => "북마크",
-    "pages#discover" => "새로운 발견",
-    "pages#about" => "소개",
+    "pages#landing" => "시작",
     "pages#privacy" => "방침",
     "pages#terms" => "약관",
     "issues#home" => nil,
@@ -312,14 +311,12 @@ class ApplicationController < ActionController::Base
   end
 
   def prepare_store_location
-    #랜딩 페이지를 볼 떄는 랜딩 페이지를 저장하게.
-    #비로그인 계정이 랜딩페이지를 볼때는 랜딩페이지가 / 인데
-    #로그인 후에는 /discover 로 바꿔야 하는. discover_root_path
-    if !user_signed_in? and request.fullpath == "/" and current_group.nil?
-      store_location_force(discover_url(subdomain: nil))
-    elsif !user_signed_in? and
-        (controller_name == 'pages' and action_name == 'privacy') or
-        (controller_name == 'pages' and action_name == 'terms')
+    if controller_name == 'pages' && action_name == 'landing'
+      store_location_force(root_url(subdomain: nil))
+    elsif !user_signed_in? && (
+      (controller_name == 'pages' && action_name == 'privacy') ||
+      (controller_name == 'pages' && action_name == 'terms')
+    )
       store_location_force(root_url(subdomain: nil))
     else
       store_location(current_group)

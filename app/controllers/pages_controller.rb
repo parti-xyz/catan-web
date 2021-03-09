@@ -1,22 +1,51 @@
 class PagesController < ApplicationController
-  def authenticated_home
-    redirect_to discover_root_path and return unless user_signed_in?
-    redirect_to dashboard_url(subdomain: nil)
+  def landing
+    render layout: 'front/simple'
   end
 
-  def about
+  def dock
+    redirect_to landing_path and return unless user_signed_in?
+
+    if params[:group_subdomain].present? && Group.exists?(slug: params[:group_subdomain])
+      redirect_to root_url(subdomain: params[:group_subdomain]) and return
+    end
+
+    @groups = current_user.member_groups.sort_by_name.load
+    if @groups.empty?
+      redirect_to expedition_path and return
+    end
+
+    render layout: 'front/simple'
   end
 
-  def pricing
-    redirect_to about_path
+  def expedition
+    @groups = Group.hottest.memberable_and_unfamiliar(current_user)
+
+    if params[:q].present?
+      @groups = @groups.search_for(params[:q]).page(params[:page]).per(10)
+      @mode = :search
+    else
+      @groups = @groups.limit(20).to_a.sample(5)
+      @mode = :random
+    end
+
+    render layout: 'front/simple'
+  end
+
+  def privacy
+    render layout: 'front/simple'
   end
 
   def privacy_v1
-    render 'pages/privacy/v1'
+    render 'pages/privacy/v1', layout: 'front/simple'
+  end
+
+  def terms
+    render layout: 'front/simple'
   end
 
   def terms_v1
-    render 'pages/terms/v1'
+    render 'pages/terms/v1', layout: 'front/simple'
   end
 
   def robots
@@ -32,11 +61,6 @@ class PagesController < ApplicationController
   def analyze
     AnalyzeJob.perform_async
     redirect_to root_path
-  end
-
-  def discover
-    @sections = LandingPage.all_data
-    @subjects = LandingPage.where("section like 'subject%'").to_a
   end
 
   def components

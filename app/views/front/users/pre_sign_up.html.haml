@@ -1,12 +1,17 @@
 %section.text-center
   .container
-    %h3.text-keepall
-      %i.fa.fa-user
-      계정 만들기
-
-    - if current_group.present?
-      .alert.d-inline-block.alert-secondary.mt-4
-        #{current_group.title}에 가입하려면 먼저 계정을 만들어야 합니다.
+    = render 'application/easy_jumbotron' do |p|
+      - p.content_for :leading do
+        %i.fa.fa-user
+        계정 만들기
+      - p.content_for :guide do
+        - if current_group.present?
+          %p
+            #{current_group.title}에 가입하려면 먼저 계정을 만들어야 합니다.
+        %p
+          어떤 방법으로 빠띠 카누 계정을
+          %br.d-block.d-md-inline
+          만들지 아래에서 고르세요.
 
     .simple-box.-half{ style: 'padding: 3rem 0', data: { controller: 'form-dynamic-action' } }
       = link_to '#', data: { action: 'click->form-dynamic-action#submit', 'form-url': omniauth_authorize_url(:user, :facebook, subdomain: false), 'mobile-app-handler': 'startSocialSignIn', 'mobile-app-url': mobile_app_auth_url(subdomain: nil, provider: :facebook, remember_me: true, fallback_url: omniauth_authorize_url(:user, :facebook, subdomain: false)) }, class: 'btn btn-white btn-block', style: 'border-radius: 999px;' do
@@ -29,7 +34,7 @@
             = check_box_tag(:remember_me, '1', true)
             로그인 상태를 유지
 
-%section
+%section.mt-4
   .container.text-center
     %p
       이미 계정을 만드셨나요?

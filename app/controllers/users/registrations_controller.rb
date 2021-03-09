@@ -30,11 +30,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_inactive_sign_up_path_for(resource)
-    if helpers.implict_front_namespace?
-      inactive_sign_up_front_users_path
-    else
-      inactive_sign_up_users_path
-    end
+    inactive_sign_up_front_users_path
   end
 
   def after_sign_up_path_for(resource)

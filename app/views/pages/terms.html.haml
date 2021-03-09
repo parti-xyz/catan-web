@@ -29,11 +29,14 @@
     padding-left: 15px;
     margin-top: 0;
   }
+
+.mb-5
+  = render 'application/easy_jumbotron' do |p|
+    - p.content_for :leading do
+      이용약관
 %section.page-bg
   .container
     .page-wrapper
-      %h3.page-wrapper__title
-        이용약관
       .page-wrapper__txt
         .margin-top-two
         %b 제 1조 목적
@@ -141,7 +144,7 @@
             %br
             ② 타인의 정보 도용
             %br
-            ③ 빠띠 그룹스의 운영자, 빠띠를 사칭하거나 관련 정보를 도용
+            ③ 빠띠 카누의 운영자, 빠띠를 사칭하거나 관련 정보를 도용
             %br
             ④ 회사가 게시한 정보의 변경
             %br
@@ -279,7 +282,7 @@
           2) 회사와 회원간 발생한 분쟁에 관한 소송은 민사소송법 상의 관할법원에 제소합니다.
 
         .margin-top-one
-          빠띠 그룹스 서비스와 관련하여 궁금하신 사항이 있으시면 이메일(
+          빠띠 카누 서비스와 관련하여 궁금하신 사항이 있으시면 이메일(
           %a(href="mailto:contact@parti.coop") contact@parti.coop
           )로 문의하시기 바랍니다.
 
@@ -289,7 +292,7 @@
       %hr
       .margin-top-one
         %h4 이전 이용약관
-        %ul
+        %ul.list-unstyled
           %li
-            =link_to '버전 1', terms_v1_url
+            =link_to '- 버전 1', terms_v1_url, target: '_blank'
 

@@ -21,7 +21,9 @@
 @forward "./front-app/comment-filesource-doc-listing";
 @forward "./front-app/comment-filesource-listings";
 @forward "./front-app/comment-form";
+@forward "./front-app/dock-page";
 @forward "./front-app/editor-content";
+@forward "./front-app/expedition-page";
 @forward "./front-app/file-source-field";
 @forward "./front-app/folder-lines";
 @forward "./front-app/front-body";
@@ -29,19 +31,22 @@
 @forward "./front-app/front-navbar";
 @forward "./front-app/front-joinbar";
 @forward "./front-app/front-navbar-message-header";
-@forward "./front-app/front-simple";
 @forward "./front-app/front-sidebar";
 @forward "./front-app/join-banner";
 @forward "./front-app/global-sidebar";
 @forward "./front-app/group-menu";
 @forward "./front-app/group-navitem";
 @forward "./front-app/group-navitems";
+@forward "./front-app/groups-panel";
+@forward "./front-app/group-new-form";
+@forward "./front-app/landing-page";
 @forward "./front-app/member-user";
 @forward "./front-app/message-line";
 @forward "./front-app/message-cluster";
 @forward "./front-app/message-cluster-owner";
 @forward "./front-app/messages-box";
 @forward "./front-app/navbar-group-menu";
+@forward "./front-app/nav-box";
 @forward "./front-app/organizer-member";
 @forward "./front-app/pinned-post-line";
 @forward "./front-app/playground-body";
@@ -78,7 +83,6 @@
 @forward "./front-app/user-navitem";
 @forward "./front-app/upvoted-users";
 @forward "./front-app/updated-comment-line";
-@forward "./front-app/user-byline";
 
 // reset front body
 body.app-front,
@@ -119,7 +123,31 @@ body.-pack.-simple.app-users {
 }
 
 body.-simple .front-app {
-  @include front-variables.navbar-height(padding-top);
+  @include front-variables.navbar-height(padding-top, 4rem);
+  padding-bottom: 4rem;
+  @include mq.media("<=phone") {
+    @include front-variables.navbar-height(padding-top, 3rem);
+    padding-bottom: 0;
+  }
+  &.-no-header {
+    padding-top: 4rem;
+  }
   display: flex;
   flex-direction: column;
+  overflow: auto;
+  > .bottom-footer {
+    margin-top: 4rem;
+    @include mq.media(">phone") {
+      position: fixed;
+      z-index: 10;
+      bottom: 0;
+      width: 100%;
+      margin-top: 0;
+    }
+  }
 }
+
+body.-simple.app-pages--landing .front-app {
+  padding: 0;
+}
+

@@ -2,7 +2,7 @@ include GroupHelper
 include MobileAppHelper
 
 Rails.application.routes.draw do
-  class DefaultGroupRouteConstraint
+  class NoGroupRouteConstraint
     def matches?(request)
       fetch_group(request).blank?
     end
@@ -46,11 +46,11 @@ Rails.application.routes.draw do
     match '*path', to: redirect(subdomain: '', path: '/p/role'), via: :all
   end
 
-  constraints(DefaultGroupRouteConstraint.new) do
+  constraints(NoGroupRouteConstraint.new) do
     authenticated :user do
-      root 'pages#authenticated_home'
+      root 'pages#dock'
     end
-    root 'pages#discover', as: :discover_root
+    root 'pages#landing'
   end
   constraints(FrontGroupRouteConstraint.new) do
     root 'front/pages#root'
@@ -64,7 +64,6 @@ Rails.application.routes.draw do
     collection do
       get 'access_token'
       get 'pre_sign_up'
-      get 'email_sign_in'
       put 'notification'
       get 'inactive_sign_up'
       get 'cancel_form'
@@ -353,10 +352,7 @@ Rails.application.routes.draw do
   get '/p/:slug/hashtags/:hashtag', to: "issues#slug_hashtag", as: :slug_issue_hashtags
   get '/u/:slug', to: "users#posts", as: 'slug_user'
 
-  get '/about', to: "pages#about", as: 'about'
-  get '/discover', to: "pages#discover", as: 'discover'
   get '/privacy', to: "pages#privacy", as: 'privacy'
-  get '/pricing', to: "pages#pricing", as: 'pricing'
   get '/privacy/v1', to: "pages#privacy_v1", as: 'privacy_v1'
   get '/terms', to: "pages#terms", as: 'terms'
   get '/terms/v1', to: "pages#terms_v1", as: 'terms_v1'
@@ -434,6 +430,10 @@ Rails.application.routes.draw do
   end
 
   # front
+  get :dock, to: 'pages#dock', as: :dock
+  get :landing, to: 'pages#landing', as: :landing
+  get :expedition, to: 'pages#expedition', as: :expedition
+
   namespace :front, defaults: { namespace_slug: 'front' } do
     get :all, to: 'pages#all'
     get :announcements, to: 'pages#announcements'

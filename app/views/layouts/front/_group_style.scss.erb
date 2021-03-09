@@ -125,7 +125,7 @@
 .front-app .coc-box {
   > .jumbos {
     display: flex;
-    <% if current_group.key_visual_foreground_image.present? %>
+    <% if current_group&.key_visual_foreground_image.present? %>
       flex-direction: row-reverse;
     <% end %>
     padding: 3.125rem 3.75rem;
@@ -194,7 +194,7 @@
       margin-top: 2.375rem;
     }
     > .jumbos > .text > .btn-key {
-      <% if current_group.coc_btn_bg_color.present? %>
+      <% if current_group&.coc_btn_bg_color.present? %>
         @include button-variant(<%= current_group.coc_btn_bg_color %>, darken(<%= current_group.coc_btn_bg_color %>, 10%), darken(<%= current_group.coc_btn_bg_color %>, 10%));
       <% end %>
       <%= group_coc_btn_text_color('color') %>
