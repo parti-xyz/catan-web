@@ -52,6 +52,12 @@
     .dropdown-item.cursor-pointer{ data: { controller: 'remote-modal-link', action: 'click->remote-modal-link#open', 'remote-modal-link-url': edit_channel_front_post_path(current_post) } }
       다른 채널로 게시물 이동
 
+
+- moremenu_post_buttons << capture do
+  - if user_signed_in? && current_user != current_post.user
+    .dropdown-item.cursor-pointer{ data: { controller: 'remote-modal-link', action: 'click->remote-modal-link#open', 'remote-modal-link-url': new_front_report_path(report: { reportable_type: 'Post', reportable_id: current_post.id }) } }
+      신고
+
 - post_control = capture do
   - moremenu_post_buttons.reject! { |button_group| button_group.blank? }
   - if moremenu_post_buttons.any?

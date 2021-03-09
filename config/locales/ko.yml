@@ -195,6 +195,8 @@ ko:
       label:
         title: 이름
         body: 설명
+      report:
+        reason: 이유
     successful:
       messages:
         created: 저장되었습니다.
@@ -204,6 +206,7 @@ ko:
         no_changed: 이미 저장되었습니다.
         deleted: 삭제되었습니다.
         released: 해제되었습니다.
+        reported: 신고했습니다.
         conflicted_wiki: 방금 다른 멤버가 위키를 고쳤습니다. 회원님이 고친 내용은 저장되지 않았습니다. 무엇을 고쳤는지 살펴보고 다시 저장해 주세요.
         conflicted_decision: 방금 다른 멤버가 토론 정리를 고쳤습니다. 회원님이 고친 내용은 저장되지 않았습니다. 무엇을 고쳤는지 살펴보고 다시 저장해 주세요.
         invited: 성공적으로 초대했습니다.
@@ -440,3 +443,9 @@ ko:
     request_join: 어서오세요. 오거나이저가 알 수 있도록 구체적으로 회원님을 소개해주세요.
     eduhope:
       request_join: 소속된 지부, 학교, 성함 작성해주세요.
+  enumerize:
+    report:
+      reason:
+        calumny : 근거없는 비방
+        vulgarism: 비속어 / 개인정보 침해
+        etc: 기타

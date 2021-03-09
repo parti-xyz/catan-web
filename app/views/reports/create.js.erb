@@ -1,0 +1,3 @@
+<% return if @report&.errors&.any? %>
+$(document).trigger('parti-close-modal-placeholder');
+UnobtrusiveFlash.showFlashMessage("신고되었습니다.", {type: 'notice'});
