@@ -7,7 +7,9 @@ class MessageConfiguration::PostObservation < ApplicationRecord
   validates :user, uniqueness: { scope: [ :post_id ] }
 
   def self.of(user, post)
-    find_or_initialize_by(user_id: user&.id, post_id: post.id) if user.present? && post.present?
+    return if user.blank? || post.blank?
+
+    find_or_initialize_by(user_id: user.id, post_id: post.id)
   end
 
   def parent
