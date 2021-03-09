@@ -92,7 +92,7 @@ gem 'html_truncator'
 gem 'rails-timeago', '~> 2.13'
 gem 'browser', '~> 2.0', '>= 2.0.2'
 gem 'geo_pattern', '~> 1.4'
-gem 'redcarpet', '~> 3.3', '>= 3.3.4'
+gem 'redcarpet', '~> 3.5'
 gem 'cocoon', '~> 1.2', '>= 1.2.9'
 gem 'jquery-slick-rails'
 gem 'nice_partials'
@@ -117,7 +117,7 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'apple-app-site-association', '~> 0.1.2'
 
 # crawling
-gem 'mechanize', '~> 2.7', '>= 2.7.5'
+gem 'mechanize', '~> 2.7'
 gem 'video_info', '~> 2.6'
 gem 'fastimage', '~> 2.1'
 
