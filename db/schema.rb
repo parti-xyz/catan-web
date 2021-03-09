@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_15_025148) do
+ActiveRecord::Schema.define(version: 2021_03_09_021026) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -758,6 +758,17 @@ ActiveRecord::Schema.define(version: 2020_11_15_025148) do
     t.index ["issue_id", "target_id"], name: "index_relateds_on_issue_id_and_target_id", unique: true
     t.index ["issue_id"], name: "index_relateds_on_issue_id"
     t.index ["target_id"], name: "index_relateds_on_target_id"
+  end
+
+  create_table "reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.string "reportable_type", null: false
+    t.bigint "reportable_id", null: false
+    t.bigint "user_id", null: false
+    t.string "reason", default: "etc", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reportable_type", "reportable_id"], name: "index_reports_on_reportable_type_and_reportable_id"
+    t.index ["user_id"], name: "index_reports_on_user_id"
   end
 
   create_table "roles", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
