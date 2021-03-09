@@ -8,6 +8,13 @@ class Group::BaseController < ApplicationController
     end
   end
 
+  def only_admin
+    unless current_user&.admin?
+      flash[:notice] = t('unauthorized.default')
+      redirect_to root_url and return
+    end
+  end
+
   private
 
   def verify_current_group
