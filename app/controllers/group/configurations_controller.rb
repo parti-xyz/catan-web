@@ -1,7 +1,8 @@
 class Group::ConfigurationsController < Group::BaseController
-  skip_before_action :verify_current_group, only: [:new, :create]
+  skip_before_action :verify_current_group, only: [:new, :create, :spin_off]
   before_action :authenticate_user!
   before_action :only_organizer, only: [:edit, :update, :front_wiki, :destroy_front_wiki]
+  before_action :only_admin, only: [:spin_off]
 
   def new
     @group = Group.new
@@ -28,6 +29,38 @@ class Group::ConfigurationsController < Group::BaseController
       redirect_to smart_group_url(@group)
     else
       render 'new', layout: 'application'
+    end
+  end
+
+  def spin_off
+    @issue = Issue.find(params[:issue_id])
+
+    @group = Group.new
+    @group.plan = Group.plan.lite
+    @group.user = @issue.organizer_members.first&.user || current_user
+    @group.slug = params[:group][:slug]
+    @group.title = @issue.title
+    @group.head_title = @issue.title
+    @group.logo = "data:image/png;base64,#{Catan::Avatar::generate_avatar(@group.title)}"
+    @group.frontable = true
+
+    @issue.members.each do |member|
+      @group.members.build(user: member.user, is_organizer: member.is_organizer)
+    end
+
+    ActiveRecord::Base.transaction do
+      if @group.save
+        random_issue = Issue.create(title: '잡담', slug: 'random', group_slug: @group.slug)
+        IssueCreateService.new(issue: random_issue, current_user: current_user, current_group: @group, flash: flash).call
+
+        @issue.group_slug = @group.slug
+        @issue.category = nil
+        @issue.save
+
+        redirect_to smart_group_url(@group)
+      else
+        redirect_back(fallback_location: root_url)
+      end
     end
   end
 
