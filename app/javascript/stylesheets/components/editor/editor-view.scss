@@ -23,7 +23,7 @@ body.-pack {
 
     min-height: 300px;
     &.-comment {
-      min-height: 100px;
+      min-height: 200px;
     }
 
     @include mq.media('<=phone') {
