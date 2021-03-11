@@ -93,9 +93,31 @@ class Front::ChannelsController < Front::BaseController
     end
   end
 
+  def frozen
+    render_403 and return unless current_group.organized_by?(current_user)
+
+    @issues = current_group.issues.dead.load
+
+    render layout: 'front/simple'
+  end
+
+  def wake
+    render_403 and return unless current_group.organized_by?(current_user)
+
+    issue = Issue.find(params[:id])
+    issue.freezed_at = nil
+    if issue.save
+      flash[:notice] = '휴면을 해제했습니다.'
+    else
+      errors_to_flash(issue)
+    end
+
+    redirect_to frozen_front_channels_path
+  end
+
   def read_all_posts
     render_403 and return unless user_signed_in?
-    render_403 and reuurn unless current_group.member?(current_user)
+    render_403 and return unless current_group.member?(current_user)
 
     outcome = IssueReadAllPosts.run(user_id: current_user.id, issue_id: params[:id], limit: 100)
 
