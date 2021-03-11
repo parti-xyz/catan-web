@@ -428,7 +428,11 @@ Rails.application.routes.draw do
         get 'download'
       end
     end
+
+    resources :reports
   end
+
+  resources :reports
 
   # front
   get :dock, to: 'pages#dock', as: :dock
@@ -617,5 +621,7 @@ Rails.application.routes.draw do
     resources :message_configuration_group_observations, only: [:create, :update]
     resources :message_configuration_issue_observations, only: [:create, :update, :destroy]
     resources :message_configuration_post_observations, only: [:create, :update, :destroy]
+
+    resources :reports, only: [:new, :create], controller: '/reports'
   end
 end

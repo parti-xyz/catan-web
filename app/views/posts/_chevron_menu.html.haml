@@ -76,6 +76,10 @@
     %li
       %a.js-trigger{ href: "#parti-post-page-waypoint-unread-until-post", 'data-target': '.js-page-waypoint', 'data-until-post-id': post.id, 'data-until-post-last-stroked-at-timestamp': post.last_stroked_at.to_i }
         이 게시글까지 읽지 않음 표시
+- button_groups << capture do
+  - if user_signed_in? && current_user != post.user
+    %li
+      = link_to "신고", new_report_path(report: { reportable_type: 'Post', reportable_id: post.id }), remote: true, 'data-disable-with': '로딩 중...'
 
 - button_groups << capture do
   - additional_buttons = capture do

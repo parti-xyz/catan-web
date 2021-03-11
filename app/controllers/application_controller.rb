@@ -444,4 +444,8 @@ class ApplicationController < ActionController::Base
       "필독 요청한 #{not_member_users.map(&:nickname).join(', ')}님은 그룹 멤버가 아니라 필독 요청할 수 없습니다."
     end
   end
+
+  def response_header_modal_command(command)
+    response.headers["X-Modal-Command"] = command
+  end
 end
