@@ -36,7 +36,7 @@
           = link_to '로그아웃', destroy_user_session_path, method: :delete, class: 'dropdown-item'
           - if current_group.member?(current_user)
             .dropdown-divider
-            = link_to "#{current_group.title} 그룹 탈퇴", front_member_cancel_path(current_user.smart_group_member(current_group)), method: :delete, class: 'dropdown-item', data: { confirm: "정말 #{current_group.title} 그룹에서 탈퇴하시겠습니까? 그룹에 게시한 글은 모두 보존되며 빠띠 가입도 유지됩니다." }
+            = link_to "#{current_group.title} 그룹 탈퇴", cancel_front_member_path(current_user.smart_group_member(current_group)), method: :delete, class: 'dropdown-item', data: { confirm: "정말 #{current_group.title} 그룹에서 탈퇴하시겠습니까? 그룹에 게시한 글은 모두 보존되며 빠띠 가입도 유지됩니다." }
           - member_groups = current_user.member_groups.sibilings(current_group).load
           - member_groups.each_with_index do |group, index|
             - if index == 0

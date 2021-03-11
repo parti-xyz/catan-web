@@ -564,13 +564,24 @@ Rails.application.routes.draw do
     resources :member_requests, only: [:create], controller: '/group/member_requests'
 
     resources :members, only: [], controller: '/group/members' do
-      delete :cancel
+      member do
+        delete :cancel
+      end
+      collection do
+        put :organizer
+        delete :organizer
+        delete :ban
+      end
     end
     resources :members, only: [:show, :index] do
       collection do
+        get :ban_form
         get 'user/:user_id', action: 'user', as: :user
         get :edit_me
         post :update_me
+      end
+      member do
+        get :statement
       end
     end
 

@@ -431,6 +431,10 @@ class ApplicationController < ActionController::Base
     redirect_to(url, options)
   end
 
+  def turbolinks_reload
+    render template: 'front/pages/reload', format: :js
+  end
+
   def prepare_unobtrusive_flash_frontable
     return if helpers.explict_front_namespace? || helpers.implict_front_namespace?
     prepare_unobtrusive_flash
