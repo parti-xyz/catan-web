@@ -574,12 +574,13 @@ Rails.application.routes.draw do
         delete :reject
       end
     end
-    resources :invitations, only: [:index, :new] do
+    resources :invitations, only: [:index, :new, :destroy] do
       collection do
         post :bulk
       end
       member do
         get :accept
+        patch :resend
       end
     end
 

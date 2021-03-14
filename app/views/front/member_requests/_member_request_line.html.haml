@@ -40,7 +40,5 @@
                         action: 'click->remote-modal-link#open',
                         'remote-modal-link-url': reject_form_front_member_requests_path(user_id: user.id) }
 
-  -# = link_to organizer_front_members_path(user_id: user.id), method: :put, remote: true, data: { 'disable-with': '처리 중...', target: 'content-replacement.link' }, class: 'dropdown-item' do
-  -#               오거나이저로 지정
   - if controls.present?
     .controls= controls
