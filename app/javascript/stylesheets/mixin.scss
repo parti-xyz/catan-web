@@ -103,15 +103,35 @@
     cursor: default;
   }
 
-  table {
-    border-collapse: collapse;
+  .tableWrapper {
+    overflow-x: auto;
+    margin: 1rem 0;
   }
 
-  td {
-    vertical-align: top;
-    border: 1px solid #ddd;
-    padding: 3px 5px;
+  table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid global-variables.$color-gray-300;
   }
+  table p {
+    margin-top: 1rem;
+  }
+  table td > *,
+  table th > * {
+    margin-bottom: 0;
+  }
+
+  td,
+  th {
+    vertical-align: top;
+    border: 1px solid global-variables.$color-gray-300;
+    padding: 3px 5px;
+    box-sizing: border-box;
+    position: relative;
+  }
+
 
   a,
   .mention {
@@ -124,10 +144,11 @@
   h4,
   h5,
   h6 {
-    margin-top: .5rem;
+    margin-top: .75rem;
     margin-bottom: .5rem;
-    font-weight: 600;
     line-height: 1.25;
+    color: global-variables.$color-brand-400;
+    font-weight: 600;
   }
   h1 {
     font-size: 1rem;

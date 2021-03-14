@@ -1,5 +1,11 @@
 import { NodeSelection } from "prosemirror-state"
+import { Fragment } from "prosemirror-model"
 import { wrapInList, liftListItem as liftListItemInList, sinkListItem as sinkListItemInList } from "prosemirror-schema-list"
+import {
+  addColumnAfter, addColumnBefore, deleteColumn, addRowAfter, addRowBefore, deleteRow,
+  mergeCells, splitCell, setCellAttr, toggleHeaderRow, toggleHeaderColumn, toggleHeaderCell,
+  goToNextCell, deleteTable
+} from "prosemirror-tables"
 import { wrapItem, blockTypeItem, MenuItem, Dropdown, icons } from 'prosemirror-menu'
 import { undo, redo } from 'prosemirror-history'
 import { findParentNode } from 'prosemirror-utils'
@@ -55,6 +61,21 @@ const buildMenuItems = (schema, uploadUrl, ruleFileSize) => {
       icon: iconByClassName("fa fa-image"),
     }, uploadUrl, ruleFileSize)
   }
+
+  let tableMenu = [
+    tableItem("행 왼쪽 삽입", addColumnBefore),
+    tableItem("행 오른쪽 삽입", addColumnAfter),
+    tableItem("행 삭제", deleteColumn),
+    tableItem("열 위쪽 삽입", addRowBefore),
+    tableItem("열 아래쪽 삽입", addRowAfter),
+    tableItem("열 삭제", deleteRow),
+    tableItem("칸 합치기", mergeCells),
+    tableItem("칸 나누기", splitCell),
+    tableItem("칸 색 채우기", setCellAttr("background", "#E0D6EA")),
+    new MenuItem({ label: "표 그리기", run: insertTable }),
+    tableItem("표 삭제", deleteTable),
+  ]
+  r.tableDropdown = new Dropdown(tableMenu, { label: "표" })
 
   if (type = schema.nodes.bullet_list) {
     r.wrapBulletList = toggleListItem(type, schema, {
@@ -137,7 +158,12 @@ const buildMenuItems = (schema, uploadUrl, ruleFileSize) => {
     return arr.filter(function (x) { return x })
   }
 
-  return [[r.makeParagraph, r.makeHead1, r.makeHead2, r.makeHead3   ], [r.toggleStrong, r.toggleEm, r.toggleStrike, r.toggleUnderline], [r.wrapBulletList, r.wrapOrderedList, r.liftList, r.sinkList, r.joinUp], [r.wrapBlockQuote, r.link, r.insertImage, r.insertHorizontalRule], [r.undo, r.redo]]
+  return [
+    [r.makeParagraph, r.makeHead1, r.makeHead2, r.makeHead3],
+    [r.toggleStrong, r.toggleEm, r.toggleStrike, r.toggleUnderline],
+    [r.wrapBulletList, r.wrapOrderedList, r.liftList, r.sinkList, r.joinUp],
+    [r.wrapBlockQuote, r.link, r.insertImage, r.insertHorizontalRule, r.tableDropdown],
+    [r.undo, r.redo]]
 }
 
 function cmdItem(cmd, options) {
@@ -364,6 +390,10 @@ function toggleBlockType(nodeType, toggleType, options) {
   return new MenuItem(passedOptions)
 }
 
+function tableItem(label, cmd) {
+  return new MenuItem({ label, select: cmd, run: cmd })
+}
+
 function nodeIsActive(state, type, attrs = {}) {
   const predicate = node => node.type === type
   const parent = findParentNode(predicate)(state.selection)
@@ -398,6 +428,27 @@ function iconHeadingByClassName(i) {
   temp.innerHTML = icons['h' + i]
 
   return { dom: temp.firstChild }
+}
+
+function insertTable(state, dispatch) {
+  console.log(state.schema.nodes)
+  const tr = state.tr.replaceSelectionWith(
+    state.schema.nodes.table.create(
+      undefined,
+      Fragment.fromArray([
+        state.schema.nodes.table_row.create(undefined, Fragment.fromArray([
+          state.schema.nodes.table_cell.createAndFill(),
+          state.schema.nodes.table_cell.createAndFill()
+        ]))
+      ])
+    )
+  );
+
+  if (dispatch) {
+    dispatch(tr);
+  }
+
+  return true;
 }
 
 export { buildMenuItems }

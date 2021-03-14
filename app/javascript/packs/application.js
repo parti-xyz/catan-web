@@ -156,3 +156,24 @@ if (window.jQuery) {
 
   document.addEventListener("turbolinks:render", initScroll)
 })()
+
+if (window.jQuery) {
+  (function() {
+    function modal(command) {
+      const event = new CustomEvent(`modal:${command}`, {
+        bubbles: true,
+      })
+      document.dispatchEvent(event)
+    }
+
+    jQuery(document).on('ajax:success ajax:error', function (event) {
+      let [response, status, xhr] = event.detail
+      modal(xhr.getResponseHeader('X-Modal-Command'))
+    })
+
+    jQuery(document).on('fetch:error', function (event) {
+      let [response] = event.detail
+      modal(response.headers.get('X-Modal-Command'))
+    })
+  })()
+}

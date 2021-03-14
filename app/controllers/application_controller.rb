@@ -486,4 +486,8 @@ class ApplicationController < ActionController::Base
       .where('audiences.noticed_at IS NULL')
       .where('announcements.stopped_at IS NULL')
   end
+
+  def response_header_modal_command(command)
+    response.headers["X-Modal-Command"] = command
+  end
 end
