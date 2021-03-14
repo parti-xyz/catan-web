@@ -50,6 +50,8 @@
           -# %li= link_to '전체 공지 메일 발송', admin_new_notice_email_path, class: "#{current_page?(admin_new_notice_email_path) ? 'text-primary' : 'text-default'}"
           %li.nav-item
             = link_to '데이터', admin_exports_path, class: "nav-link #{'active' if current_page?(admin_exports_path)}"
+          %li.nav-item
+            = link_to '신고', admin_reports_path, class: "nav-link #{'active' if current_page?(admin_reports_path)}"
 
       %ul.navbar-nav.ml-auto
         %li.nav-item.dropdown

@@ -1,0 +1,18 @@
+.modal-header
+  %h6.modal-title 신고
+  %button.close.-sm{ "aria-label": "Close", data: { action: 'click->modal#close' } }
+    %span{ "aria-hidden": 'true' } ×
+.modal-body
+  = form_with model: [:front, @report], local: false do |f|
+    = f.hidden_field :reportable_type
+    = f.hidden_field :reportable_id
+    .form-group
+      %p.help-text 신고 이유를 선택해 주세요.
+      .radio-group
+        - Report.reason.options.each do |name, value|
+          .form-check.form-check-inline
+            = f.radio_button :reason, value, class: 'form-check-input', id: "reason-code--#{value}"
+            = f.label :reason, name, class: 'form-check-label', for: "reason-code--#{value}"
+    .form-group
+      = f.submit '저장', class: 'btn btn-primary'
+    -# = link_to move_folders_path(reportable_type: reportable.class.name, reportable_id: reportable.id, dom_id: local_assigns[:dom_id]), class: "btn btn-primary btn-sm js-move-folder #{'disabled' if !movable_to_here}", id: move_to_link_dom_id, data: { 'folder-id': (target_parent_safe_folder_id if movable_to_here), 'disable-with': '처리 중...' } do

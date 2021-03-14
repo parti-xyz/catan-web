@@ -98,6 +98,7 @@ class Post < ApplicationRecord
     class_name: 'PostReader'
   has_many :stroked_post_users, -> { recent }, dependent: :destroy
   has_many :post_observations, dependent: :destroy, class_name: 'MessageConfiguration::PostObservation'
+  has_many :reports, dependent: :destroy, as: :reportable
 
   belongs_to :last_stroked_user, class_name: "User", optional: true
   accepts_nested_attributes_for :link_source

@@ -7,6 +7,8 @@ import { exampleSetup } from "prosemirror-example-setup"
 import { addListNodes, liftListItem, sinkListItem, wrapInList } from "prosemirror-schema-list"
 import { keymap } from "prosemirror-keymap"
 import { ChangeSet, simplifyChanges } from 'prosemirror-changeset'
+import { tableEditing, columnResizing, tableNodes, fixTables } from "prosemirror-tables"
+
 import { v4 as uuidv4 } from 'uuid'
 import scrollIntoView from 'scroll-into-view'
 
@@ -37,6 +39,17 @@ export default class extends Controller {
     nodes = updateImageNodeForResizable(nodes)
     nodes = addMentionNodes(nodes)
     nodes = addListNodes(nodes, "paragraph block*", "block")
+    nodes = nodes.append(tableNodes({
+      tableGroup: "block",
+      cellContent: "block+",
+      cellAttributes: {
+        background: {
+          default: null,
+          getFromDOM(dom) { return dom.style.backgroundColor || null },
+          setDOMAttr(value, attrs) { if (value) attrs.style = (attrs.style || "") + `background-color: ${value};` }
+        }
+      }
+    }))
 
     const currentSchema = new Schema({
       nodes,
@@ -63,6 +76,8 @@ export default class extends Controller {
       mentionsPlugin,
       dirtyPlugin(this.element),
       keymap(mapKeys),
+      columnResizing(),
+      tableEditing(),
     )
 
     let editorFormClasses = this.sourceTarget.dataset.editorFormClasses
@@ -90,11 +105,17 @@ export default class extends Controller {
       doc = DOMParser.fromSchema(currentSchema).parse(this.sourceTarget)
     }
 
+    let state = EditorState.create({
+      doc,
+      plugins,
+    })
+    let fix = fixTables(state)
+    if (fix) {
+      state = state.apply(fix.setMeta("addToHistory", false))
+    }
+
     this.editorView = new EditorView(this.editorElement, {
-      state: EditorState.create({
-        doc,
-        plugins,
-      }),
+      state,
       attributes: {
         spellCheck: false,
       },
@@ -110,6 +131,9 @@ export default class extends Controller {
       })
       this.editorView.dom.dispatchEvent(foucsEvent)
     })
+
+    document.execCommand("enableObjectResizing", false, false);
+    document.execCommand("enableInlineTableEditing", false, false);
   }
 
   disconnect() {
@@ -131,7 +155,7 @@ export default class extends Controller {
     var result = []
     var node = div.childNodes[0]
     while (node != null) {
-      if (node.nodeType == 3) { /* Fixed a bug here. Thanks @theazureshadow */
+      if (node.nodeType === Node.TEXT_NODE) { /* Fixed a bug here. Thanks @theazureshadow */
         node.nodeValue = node.nodeValue.replace(/(\r)?\n/g, ' ').replace(/\s+/g, ' ')
       }
 
@@ -145,6 +169,19 @@ export default class extends Controller {
         node = node.nextSibling;
       }
     }
+
+    div.getElementsByTagName("table").forEach(tableElement => {
+      tableElement.querySelectorAll("td, th").forEach(cellElement => {
+        let widthAttribute = cellElement.getAttribute("data-colwidth")
+        let widthValues = widthAttribute && /^\d+(,\d+)*$/.test(widthAttribute) ? widthAttribute.split(",").map(s => Number(s)) : null
+        let colspanValue = Number(cellElement.getAttribute("colspan") || 1)
+        if (widthValues && widthValues.length == colspanValue) {
+          cellElement.style.width = `${widthValues.reduce((sum, widthValue) => sum + widthValue)}px`
+        }
+      })
+
+      tableElement.outerHTML = `<div class="tableWrapper">${tableElement.outerHTML}</div>`
+    })
 
     return div.innerHTML
   }

@@ -1,0 +1,34 @@
+%section#lists
+  %h3 신고 목록
+
+  - if @reports.empty?
+    %p 신고가 없습니다.
+  - else
+    %table.table
+      %thead
+        %tr
+          %th.text-nowrap
+            = Report.human_attribute_name(:id)
+          %th.text-nowrap
+            = Report.human_attribute_name(:reason)
+          %th.text-nowrap= User.human_attribute_name(:reportable_type)
+          %th.text-nowrap= User.human_attribute_name(:reportable_id)
+          %th.text-nowrap= User.human_attribute_name(:reportable)
+          %th.text-nowrap= User.human_attribute_name(:user)
+          %th.text-nowrap= User.human_attribute_name(:created_at)
+      %tbody
+        - @reports.each do |report|
+          %tr
+            %td
+              = report.id
+            %td.text-nowrap
+              = report.reason.text
+            %td.text-nowrap= report.reportable_type
+            %td= report.reportable_id
+            %td= link_to smart_post_url(report.reportable), target: '_blank' do
+              = (report.reportable.try(:title) || excerpt(report.reportable.try(:body), from_html: true)),
+            %td= report.user.nickname
+            %td= date_f report.created_at
+
+  = paginate @reports, theme: 'catan' if params[:user_nickname].blank? and params[:user_email].blank?
+

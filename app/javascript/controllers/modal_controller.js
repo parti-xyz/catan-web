@@ -5,8 +5,23 @@ import { v4 as uuidv4 } from 'uuid'
 export default class extends Controller {
   static targets = ['content']
 
-  open(url) {
+  connect() {
+    this.opened = false
 
+    this.closeHandler = this.close.bind(this)
+
+    document.addEventListener('modal:close', this.closeHandler)
+  }
+
+  disconnect() {
+    this.opened = false
+
+    if (this.closeHandler) {
+      document.removeEventListener('modal:close', this.closeHandler)
+    }
+  }
+
+  open(url) {
     document.body.classList.add("modal-open");
     this.element.setAttribute("style", "display: block;");
     this.element.classList.add("show");
@@ -18,6 +33,8 @@ export default class extends Controller {
       this.contentTarget.innerHTML = this.loading()
       this.getContent(url)
     }
+
+    this.opened = true
   }
 
   close() {
@@ -28,6 +45,8 @@ export default class extends Controller {
     if (backdrop) {
       backdrop.remove()
     }
+
+    this.opened = false
   }
 
   getContent(url) {
