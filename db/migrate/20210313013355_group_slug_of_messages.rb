@@ -35,7 +35,7 @@ class GroupSlugOfMessages < ActiveRecord::Migration[5.2]
 
     reversible do |dir|
       dir.up do
-        Message.before(1.month.ago).delete_all
+        Message.before(3.month.ago).delete_all
 
         group_count = Group.count
         Group.all.each_with_index do |group, index|
