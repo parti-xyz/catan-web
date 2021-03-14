@@ -1,0 +1,46 @@
+- return if member_request.blank?
+
+- user = member_request.user
+%li.list-group-item.member-line
+  = link_to '#',
+    class: 'body cursor-pointer',
+    data: { controller: 'remote-modal-link',
+            action: 'click->remote-modal-link#open',
+            'remote-modal-link-url': front_member_request_path(member_request) } do
+    .userimage
+      .userimagebg{ style: "background-image: url(#{user.image.sm.url})" }
+    .content
+      .top
+        .usernickname
+          = user.nickname
+      - if member_request.description.present?
+        .description= member_request.description
+  - controls = capture do
+    - return unless user_signed_in?
+    - if current_user.admin? || current_group.organized_by?(current_user)
+      - if member_request.statement.present?
+        = link_to '#',
+                  class: 'control',
+                  data: { controller: 'remote-modal-link',
+                          action: 'click->remote-modal-link#open',
+                          'remote-modal-link-url': front_member_request_path(member_request) } do
+          %i.fa.fa-file-text-o<>
+      = link_to "mailto:#{user.email}", class: 'control' do
+        %i.fa.fa-envelope<>
+      = link_to '승인',
+                accept_front_member_requests_path(user_id: user.id),
+                method: :post,
+                remote: true,
+                class: 'control btn btn-primary btn-sm text-white',
+                data: { 'disable-with': '처리 중...' }
+      = link_to '거절',
+                '#',
+                class: 'control btn btn-light btn-sm',
+                data: { controller: 'remote-modal-link',
+                        action: 'click->remote-modal-link#open',
+                        'remote-modal-link-url': reject_form_front_member_requests_path(user_id: user.id) }
+
+  -# = link_to organizer_front_members_path(user_id: user.id), method: :put, remote: true, data: { 'disable-with': '처리 중...', target: 'content-replacement.link' }, class: 'dropdown-item' do
+  -#               오거나이저로 지정
+  - if controls.present?
+    .controls= controls

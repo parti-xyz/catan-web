@@ -18,39 +18,42 @@
         .description= member.description
   - controls = capture do
     - return unless user_signed_in?
-    - if current_user.admin? || group.organized_by?(current_user)
+    - if current_user.admin? || current_group.organized_by?(current_user)
       - if member.statement.present?
         = link_to('#', { class: 'control',
           data: { controller: 'remote-modal-link',
                   action: 'click->remote-modal-link#open',
                   'remote-modal-link-url': statement_front_member_path(member) } }) do
-          %i.fa.fa-comment-o<>
+          %i.fa.fa-file-text-o<>
       = link_to "mailto:#{user.email}", class: 'control' do
         %i.fa.fa-envelope<>
 
-    .dropdown.pull-right.control{ data: { controller: 'phone- dropdown' } }
-      %div{ 'data-toggle': 'dropdown' }
-        %i.fa.fa-cog
-      .dropdown-menu.dropdown-menu-right
-        - if current_user.admin? || group.organized_by?(current_user)
-          - if user != current_user
-            - if current_group.organized_by?(user)
-              = link_to organizer_front_members_path(user_id: user.id), method: :delete, remote: true, data: { 'disable-with': '처리 중...', target: 'content-replacement.link' }, class: 'dropdown-item' do
-                오거나이저로 지정취소
-            - else
-              = link_to organizer_front_members_path(user_id: user.id), method: :put, remote: true, data: { 'disable-with': '처리 중...', target: 'content-replacement.link' }, class: 'dropdown-item' do
-                오거나이저로 지정
-              = link_to('탈퇴시키기', '#', { class: 'dropdown-item',
-                data: { controller: 'remote-modal-link',
-                        action: 'click->remote-modal-link#open',
-                        'remote-modal-link-url': ban_form_front_members_path(current_group, user_id: user.id) } })
+    - cog_controls = capture do
+      - if current_user.admin? || current_group.organized_by?(current_user)
+        - if user != current_user
+          - if current_group.organized_by?(user)
+            = link_to organizer_front_members_path(user_id: user.id), method: :delete, remote: true, data: { 'disable-with': '처리 중...', target: 'content-replacement.link' }, class: 'dropdown-item' do
+              오거나이저로 지정취소
+          - else
+            = link_to organizer_front_members_path(user_id: user.id), method: :put, remote: true, data: { 'disable-with': '처리 중...', target: 'content-replacement.link' }, class: 'dropdown-item' do
+              오거나이저로 지정
+            = link_to('탈퇴시키기', '#', { class: 'dropdown-item',
+              data: { controller: 'remote-modal-link',
+                      action: 'click->remote-modal-link#open',
+                      'remote-modal-link-url': ban_form_front_members_path(current_group, user_id: user.id) } })
 
-          - elsif can?(:destroy, member)
-            - if user == current_user
-              = link_to organizer_group_members_path(user_id: user.id), method: :delete, data: { 'disable-with': '처리 중...', 'confirm': '정말 오거나이징을 그만 두시겠습니까? 해당 채널의 모든 권한을 잃게 됩니다.', target: 'content-replacement.link' }, class: 'dropdown-item' do
-                오거나이징 그만두기
-        - else
-          = link_to cancel_group_members_path, method: :delete, data: { 'confirm': '정말 나가시겠습니까?', 'disable-with': '처리 중...', target: 'content-replacement.link' }, class: 'dropdown-item'  do
-            그룹 나가기
+        - elsif can?(:destroy, member)
+          - if user == current_user
+            = link_to organizer_group_members_path(user_id: user.id), method: :delete, data: { 'disable-with': '처리 중...', 'confirm': '정말 오거나이징을 그만 두시겠습니까? 해당 그룹의 모든 권한을 잃게 됩니다.', target: 'content-replacement.link' }, class: 'dropdown-item' do
+              오거나이징 그만두기
+      - elsif user == current_user
+        = link_to cancel_group_members_path, method: :delete, data: { 'confirm': '정말 나가시겠습니까?', 'disable-with': '처리 중...', target: 'content-replacement.link' }, class: 'dropdown-item'  do
+          그룹 나가기
+    - if cog_controls.present?
+      .dropdown.pull-right.control{ data: { controller: 'phone- dropdown' } }
+        %div{ 'data-toggle': 'dropdown' }
+          %i.fa.fa-cog
+        .dropdown-menu.dropdown-menu-right
+          = cog_controls
   - if controls.present?
     .controls= controls

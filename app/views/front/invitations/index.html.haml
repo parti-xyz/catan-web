@@ -1,0 +1,25 @@
+%section
+  .container
+    %h3.text-keepall.text-center
+      %i.fa.fa-users
+      멤버 초대 관리
+
+    .simple-box.pt-3
+
+      - if @invitations.any?
+        .form-text.text-muted.small.mb-3 #{@invitations.total_count}명이 초대 중입니다.
+
+      .text-right
+        = link_to '초대하기', new_front_invitation_path, class: 'btn btn-primary btn-sm btn-block-phone'
+
+      - if @invitations.any?
+        %ul.list-group.mb-0
+          = render partial: 'front/members/member_line', collection: @members, as: :member
+        .mt-4
+          = paginate @invitations, theme: 'catan'
+
+      - else
+        .alert-box.my-3
+          .alert.alert-secondary.font-size-sm.d-flex.align-items-center.justify-content-between
+            진행 중인 초대가 없습니다.
+

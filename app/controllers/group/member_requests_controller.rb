@@ -42,7 +42,16 @@ class Group::MemberRequestsController < Group::BaseController
       MemberRequestMailer.on_accept(@member_request.id, current_user.id).deliver_later
     end
 
-    redirect_to(request.referrer || group_members_path)
+
+    if helpers.explict_front_namespace?
+      respond_to do |format|
+        format.js do
+          turbolinks_reload
+        end
+      end
+    else
+      redirect_to(request.referrer || group_members_path)
+    end
   end
 
   def reject_form
@@ -65,6 +74,14 @@ class Group::MemberRequestsController < Group::BaseController
       MemberRequestMailer.on_reject(@member_request.id, current_user.id).deliver_later
     end
 
-    redirect_to(request.referrer || group_members_path)
+    if helpers.explict_front_namespace?
+      respond_to do |format|
+        format.js do
+          turbolinks_reload
+        end
+      end
+    else
+      redirect_to(request.referrer || group_members_path)
+    end
   end
 end

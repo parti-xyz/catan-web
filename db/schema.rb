@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_06_021023) do
+ActiveRecord::Schema.define(version: 2021_03_14_045745) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -346,6 +346,7 @@ ActiveRecord::Schema.define(version: 2021_01_06_021023) do
     t.string "recipient_email"
     t.string "joinable_type", null: false
     t.text "message", limit: 16777215
+    t.string "token", null: false
     t.index ["joinable_id", "joinable_type"], name: "index_invitations_on_joinable_id_and_joinable_type"
     t.index ["joinable_id"], name: "index_invitations_on_joinable_id"
     t.index ["recipient_id"], name: "index_invitations_on_recipient_id"
@@ -546,6 +547,7 @@ ActiveRecord::Schema.define(version: 2021_01_06_021023) do
     t.string "bulk_session"
     t.string "cluster_owner_type"
     t.bigint "cluster_owner_id"
+    t.string "group_slug"
     t.index ["cluster_owner_type", "cluster_owner_id"], name: "index_messages_on_cluster_owner_type_and_cluster_owner_id"
     t.index ["messagable_type", "messagable_id"], name: "index_messages_on_messagable_type_and_messagable_id"
     t.index ["sender_id"], name: "index_messages_on_sender_id"
@@ -762,6 +764,17 @@ ActiveRecord::Schema.define(version: 2021_01_06_021023) do
     t.index ["issue_id", "target_id"], name: "index_relateds_on_issue_id_and_target_id", unique: true
     t.index ["issue_id"], name: "index_relateds_on_issue_id"
     t.index ["target_id"], name: "index_relateds_on_target_id"
+  end
+
+  create_table "reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.string "reportable_type", null: false
+    t.bigint "reportable_id", null: false
+    t.bigint "user_id", null: false
+    t.string "reason", default: "etc", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reportable_type", "reportable_id"], name: "index_reports_on_reportable_type_and_reportable_id"
+    t.index ["user_id"], name: "index_reports_on_user_id"
   end
 
   create_table "roles", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|

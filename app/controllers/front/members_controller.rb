@@ -6,9 +6,6 @@ class Front::MembersController < Front::BaseController
     end
     @members = base.page(params[:page]).per(10).load
 
-    @invitations = current_group.invitations
-    @member_requests = current_group.member_requests
-
     render layout: 'front/simple'
   end
 

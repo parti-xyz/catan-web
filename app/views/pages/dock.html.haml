@@ -27,6 +27,13 @@
           .content
             .title
               = group_basic_title(group)
+              - { need_to_notice_count: '필독',
+                unread_messages_count: '알림' }.each do |attr, name|
+                - value = @group_counts[group][attr]
+                - next unless value > 0
+                .badge.badge-dark.mr-1.font-size-xs
+                  %span.ml-1= name
+                  %span= value
             .members
               .users
                 - group.member_users.recent.limit(6).each do |user|

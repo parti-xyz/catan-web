@@ -348,6 +348,10 @@ class Issue < ApplicationRecord
     self.group
   end
 
+  def group_for_invitation
+    self.group
+  end
+
   def private_blocked?(someone = nil)
     (!member?(someone) && private?) or (self.group.private_blocked?(someone))
   end

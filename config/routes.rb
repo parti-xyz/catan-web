@@ -556,12 +556,26 @@ Rails.application.routes.draw do
       #end
     end
 
-    resources :member_requests, only: [:new] do
+    resources :member_requests, only: [:new, :index, :show, :create] do
       collection do
-        get :private_blocked
+        get :intro
+        get :reject_form
       end
     end
-    resources :member_requests, only: [:create], controller: '/group/member_requests'
+    resources :member_requests, only: [], controller: '/group/member_requests' do
+      collection do
+        post :accept
+        delete :reject
+      end
+    end
+    resources :invitations, only: [:index, :new] do
+      collection do
+        post :bulk
+      end
+      member do
+        get :accept
+      end
+    end
 
     resources :members, only: [], controller: '/group/members' do
       member do
