@@ -33,7 +33,7 @@
             .author-users
               .label
                 - if comment.comment_histories_count <= 1
-                  편집
+                  편집자
                 - else
                   .dropdown{ data: { controller: 'phone-dropdown remote-dropdown',
                                      'remote-dropdown-url': front_comment_comment_histories_path(comment_id: comment) } }

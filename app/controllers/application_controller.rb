@@ -132,9 +132,9 @@ class ApplicationController < ActionController::Base
   end
 
   def blocked_private_group
-    return if current_group.blank? or current_user.try(:admin?)
+    return if current_group.blank? || current_user&.admin?
 
-    if current_group.private_blocked? current_user and
+    if current_group.private_blocked?(current_user) &&
     !(
       (controller_name == 'issues' and action_name == 'home') or
       (controller_name == 'issues' and action_name == 'index' and request.subdomain.blank?) or
@@ -149,7 +149,7 @@ class ApplicationController < ActionController::Base
       (controller_name == 'my_menus') or
       (self.is_a? Group::Eduhope::MembersController and action_name == 'admit') or
       (helpers.implict_front_namespace? || helpers.explict_front_namespace?) && (
-        (controller_name == 'member_requests' and action_name == 'private_blocked') or
+        (controller_name == 'member_requests' and action_name == 'intro') or
         (controller_name == 'member_requests' and action_name == 'new') or
         (controller_name == 'member_requests' and action_name == 'create') or
         (controller_name == 'users') or
@@ -159,7 +159,7 @@ class ApplicationController < ActionController::Base
     )
       logger.debug("controller_name, action_name: #{controller_name}, #{action_name}")
       if helpers.implict_front_namespace? || helpers.explict_front_namespace?
-        redirect_to private_blocked_front_member_requests_path
+        redirect_to intro_front_member_requests_path
       else
         respond_to do |format|
           format.html do
@@ -425,10 +425,12 @@ class ApplicationController < ActionController::Base
   end
 
   def turbolinks_redirect_to(url = {}, options = {})
-    turbolinks = options.delete(:turbolinks)
-    options.merge(turbolinks: turbolinks.to_s == "advance" ? action : "replace")
     response.headers["X-Trubolinks-Redirect"] = 'true'
     redirect_to(url, options)
+  end
+
+  def turbolinks_reload
+    render template: 'front/pages/reload', format: :js
   end
 
   def prepare_unobtrusive_flash_frontable
@@ -443,6 +445,46 @@ class ApplicationController < ActionController::Base
     if not_member_users.present? && not_member_users.any?
       "필독 요청한 #{not_member_users.map(&:nickname).join(', ')}님은 그룹 멤버가 아니라 필독 요청할 수 없습니다."
     end
+  end
+
+  def group_accessible_only_posts(group)
+    return Post.none if group.blank?
+    Post.where(issue: group_accessible_only_issues(group))
+      .never_blinded(current_user)
+  end
+
+  def current_group_accessible_only_posts
+    group_accessible_only_posts(current_group)
+  end
+
+  def group_accessible_only_issues(group)
+    return Issue.none if group.blank?
+    group.issues.accessible_only(current_user)
+  end
+
+  def group_announcement_posts(group)
+    group_accessible_only_posts(group)
+      .includes(announcement: [:current_user_audience])
+      .where.not(announcement_id: nil)
+      .where("announcements.stopped_at": nil)
+  end
+
+  def current_group_announcement_posts
+    group_announcement_posts(current_group)
+  end
+
+  def current_need_to_notice_announcement_posts
+    add_condition_need_to_notice_announcement_posts(current_group_announcement_posts)
+  end
+
+  def need_to_notice_announcement_posts(group)
+    add_condition_need_to_notice_announcement_posts(group_announcement_posts(group))
+  end
+
+  def add_condition_need_to_notice_announcement_posts(post_relations)
+    post_relations
+      .where('audiences.noticed_at IS NULL')
+      .where('announcements.stopped_at IS NULL')
   end
 
   def response_header_modal_command(command)

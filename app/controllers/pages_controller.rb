@@ -15,6 +15,16 @@ class PagesController < ApplicationController
       redirect_to expedition_path and return
     end
 
+    @group_counts = @groups.map do |group|
+      need_to_notice_count = need_to_notice_announcement_posts(group).count
+      unread_messages_count = Message.where(user: current_user).of_group(group).unread.count
+
+      [ group, {
+        need_to_notice_count: need_to_notice_count,
+        unread_messages_count: unread_messages_count,
+      }]
+    end.to_h
+
     render layout: 'front/simple'
   end
 

@@ -341,6 +341,10 @@ class Group < ApplicationRecord
     self
   end
 
+  def group_for_invitation
+    self
+  end
+
   private
 
   def downcase_slug

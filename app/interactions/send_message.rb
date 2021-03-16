@@ -112,7 +112,13 @@ class SendMessage < ActiveInteraction::Base
         Message.import messages, on_duplicate_key_ignore: true
 
         after_commit do
-          Message.where(bulk_session: bulk_session).where(user_id: User.observing_message(source, action, MessageObservationConfigurable.all_app_push_payoffs)).each_with_index do |message, index|
+          bulk_messages = Message.where(bulk_session: bulk_session)
+
+          observing_users = User.observing_message(source, action, MessageObservationConfigurable.all_app_push_payoffs)
+
+          bulk_messages = bulk_messages.where(user_id: observing_users) unless observing_users == User.all
+
+          bulk_messages.each_with_index do |message, index|
             FcmJob.perform_at((2 * index).seconds.from_now, message.id)
           end
 

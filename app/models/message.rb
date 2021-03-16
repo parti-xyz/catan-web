@@ -7,14 +7,24 @@ class Message < ApplicationRecord
   scope :recent, -> { order(id: :desc) }
   scope :latest, -> { after(1.day.ago) }
   scope :only_upvote, -> { where(messagable_type: Upvote.to_s) }
-  scope :of_group, -> (group) {
+  scope :of_group, -> (group) { where(group_slug: group.slug) }
+  scope :depreated_of_group, -> (group) {
     condition = none
     all_messagable_types.each do |klass|
       condition = condition.or(where(messagable_type: klass.to_s).where(messagable_id: klass.of_group_for_message(group)))
     end
     condition
   }
+  scope :of_issue, -> (issue) {
+    condition = none
+    all_messagable_types.each do |klass|
+      condition = condition.or(where(messagable_type: klass.to_s).where(messagable_id: klass.of_issue_for_message(issue)))
+    end
+    condition
+  }
   scope :unread, -> { where(read_at: nil) }
+
+  before_save :setup_group_slug
 
   def post
     messagable.try(:post_for_message)
@@ -66,5 +76,11 @@ class Message < ApplicationRecord
       end
     end
     @_poly_hash
+  end
+
+  private
+
+  def setup_group_slug
+    slef.group_slug = group_for_message&.slug
   end
 end

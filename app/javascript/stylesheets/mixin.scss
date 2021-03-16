@@ -151,44 +151,55 @@
     font-weight: 600;
   }
   h1 {
-    font-size: 1.25rem;
+    font-size: 1rem;
+    font-weight: 400;
     padding-bottom: 0.3em;
-    margin-top: 1.5rem;
+    margin-top: 3rem;
     margin-bottom: 1rem;
-    border-bottom: 2px solid global-variables.$color-brand-200;
+    padding: .5rem;
+    color: white;
+    border-radius: 2px;
+    background-color: global-variables.$color-brand-400;
+    text-shadow: 1px 1px global-variables.$color-gray-600;
+    a {
+      color: global-variables.$color-bnc-nav-bg;
+      text-decoration: underline;
+    }
   }
   h2 {
-    font-size: 1.125rem;
-    padding-bottom: 0.15em;
+    font-size: 1rem;
+    font-weight: 700;
+    padding-bottom: 0.3em;
     margin-top: 1rem;
     margin-bottom: 0.75rem;
-    border-bottom: 1px solid global-variables.$color-brand-100;
-    font-weight: 400;
+    color: global-variables.$color-brand-600;
+    border-bottom: 1px solid global-variables.$color-gray-300;
   }
   h3 {
     font-size: 1rem;
-    // padding-left: 8px;
-    // position: relative;
-    // &:before {
-    //   content: ' ';
-    //   height: 100%;
-    //   width: 4px;
-    //   background-color: global-variables.$color-gray-300;
-    //   position: absolute;
-    //   left: 0;
-    //   top: 0;
-    // }
+    padding-left: 8px;
+    position: relative;
+    color: global-variables.$color-brand-500;
+    &:before {
+      content: ' ';
+      height: 100%;
+      width: 4px;
+      background-color: global-variables.$color-gray-300;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
   }
   h4 {
-    font-size: 1.125rem - 0.125rem;
+    font-size: 1rem;
     color: global-variables.$color-gray-500;
   }
   h5 {
-    font-size: 1.125rem - 0.125rem * 2;
+    font-size: 1rem;
     color: global-variables.$color-gray-500;
   }
   h6 {
-    font-size: 1.125rem - 0.125rem * 2;
+    font-size: 1rem;
     font-style: italic;
     color: global-variables.$color-gray-500;
   }

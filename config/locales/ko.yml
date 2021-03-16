@@ -195,6 +195,8 @@ ko:
       label:
         title: 이름
         body: 설명
+      invitation:
+        recipient_email: 이메일
       report:
         reason: 이유
     successful:
@@ -275,6 +277,10 @@ ko:
           attributes:
             title:
               taken: 이미 사용 중입니다. 새 폴더를 다른 이름으로 만들어주세요.
+        invitation:
+          attributes:
+            recipient_email:
+              taken: 이미 초대가 진행 중입니다.
   labels:
     app_name_human: 빠띠 카누
     new_post_file_source_button: "사진\xB7파일"
