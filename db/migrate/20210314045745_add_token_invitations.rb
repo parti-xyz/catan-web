@@ -8,21 +8,19 @@ class AddTokenInvitations < ActiveRecord::Migration[5.2]
     end
   end
 
-  def change
+  def up
     add_column :invitations, :token, :string
-
-    reversible do |dir|
-      dir.up do
-
-        transaction do
-          Invitation.all.each do |invitation|
-            invitation.friendly_token
-            invitation.save
-          end
-        end
-
-        change_column_null :invitations, :token, false
+    transaction do
+      Invitation.all.each do |invitation|
+        invitation.friendly_token
+        invitation.save
       end
     end
+
+    change_column_null :invitations, :token, false
+  end
+
+  def down
+    remove_column :invitations, :token
   end
 end
