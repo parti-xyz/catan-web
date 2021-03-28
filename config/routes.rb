@@ -445,11 +445,12 @@ Rails.application.routes.draw do
     get :mentions, to: 'messages#mentions'
     get :messages, to: 'messages#index'
     patch :read_all_posts, to: 'pages#read_all_posts'
-    get :search, to: 'pages#search' #, as: :search
+    get :search, to: 'pages#search'
     get :group_sidebar, to: 'pages#group_sidebar'
     get :coc, to: 'pages#coc'
     get :menu, to: 'pages#menu'
     get :search_form, to: 'pages#search_form'
+    get :iced, to: 'pages#iced'
 
     resources :channels, only: [:show, :edit, :new] do
       member do
@@ -619,9 +620,12 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :groups, only: [:edit]
     resources :groups, only: [:update], controller: '/group/configurations'
-    resources :groups, only: [] do
+    resources :groups, only: [:edit] do
+      member do
+        put :wake
+        put :freeze
+      end
       collection do
         post 'coc_wiki', to: '/group/configurations#front_wiki'
         delete 'coc_wiki', to: '/group/configurations#destroy_front_wiki'

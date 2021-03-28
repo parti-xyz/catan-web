@@ -4,7 +4,7 @@
   .container-fluid
     .row
       = main_column_tag_window_splitable do
-        - if !@issue.frozen?
+        - if !@issue.iced?
           - if user_signed_in?
             - if @issue.member?(current_user)
               - if @issue.postable?(current_user)

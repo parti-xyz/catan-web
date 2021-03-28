@@ -289,7 +289,7 @@ class Issue < ApplicationRecord
 
   def postable?(someone)
     return false if someone.blank?
-    return false if frozen?
+    return false if iced?
     return false if blind_user?(someone)
     return false if private_blocked?(someone)
     return true if organized_by?(someone)
@@ -303,7 +303,7 @@ class Issue < ApplicationRecord
 
   def commentable?(someone)
     return false if someone.blank?
-    return false if frozen?
+    return false if iced?
     return false if blind_user?(someone)
     return false if private_blocked?(someone)
     return true if organized_by?(someone)
@@ -487,12 +487,12 @@ class Issue < ApplicationRecord
     MemberRequest.with_deleted.where(joinable: self)
   end
 
-  def frozen?
+  def iced?
     freezed_at.present?
   end
 
   def alive?
-    !frozen?
+    !iced?
   end
 
   def comments_count

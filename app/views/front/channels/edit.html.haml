@@ -14,7 +14,7 @@
     %h5 채널 휴면하기
     .card
       .card-body
-        - if @current_issue.frozen?
+        - if @current_issue.iced?
           %p 채널 휴면을 해제합니다.
           = link_to '휴면 해제하기', wake_front_issue_path(@current_issue, folder_id: @current_folder&.id), method: :put, remote: true, class: 'btn btn-danger'
         - else

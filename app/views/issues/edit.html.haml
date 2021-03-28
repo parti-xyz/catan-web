@@ -13,7 +13,7 @@
         .contents-header.xs-horizontal-padding
           %h4.contents-header__title 채널 휴면하기
         .well
-          - if @issue.frozen?
+          - if @issue.iced?
             .help-block 채널 휴면을 해제합니다.
             = link_to '휴면 해제하기', wake_issue_path(@issue), method: :put, class: 'btn btn-primary'
           - else

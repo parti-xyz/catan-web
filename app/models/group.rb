@@ -55,8 +55,9 @@ class Group < ApplicationRecord
   has_many :labels, dependent: :destroy
   has_many :group_observation, dependent: :destroy, class_name: 'MessageConfiguration::GroupObservation'
 
+  scope :awake, -> { where(freezed_at: nil) }
   scope :sort_by_name, -> { order(Arel.sql("case when slug = '#{Group::DEFAULT_SLUG}' then 0 else 1 end")).order(Arel.sql("if(ascii(substring(title, 1)) < 128, 1, 0)")).order(:title) }
-  scope :hottest, -> { order(Arel.sql("case when slug = '#{Group::DEFAULT_SLUG}' then 0 else 1 end")).order(hot_score_datestamp: :desc, hot_score: :desc) }
+  scope :hottest, -> { awake.order(Arel.sql("case when slug = '#{Group::DEFAULT_SLUG}' then 0 else 1 end")).order(hot_score_datestamp: :desc, hot_score: :desc) }
   scope :but, ->(group) { where.not(id: group) }
   scope :not_private_blocked, ->(current_user) {
     never_blinded.where(id: Member.where(user: current_user).where(joinable_type: 'Group').select('members.joinable_id'))
@@ -69,10 +70,10 @@ class Group < ApplicationRecord
   scope :only_public, -> { never_blinded.where.not(private: true) }
   scope :searchable_groups, ->(current_user = nil) {
     if current_user.present?
-      only_public
+      awake.only_public
         .or(where(id: current_user.member_groups))
     else
-      only_public
+      awake.only_public
     end
   }
   scope :sibilings, ->(group) {
@@ -343,6 +344,14 @@ class Group < ApplicationRecord
 
   def group_for_invitation
     self
+  end
+
+  def iced?
+    freezed_at.present?
+  end
+
+  def ready_for_frontable?
+    !issues.exists?(private: true)
   end
 
   private

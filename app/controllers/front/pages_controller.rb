@@ -11,6 +11,10 @@ class Front::PagesController < Front::BaseController
     @current_issue = Issue.find_by(id: params[:issue_id])
   end
 
+  def iced
+    render layout: 'front/simple'
+  end
+
   def all
     if user_signed_in?
       current_user.update_attributes(last_visitable: current_group)

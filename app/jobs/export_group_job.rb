@@ -19,7 +19,7 @@ class ExportGroupJob < ApplicationJob
     xlsx_workbook.add_worksheet(name: 'Channels') do |worksheet|
       worksheet.add_row %w[ID 제목 카테고리 휴면여부]
       issues_base.includes(:category).find_each do |issue|
-        worksheet.add_row [issue.id, issue.title, issue.category&.name, issue.frozen?]
+        worksheet.add_row [issue.id, issue.title, issue.category&.name, issue.iced?]
 
         current_index += 1
         at current_index
