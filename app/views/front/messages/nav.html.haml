@@ -19,11 +19,8 @@
         새로고침
     - if @message_clusters.any?
       .scrollable{ data: { target: 'message--dropdown.messagesContainer' } }
-        - @message_clusters.each do |cluster_owner, messages|
-          .message-cluster
-            = render 'front/messages/cluster_owner', cluster_owner: cluster_owner
-            - messages.each do |message|
-              = render message, list_navable: true
+        - @message_clusters.each do |cluster, messages|
+          = render 'front/messages/cluster', messages: messages, cluster_owner: cluster.cluster_owner, cluster_messages_count: cluster.messages_count, cluster_unread_messages_count: cluster.unread_messages_count, permited_params: { filter: { condition: 'needtoread' } }
     - else
       .dropdown-item.my-2.text-center
         %i.fa.fa-info-circle
