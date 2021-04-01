@@ -329,6 +329,11 @@ ko:
         create_comment: 댓글이 달릴 때
         closed_survey: 설문이 있다면 설문이 종료될 때
   enumerize:
+    report:
+      reason:
+        calumny : 근거없는 비방
+        vulgarism: 비속어 / 개인정보 침해
+        etc: 기타
     defaults:
       choice:
         agree: 찬성
@@ -443,9 +448,3 @@ ko:
     request_join: 어서오세요. 오거나이저가 알 수 있도록 구체적으로 회원님을 소개해주세요.
     eduhope:
       request_join: 소속된 지부, 학교, 성함 작성해주세요.
-  enumerize:
-    report:
-      reason:
-        calumny : 근거없는 비방
-        vulgarism: 비속어 / 개인정보 침해
-        etc: 기타
