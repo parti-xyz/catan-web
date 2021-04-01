@@ -57,6 +57,9 @@ class Front::MessagesController < Front::BaseController
 
     message.update(read_at: Time.now)
 
+    message.messagable.post_for_message&.read!(current_user)
+    message.messagable.issue_for_message&.read!(current_user)
+
     render(partial: '/front/messages/message', locals: { message: message, mention_only_page: (params[:mention_only_page] == 'true'), list_navable: (params[:list_navable] == 'true') })
   end
 
