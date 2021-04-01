@@ -33,6 +33,8 @@
           .message__mentioner
             %strong
               #{message.sender.nickname}
+            %small.text-muted.text.ml-1
+              = date_f message.created_at
       .message__body{ data: { controller: 'message--read-and-go list-nav-kickoff', 'message--read-and-go-url': read_front_message_path(message), action: ('click->list-nav-kickoff#store' if local_assigns[:list_navable]), 'list-nav-kickoff-post-id': message.post&.id } }
         = render customize_partial_path(message.messagable, ->(model) { "front/messages/message/#{model.class.model_name.singular}" }), local_assigns.merge(message: message)
 

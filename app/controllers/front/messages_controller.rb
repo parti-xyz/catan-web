@@ -1,13 +1,15 @@
 class Front::MessagesController < Front::BaseController
   def index
-    render_404 and return unless user_signed_in?
+    render_404 && return unless user_signed_in?
 
-    base_message = current_user.messages.of_group(current_group)
+    base_messages = current_user.messages.of_group(current_group)
     is_need_to_read = params.dig(:filter, :condition) == 'needtoread'
-
-    @cluster_owners, @message_clusters = Message.cluster_messages(base_message, is_need_to_read, params[:page], 10)
-    @need_to_read_count = base_message.unread.count
-    @base_message_total_count = base_message.count
+    limit = is_need_to_read ? 20 : 3
+    @message_clusters = Message.cluster_messages(
+      base_messages, is_need_to_read, params[:page], 10, limit
+    )
+    @need_to_read_count = base_messages.unread.count
+    @all_messages_total_count = base_messages.count
 
     @permited_params = params.permit(:id, filter: [:condition]).to_h
   end
@@ -17,15 +19,16 @@ class Front::MessagesController < Front::BaseController
 
     @messages = current_user.messages.of_group(current_group)
 
-    base_message = current_user.messages.of_group(current_group)
+    base_messages = current_user.messages.of_group(current_group)
 
     unread_only = true
     page = 1
-    limit_count = 20
-    @cluster_owner, @message_clusters = Message.cluster_messages(base_message, unread_only, page, limit_count)
+    per = 20
+    limit = 20
+    @message_clusters = Message.cluster_messages(base_messages, unread_only, page, per, limit)
 
-    @more_messages = !@cluster_owner.last_page?
-    @first_message = @message_clusters.values.first&.first
+    @more_messages = !@message_clusters.last_page?
+    @first_message = @message_clusters.first&.second&.first
 
     render layout: nil
   end
@@ -73,8 +76,12 @@ class Front::MessagesController < Front::BaseController
 
     base_mentions = current_user.messages.of_group(current_group).where(action: 'mention')
     is_need_to_read = params.dig(:filter, :condition) == 'needtoread'
+    per = 10
+    limit = is_need_to_read ? 20 : 3
 
-    @cluster_owners, @message_clusters = Message.cluster_messages(base_mentions, is_need_to_read, params[:page], 10)
+    @mention_clusters = Message.cluster_messages(
+      base_mentions, is_need_to_read, params[:page], per, limit
+    )
     @need_to_read_count = base_mentions.unread.count
     @all_mentions_total_count = base_mentions.count
 
@@ -89,5 +96,32 @@ class Front::MessagesController < Front::BaseController
     current_user.save
 
     head 204
+  end
+
+  def cluster
+    render_404 && return unless user_signed_in?
+    cluster_owner = params[:cluster_owner_type].safe_constantize.try(:find_by, { id: params[:cluster_owner_id] })
+    render_404 && return if cluster_owner.blank?
+
+    messages = current_user.messages.of_group(current_group).recent
+    messages = messages.where(cluster_owner: cluster_owner)
+
+    is_need_to_read = params.dig(:filter, :condition) == 'needtoread'
+    if is_need_to_read
+      messages = messages.unread
+    end
+
+    mention_only_page = (params[:mention_only_page] == 'true')
+    if mention_only_page
+      messages = messages.where(action: 'mention')
+    end
+
+    @permited_params = params.permit(:id, filter: [:condition]).to_h
+
+    render(partial: 'cluster', locals: {
+      messages: messages,
+      cluster_owner: cluster_owner,
+      mention_only_page: mention_only_page,
+    })
   end
 end

@@ -582,6 +582,7 @@ Rails.application.routes.draw do
         patch :read_all
         patch :read_all_mentions
         patch :notice
+        get :cluster
       end
     end
 

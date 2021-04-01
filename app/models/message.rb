@@ -40,17 +40,21 @@ class Message < ApplicationRecord
     self.user.pushable_notification?(self)
   end
 
-  def self.cluster_messages(messages, need_to_read_only, page, per)
-    cluster_owners = messages.group(:cluster_owner_id, :cluster_owner_type)
-      .select(:cluster_owner_id, :cluster_owner_type,
-        'MAX(id) AS max_clustered_message_id')
+  def self.cluster_messages(messages, need_to_read_only, page, per, limit = nil)
+    clusters = messages.page(page).per(per)
+      .select(:cluster_owner_id, :cluster_owner_type)
+      .group(:cluster_owner_id, :cluster_owner_type)
+      .select('MAX(id) AS max_clustered_message_id')
       .reorder('').order('max_clustered_message_id desc')
-      .page(page).per(per)
+      .select(need_to_read_only ? 'SUM(IF(read_at IS NULL, 1, 0)) AS messages_count' : 'COUNT(id) AS messages_count')
+      .having('messages_count > 0')
 
-    if need_to_read_only
-      cluster_owners = cluster_owners
-        .select('SUM(if(read_at IS NULL, 1, 0)) AS unreads_count')
-        .having('unreads_count > 0')
+    clusters = if need_to_read_only
+      clusters.select("GROUP_CONCAT(IF(read_at IS NULL, id, NULL) ORDER BY created_at DESC SEPARATOR ',')
+        AS all_clustered_message_id")
+    else
+      clusters.select("GROUP_CONCAT(id ORDER BY created_at DESC SEPARATOR ',')
+        AS all_clustered_message_id")
     end
 
     base_messages = messages
@@ -58,20 +62,29 @@ class Message < ApplicationRecord
       base_messages = base_messages.unread
     end
 
-    cluster_owners_array = cluster_owners.to_a
-    cluster_messages = base_messages
+    cluster_array = clusters.to_a
+    page_array = base_messages
       .reorder('').recent
       .includes(:user, :sender, :messagable, :cluster_owner)
-      .where(cluster_owner: cluster_owners_array.map(&:cluster_owner))
+      .where(cluster_owner: cluster_array.map(&:cluster_owner))
+      .where(id: cluster_array.map do |cluster|
+        result = cluster.all_clustered_message_id
+        result = result.split(',').compact
+        result = result.first(limit) if limit.present?
+        result
+      end.flatten)
       .to_a
       .group_by(&:cluster_owner)
-      .sort do |cluster_owner, _|
-        cluster_owners_array.first do |current_cluster_owner|
-          current_cluster_owner.cluster_owner == cluster_owner
-        end&.max_clustered_message_id
-      end.to_h
+      .transform_keys do |cluster_owner|
+        cluster_array.detect do |cluster|
+          cluster.cluster_owner == cluster_owner
+        end
+      end
+      .sort do |(a_cluster, _), (b_cluster, _)|
+        b_cluster.max_clustered_message_id <=> a_cluster.max_clustered_message_id
+      end
 
-    [cluster_owners, cluster_messages]
+    Kaminari.paginate_array(page_array, total_count: clusters.total_count).page(page).per(per)
   end
 
   def self.all_messagable_types

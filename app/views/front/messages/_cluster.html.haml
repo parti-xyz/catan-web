@@ -1,0 +1,7 @@
+.message-cluster{ data: { controller: 'content-replacement' } }
+  = render 'front/messages/cluster_owner', cluster_owner: cluster_owner
+  = render partial: :message, collection: messages, locals: { mention_only_page: local_assigns[:mention_only_page], list_navable: true }
+  - if local_assigns[:cluster_messages_count].present? && cluster_messages_count > messages.count
+    .message-line.clearfix.text-center
+      = link_to cluster_front_messages_path(permited_params.merge(cluster_owner_id: cluster_owner.id, cluster_owner_type: cluster_owner.class.to_s, mention_only_page: local_assigns[:mention_only_page])), remote: true, data: { disable_with: "...", target: 'content-replacement.link', 'message--dropdown-keep-open': true }, class: 'd-block' do
+        %small 더 보기 (#{cluster_messages_count - messages.count})
