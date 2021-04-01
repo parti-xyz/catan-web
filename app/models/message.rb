@@ -48,6 +48,7 @@ class Message < ApplicationRecord
       .reorder('').order('max_clustered_message_id desc')
       .select(need_to_read_only ? 'SUM(IF(read_at IS NULL, 1, 0)) AS messages_count' : 'COUNT(id) AS messages_count')
       .having('messages_count > 0')
+      .select('SUM(IF(read_at IS NULL, 1, 0)) AS unread_messages_count')
 
     clusters = if need_to_read_only
       clusters.select("GROUP_CONCAT(IF(read_at IS NULL, id, NULL) ORDER BY created_at DESC SEPARATOR ',')

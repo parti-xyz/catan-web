@@ -109,22 +109,57 @@ class Front::MessagesController < Front::BaseController
     messages = current_user.messages.of_group(current_group).recent
     messages = messages.where(cluster_owner: cluster_owner)
 
+    render_partial_cluster(messages, cluster_owner)
+  end
+
+  def read_cluster
+    render_404 && return unless user_signed_in?
+    cluster_owner = params[:cluster_owner_type].safe_constantize.try(:find_by, { id: params[:cluster_owner_id] })
+    render_404 && return if cluster_owner.blank?
+
+    messages = current_user.messages.of_group(current_group).recent
+    messages = messages.where(cluster_owner: cluster_owner)
+
+    messages.update_all(read_at: Time.now)
+
+    messages.each_with_index do |message, index|
+      message.messagable.post_for_message&.read!(current_user)
+      message.messagable.issue_for_message&.read!(current_user) if index == 0
+    end
+
+    render_partial_cluster(messages, cluster_owner)
+  end
+
+  private
+
+  def render_partial_cluster(messages, cluster_owner)
+    base_messages = messages
+
     is_need_to_read = params.dig(:filter, :condition) == 'needtoread'
     if is_need_to_read
-      messages = messages.unread
+      base_messages = base_messages.unread
     end
 
     mention_only_page = (params[:mention_only_page] == 'true')
     if mention_only_page
-      messages = messages.where(action: 'mention')
+      base_messages = base_messages.where(action: 'mention')
     end
 
-    @permited_params = params.permit(:id, filter: [:condition]).to_h
+    view_messages = base_messages
+
+    if params[:limit]
+      view_messages = view_messages.limit(params[:limit])
+    end
+
+    permited_params = params.permit(:id, filter: [:condition]).to_h
 
     render(partial: 'cluster', locals: {
-      messages: messages,
+      messages: view_messages,
       cluster_owner: cluster_owner,
       mention_only_page: mention_only_page,
+      cluster_unread_messages_count: base_messages.unread.count,
+      cluster_messages_count: base_messages.count,
+      permited_params: permited_params,
     })
   end
 end

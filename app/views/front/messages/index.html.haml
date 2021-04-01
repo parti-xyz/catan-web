@@ -30,7 +30,7 @@
 
   - if @message_clusters.any?
     - @message_clusters.each do |cluster, messages|
-      = render 'front/messages/cluster', messages: messages, cluster_owner: cluster.cluster_owner, cluster_messages_count: cluster.messages_count, permited_params: @permited_params
+      = render 'front/messages/cluster', messages: messages, cluster_owner: cluster.cluster_owner, cluster_messages_count: cluster.messages_count, cluster_unread_messages_count: cluster.unread_messages_count, permited_params: @permited_params
 
     .mt-4
       = paginate @message_clusters, theme: 'catan'

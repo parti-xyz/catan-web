@@ -1,7 +1,32 @@
+- permited_params ||= {}
+- collapsed_view = (local_assigns[:cluster_messages_count].present? && cluster_messages_count > messages.count)
 .message-cluster{ data: { controller: 'content-replacement' } }
-  = render 'front/messages/cluster_owner', cluster_owner: cluster_owner
+  .message-cluster-owner
+    - channel_or_group = capture do
+      - if cluster_owner.try(:issue_for_message).present?
+        = link_to smart_issue_home_url(cluster_owner.issue_for_message) do
+          \#
+          = issue_tag(cluster_owner.issue_for_message)
+      - elsif cluster_owner.try(:group_for_message).present?
+        = link_to cluster_owner.group_for_message.title_basic_format, smart_group_url(cluster_owner.group_for_message)
+    - user_nickname = capture do
+      - if cluster_owner.try(:user).present?
+        @#{cluster_owner.try(:user)&.nickname || message}
+    - meta = capture do
+      != [channel_or_group, user_nickname].reject(&:blank?).join(' &middot; ')
+
+    .clusterbody
+      - if meta.present?
+        .meta #{meta}
+      = render "front/messages/cluster_owner/#{cluster_owner.class.model_name.singular}", cluster_owner: cluster_owner
+
+    - if (local_assigns[:cluster_unread_messages_count] || 0) > 0
+      .readall
+        = link_to read_cluster_front_messages_path(permited_params.merge(cluster_owner_id: cluster_owner.id, cluster_owner_type: cluster_owner.class.to_s, mention_only_page: local_assigns[:mention_only_page], limit: (messages.count if collapsed_view))), method: :patch, remote: true, data: { disable_with: "...", target: 'content-replacement.link', 'message--dropdown-keep-open': true }, class: 'btn btn-sm btn-light font-size-xs' do
+          모두 읽음 (#{local_assigns[:cluster_unread_messages_count]})
+
   = render partial: :message, collection: messages, locals: { mention_only_page: local_assigns[:mention_only_page], list_navable: true }
-  - if local_assigns[:cluster_messages_count].present? && cluster_messages_count > messages.count
+  - if collapsed_view
     .message-line.clearfix.text-center
       = link_to cluster_front_messages_path(permited_params.merge(cluster_owner_id: cluster_owner.id, cluster_owner_type: cluster_owner.class.to_s, mention_only_page: local_assigns[:mention_only_page])), remote: true, data: { disable_with: "...", target: 'content-replacement.link', 'message--dropdown-keep-open': true }, class: 'd-block' do
         %small 더 보기 (#{cluster_messages_count - messages.count})

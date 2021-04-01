@@ -17,7 +17,7 @@
 
   - if @mention_clusters.any?
     - @mention_clusters.each do |cluster, messages|
-      = render 'front/messages/cluster', messages: messages, cluster_owner: cluster.cluster_owner, cluster_messages_count: cluster.messages_count, mention_only_page: true, permited_params: @permited_params
+      = render 'front/messages/cluster', messages: messages, cluster_owner: cluster.cluster_owner, cluster_messages_count: cluster.messages_count, cluster_unread_messages_count: cluster.unread_messages_count, mention_only_page: true, permited_params: @permited_params
 
     .mt-4
       = paginate @mention_clusters, theme: 'catan'
