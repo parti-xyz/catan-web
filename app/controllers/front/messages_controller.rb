@@ -2,19 +2,14 @@ class Front::MessagesController < Front::BaseController
   def index
     render_404 and return unless user_signed_in?
 
-    all_messages = current_user.messages.of_group(current_group)
-
+    base_message = current_user.messages.of_group(current_group)
     is_need_to_read = params.dig(:filter, :condition) == 'needtoread'
 
-    base_message = all_messages
-    base_message = base_message.unread if is_need_to_read
-    @cluster_owners = Message.cluster_owners(base_message).page(params[:page]).per(10).load
-    @message_clusters = Message.cluster_messages(base_message, @cluster_owners)
+    @cluster_owners, @message_clusters = Message.cluster_messages(base_message, is_need_to_read, params[:page], 10)
+    @need_to_read_count = base_message.unread.count
+    @base_message_total_count = base_message.count
 
-    @need_to_read_count = all_messages.unread.count
-    @all_messages_total_count = all_messages.count
-
-    @permited_params = params.permit(:id, filter: [ :condition ]).to_h
+    @permited_params = params.permit(:id, filter: [:condition]).to_h
   end
 
   def nav
@@ -23,14 +18,13 @@ class Front::MessagesController < Front::BaseController
     @messages = current_user.messages.of_group(current_group)
 
     base_message = current_user.messages.of_group(current_group)
-    base_message = base_message.unread
 
+    unread_only = true
+    page = 1
     limit_count = 20
-    base_cluster_owners = Message.cluster_owners(base_message).limit(limit_count + 1).to_a
-    @cluster_owner = base_cluster_owners[0..-1]
-    @message_clusters = Message.cluster_messages(base_message, @cluster_owner)
+    @cluster_owner, @message_clusters = Message.cluster_messages(base_message, unread_only, page, limit_count)
 
-    @more_messages = base_cluster_owners.size > limit_count
+    @more_messages = !@cluster_owner.last_page?
     @first_message = @message_clusters.values.first&.first
 
     render layout: nil
@@ -77,17 +71,12 @@ class Front::MessagesController < Front::BaseController
   def mentions
     render_404 and return unless user_signed_in?
 
-    all_mentions = current_user.messages.of_group(current_group).where(action: 'mention')
-
+    base_mentions = current_user.messages.of_group(current_group).where(action: 'mention')
     is_need_to_read = params.dig(:filter, :condition) == 'needtoread'
 
-    base_mentions = all_mentions
-    base_mentions = base_mentions.unread if is_need_to_read
-    @cluster_owners = Message.cluster_owners(base_mentions).page(params[:page]).per(10).load
-    @mention_clusters = Message.cluster_messages(base_mentions, @cluster_owners)
-
-    @need_to_read_count = all_mentions.unread.count
-    @all_mentions_total_count = all_mentions.count
+    @cluster_owners, @message_clusters = Message.cluster_messages(base_mentions, is_need_to_read, params[:page], 10)
+    @need_to_read_count = base_mentions.unread.count
+    @all_mentions_total_count = base_mentions.count
 
     @permited_params = params.permit(:id, filter: [ :condition ]).to_h
   end
