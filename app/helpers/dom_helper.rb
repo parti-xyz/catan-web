@@ -151,12 +151,12 @@ module DomHelper
     ".#{switchable_post_pin_buttons_dom_class(post)}"
   end
 
-  def switchable_post_front_wiki_buttons_dom_class(post)
+  def switchable_post_main_wiki_buttons_dom_class(post)
     "#{dom_id(post)}-switchable-front-wiki-buttons"
   end
 
-  def switchable_post_front_wiki_buttons_dom_selector(post)
-    ".#{switchable_post_front_wiki_buttons_dom_class(post)}"
+  def switchable_post_main_wiki_buttons_dom_selector(post)
+    ".#{switchable_post_main_wiki_buttons_dom_class(post)}"
   end
 
   def user_chevron_dom_id(user)

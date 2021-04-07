@@ -77,6 +77,9 @@ class Issue < ApplicationRecord
     -> { where(user_id: Current.user.try(:id)) },
     class_name: 'IssueReader'
   has_many :issue_observations, dependent: :destroy, class_name: 'MessageConfiguration::IssueObservation'
+  belongs_to :main_wiki_post, class_name: 'Post', optional: true
+  belongs_to :main_wiki_post_by, class_name: 'User', optional: true
+
 
   # validations
   validates :title,

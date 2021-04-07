@@ -91,7 +91,8 @@ class Post < ApplicationRecord
   has_many :file_sources, dependent: :destroy, as: :file_sourceable
   has_many :decision_histories, dependent: :destroy
   has_one :post_searchable_index, dependent: :destroy, autosave: true
-  has_one :front_wiki_group, dependent: :nullify, class_name: "Group", foreign_key: :front_wiki_post_id
+  has_one :main_wiki_group, dependent: :nullify, class_name: "Group", foreign_key: :main_wiki_post_id
+  has_one :main_wiki_issue, dependent: :nullify, class_name: "Issue", foreign_key: :main_wiki_post_id
   has_many :post_readers, dependent: :destroy
   has_one :current_user_post_reader,
     -> { where(user_id: Current.user.try(:id)) },
@@ -364,8 +365,12 @@ class Post < ApplicationRecord
     !upvotes.exists?(user: someone)
   end
 
-  def front_wiki?
-    self.issue.group.front_wiki_post == self
+  def main_wiki_group?
+    issue.group.main_wiki_post == self
+  end
+
+  def main_wiki_issue?
+    issue.main_wiki_post == self
   end
 
   def self.recommends(exclude)

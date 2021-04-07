@@ -92,3 +92,8 @@
       게시글이 없습니다.
       - if @current_issue&.group&.member?(current_user)
         가장 먼저 게시글을 올려보세요.
+
+- if @current_issue.main_wiki_post.present?
+  %section
+    .post-wiki.-channel-main
+      = render 'front/wikis/card', current_wiki: @current_issue.main_wiki_post.wiki

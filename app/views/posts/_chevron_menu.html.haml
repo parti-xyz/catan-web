@@ -21,12 +21,12 @@
         = link_to '넓은 화면 보기', wiki_post_path(post), target: '_blank'
       - if post.issue.group.organized_by?(current_user)
         %li
-          = render 'posts/front_wiki_buttons', post: post
-          - if !post.front_wiki? and post.issue.group.front_wiki_post.present?
+          = render 'posts/main_wiki_buttons', post: post
+          - if !post.main_wiki_group? and post.issue.group.main_wiki_post.present?
             .help-text
               TIP. 해당 그룹의 홈에 다른 게시글이 이미 게시 중입니다.
               = link_to '확인하기', smart_group_url(post.issue.group)
-          - if post.issue.private? and !post.front_wiki?
+          - if post.issue.private? and !post.main_wiki_group?
             .help-text
               TIP. 해당 채널은 비공개입니다. 해당 채널 멤버에게만 보입니다.
 - button_groups << capture do

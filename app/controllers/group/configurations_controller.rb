@@ -1,7 +1,7 @@
 class Group::ConfigurationsController < Group::BaseController
   skip_before_action :verify_current_group, only: [:new, :create, :spin_off]
   before_action :authenticate_user!
-  before_action :only_organizer, only: [:edit, :update, :front_wiki, :destroy_front_wiki]
+  before_action :only_organizer, only: [:edit, :update, :main_wiki, :destroy_main_wiki]
   before_action :only_admin, only: [:spin_off]
 
   def new
@@ -150,12 +150,12 @@ class Group::ConfigurationsController < Group::BaseController
     end
   end
 
-  def front_wiki
+  def main_wiki
     @post = Post.find(params[:post_id])
     @group = @post.issue.group
 
-    @group.front_wiki_post = @post
-    @group.front_wiki_post_by = current_user
+    @group.main_wiki_post = @post
+    @group.main_wiki_post_by = current_user
     @group.save!
 
     if helpers.explict_front_namespace?
@@ -165,12 +165,12 @@ class Group::ConfigurationsController < Group::BaseController
     end
   end
 
-  def destroy_front_wiki
+  def destroy_main_wiki
     @post = Post.find(params[:post_id])
     @group = @post.issue.group
 
-    @group.front_wiki_post = nil
-    @group.front_wiki_post_by = current_user
+    @group.main_wiki_post = nil
+    @group.main_wiki_post_by = current_user
     @group.save!
 
     if helpers.explict_front_namespace?

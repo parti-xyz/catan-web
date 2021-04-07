@@ -133,4 +133,28 @@ class Front::ChannelsController < Front::BaseController
 
     turbolinks_redirect_to front_channel_path(id: params[:id])
   end
+
+  def main_wiki
+    @post = Post.find(params[:post_id])
+    @issue = @post.issue
+
+    @issue.main_wiki_post = @post
+    @issue.main_wiki_post_by = current_user
+    @issue.save!
+
+    flash[:notice] = t('activerecord.successful.messages.created')
+    turbolinks_redirect_to(smart_front_post_url(@post))
+  end
+
+  def destroy_main_wiki
+    @post = Post.find(params[:post_id])
+    @issue = @post.issue
+
+    @issue.main_wiki_post = nil
+    @issue.main_wiki_post_by = current_user
+    @issue.save!
+
+    flash[:notice] = t('activerecord.successful.messages.released')
+    turbolinks_redirect_to(smart_front_post_url(@post))
+  end
 end

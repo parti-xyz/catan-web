@@ -48,8 +48,8 @@ class Group < ApplicationRecord
   has_many :categories, dependent: :destroy, foreign_key: :group_slug, primary_key: :slug
   has_many :group_home_components, dependent: :destroy
   has_many :group_push_notification_preferences, dependent: :destroy
-  belongs_to :front_wiki_post, class_name: 'Post', optional: true
-  belongs_to :front_wiki_post_by, class_name: 'User', optional: true
+  belongs_to :main_wiki_post, class_name: 'Post', optional: true
+  belongs_to :main_wiki_post_by, class_name: 'User', optional: true
   belongs_to :blinded_by, class_name: "User", foreign_key: 'blinded_by_id', optional: true
   has_many :last_visited_users, as: :last_visitable, class_name: 'User', dependent: :nullify
   has_many :labels, dependent: :destroy

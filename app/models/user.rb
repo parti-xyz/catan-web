@@ -105,7 +105,8 @@ class User < ApplicationRecord
   has_many :inviting_roll_calls, dependent: :nullify, class_name: 'RollCall', foreign_key: :inviter_id
   has_many :issue_push_notification_preferences, dependent: :destroy
   has_many :group_push_notification_preferences, dependent: :destroy
-  has_one :front_wiki_group, dependent: :nullify,  class_name: "Group", foreign_key: :front_wiki_post_id
+  has_one :main_wiki_group, dependent: :nullify,  class_name: "Group", foreign_key: :main_wiki_post_id
+  has_one :main_wiki_issue, dependent: :nullify,  class_name: "Issue", foreign_key: :main_wiki_post_id
   has_many :blinded_issues, dependent: :nullify, class_name: "Issue", foreign_key: :blinded_by_id
   has_many :blinded_groups, dependent: :nullify, class_name: "Group", foreign_key: :blinded_by_id
   belongs_to :last_visitable, polymorphic: true, optional: true

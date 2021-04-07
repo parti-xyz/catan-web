@@ -267,8 +267,8 @@ Rails.application.routes.draw do
   namespace :group do
     resource :configuration do
       member do
-        post 'front_wiki'
-        delete 'front_wiki', to: 'configurations#destroy_front_wiki'
+        post 'main_wiki'
+        delete 'main_wiki', to: 'configurations#destroy_main_wiki'
         delete :remove_key_visual_foreground_image
         delete :remove_key_visual_background_image
         post :spin_off
@@ -456,6 +456,8 @@ Rails.application.routes.draw do
         get :destroy_form
         patch :read_all_posts
         patch :wake
+        post 'main_wiki'
+        delete 'main_wiki', to: 'channels#destroy_main_wiki'
       end
       collection do
         get :sync
@@ -625,8 +627,8 @@ Rails.application.routes.draw do
     resources :groups, only: [:update], controller: '/group/configurations'
     resources :groups, only: [] do
       collection do
-        post 'coc_wiki', to: '/group/configurations#front_wiki'
-        delete 'coc_wiki', to: '/group/configurations#destroy_front_wiki'
+        post 'main_wiki', to: '/group/configurations#main_wiki'
+        delete 'main_wiki', to: '/group/configurations#destroy_main_wiki'
         delete 'remove_key_visual_foreground_image', to: '/group/configurations#remove_key_visual_foreground_image'
       end
     end
