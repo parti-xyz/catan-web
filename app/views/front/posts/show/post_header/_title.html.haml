@@ -19,18 +19,31 @@
 
 - if current_post.wiki.present?
   - moremenu_post_buttons << capture do
-    - if current_post.front_wiki?
+    - if current_post.main_wiki_group?
       .dropdown-item
         .text-muted 커뮤니티 가이드 페이지에 게시된 위키입니다.
-    - if can?(:coc_wiki, current_group)
-      - if current_post.front_wiki?
-        = link_to coc_wiki_front_groups_path(post_id: current_post.id), method: :delete, remote: true, data: { disable_with: '내리는 중...' }, class: 'dropdown-item' do
+    - if can?(:main_wiki, current_group)
+      - if current_post.main_wiki_group?
+        = link_to main_wiki_front_groups_path(post_id: current_post.id), method: :delete, remote: true, data: { disable_with: '내리는 중...' }, class: 'dropdown-item' do
           커뮤니티 가이드 설정 해제
       - else
-        = link_to coc_wiki_front_groups_path(post_id: current_post.id), method: :post, remote: true, data: { disable_with: '게시 중...', confirm: ("이미 '#{current_post.group.front_wiki_post.title}'게시물이 커뮤니티 가이드로 설정되어 있습니다. 정말 교체하시겠습니까?" if !current_post.front_wiki? and current_post.group.front_wiki_post.present?) }, class: 'dropdown-item' do
+        = link_to main_wiki_front_groups_path(post_id: current_post.id), method: :post, remote: true, data: { disable_with: '게시 중...', confirm: ("이미 '#{current_post.group.main_wiki_post.title}'게시물이 커뮤니티 가이드로 설정되어 있습니다. 정말 교체하시겠습니까?" if !current_post.main_wiki_group? and current_post.group.main_wiki_post.present?) }, class: 'dropdown-item' do
           커뮤니티 가이드로 설정하기
           %br
           %small TIP. 해당 그룹의 커뮤니티 가이드 페이지에 게시됩니다.
+    -# TODO
+    - if current_post.main_wiki_issue?
+      .dropdown-item
+        .text-muted 채널 대문으로 게시된 위키입니다.
+    - if can?(:main_wiki, current_post.issue)
+      - if current_post.main_wiki_issue?
+        = link_to main_wiki_front_channel_path(current_post.issue, post_id: current_post.id), method: :delete, remote: true, data: { disable_with: '내리는 중...' }, class: 'dropdown-item' do
+          채널 대문 설정 해제
+      - else
+        = link_to main_wiki_front_channel_path(current_post.issue, post_id: current_post.id), method: :post, remote: true, data: { disable_with: '게시 중...', confirm: ("이미 '#{current_post.issue.main_wiki_post.title}'게시물이 커뮤니티 가이드로 설정되어 있습니다. 정말 교체하시겠습니까?" if !current_post.main_wiki_issue? and current_post.issue.main_wiki_post.present?) }, class: 'dropdown-item' do
+          채널 대문으로 설정하기
+          %br
+          %small TIP. 해당 채널의 첫 페이지에 게시됩니다.
 
 - moremenu_post_buttons << capture do
   - if can?(:pin, current_post)

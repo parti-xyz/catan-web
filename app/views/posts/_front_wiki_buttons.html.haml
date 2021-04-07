@@ -1,6 +1,6 @@
-- if post.front_wiki?
-  = link_to front_wiki_group_configuration_path(post_id: post.id), method: :delete, remote: true, data: { disable_with: '내리는 중...' }, class: switchable_post_front_wiki_buttons_dom_class(post) do
+- if post.main_wiki_group?
+  = link_to main_wiki_group_configuration_path(post_id: post.id), method: :delete, remote: true, data: { disable_with: '내리는 중...' }, class: switchable_post_main_wiki_buttons_dom_class(post) do
     그룹홈에서 내리기
 - else
-  = link_to front_wiki_group_configuration_path(post_id: post.id), method: :post, remote: true, data: { disable_with: '게시 중...' }, class: switchable_post_front_wiki_buttons_dom_class(post) do
+  = link_to main_wiki_group_configuration_path(post_id: post.id), method: :post, remote: true, data: { disable_with: '게시 중...' }, class: switchable_post_main_wiki_buttons_dom_class(post) do
     그룹홈에 게시하기
