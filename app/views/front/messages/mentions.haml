@@ -13,16 +13,14 @@
 .messages-box
   .pagination-header
     .pages
-      = render 'front/share/pagination_header/mentions_page', posts: @cluster_owners, need_to_read_count: @need_to_read_count, permited_params: @permited_params, all_posts_total_count: @all_mentions_total_count, read_all_path: read_all_mentions_front_messages_path
+      = render 'front/share/pagination_header/mentions_page', posts: @mention_clusters, need_to_read_count: @need_to_read_count, permited_params: @permited_params, all_posts_total_count: @all_mentions_total_count, read_all_path: read_all_mentions_front_messages_path
 
   - if @mention_clusters.any?
-    - @mention_clusters.each do |cluster_owner, messages|
-      .message-cluster
-        = render 'front/messages/cluster_owner', cluster_owner: cluster_owner
-        - messages.each do |message|
-          = render message, list_navable: true, mention_only_page: true
+    - @mention_clusters.each do |cluster, messages|
+      = render 'front/messages/cluster', messages: messages, cluster_owner: cluster.cluster_owner, cluster_messages_count: cluster.messages_count, cluster_unread_messages_count: cluster.unread_messages_count, mention_only_page: true, permited_params: @permited_params
+
     .mt-4
-      = paginate @cluster_owners, theme: 'catan'
+      = paginate @mention_clusters, theme: 'catan'
   - else
     .alert-box.my-3
       .alert.alert-secondary.font-size-sm.d-flex.align-items-center.justify-content-between

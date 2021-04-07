@@ -340,6 +340,10 @@ class Issue < ApplicationRecord
     find_by(slug: Issue::SLUG_OF_PARTI_PARTI, group_slug: Group::SLUG_OF_ACTIVIST)
   end
 
+  def post_for_message
+    nil
+  end
+
   def issue_for_message
     self
   end
