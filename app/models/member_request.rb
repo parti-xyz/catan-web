@@ -23,6 +23,10 @@ class MemberRequest < ApplicationRecord
     joinable if joinable_type == 'Group'
   end
 
+  def post_for_message
+    nil
+  end
+
   def issue_for_message
     issue
   end

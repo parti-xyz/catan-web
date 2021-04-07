@@ -3,7 +3,11 @@
 
 .front-app .message-cluster-owner {
   font-size: bootstrap.$font-size-xs;
+  display: flex;
   @include mq.media('<=phone') {
     font-size: bootstrap.$font-size-sm;
+  }
+  > .clusterbody {
+    flex: 1;
   }
 }

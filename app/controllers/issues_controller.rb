@@ -236,7 +236,7 @@ class IssuesController < ApplicationController
         (@issue.blinds_nickname.split(",") || []).map(&:strip).compact.uniq.each do |nickname|
           user = User.find_by(nickname: nickname)
           if user.present?
-            deleting_nicknames.reject!{ |nickname| nickname == user.nickname}
+            deleting_nicknames.reject!{ |nickname| nickname == user.nickname }
             @issue.blinds.build(user: user) unless @issue.blinds.exists?(user_id: user.id)
           end
         end
@@ -245,6 +245,10 @@ class IssuesController < ApplicationController
       if @issue.save
         if @issue.previous_changes["is_default"].present? and @issue.is_default?
           IssueForceDefaultJob.perform_async(@issue.id, current_user.id)
+        end
+
+        if @issue.saved_change_to_attribute?('group_slug')
+          Message.of_issue(@issue).update_all('group_slug', @issue.group_slug)
         end
 
         if @issue.saved_change_to_attribute?('title')
@@ -339,7 +343,7 @@ class IssuesController < ApplicationController
           @ambiguous_recipient_codes << recipient_code
           @has_error_recipient_codes = true
           next
-        else recipients.count == 1
+        elsif recipients.count == 1
           recipient = recipients.first
         end
       else

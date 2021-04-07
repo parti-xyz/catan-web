@@ -1,0 +1,21 @@
+%section
+  .container
+    %h3.text-keepall.text-center
+      %i.fa.fa-users
+      멤버 신청 관리
+
+    .simple-box.pt-3
+      - if @member_requests.any?
+        .form-text.text-muted.small.mb-3
+          #{@member_requests.total_count}명이 멤버 가입 신청했습니다.
+
+        %ul.list-group.mb-0
+          = render partial: 'front/member_requests/member_request_line', collection: @member_requests, as: :member_request
+        .mt-4
+          = paginate @member_requests, theme: 'catan'
+
+      - else
+        .alert-box.my-3
+          .alert.alert-secondary.font-size-sm.d-flex.align-items-center.justify-content-between
+            가입 신청 내역이 없습니다.
+

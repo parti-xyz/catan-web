@@ -1,0 +1,52 @@
+@use "../../mixin";
+@use "../../global-variables";
+
+.front-app .member-line {
+  display: flex;
+  align-items: center;
+  > .body {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+    > .userimage {
+      margin-right: .5rem;
+      > .userimagebg {
+        border: 1px solid white;
+        background-color: white;
+        @include mixin.background-image-round(3rem);
+      }
+    }
+    > .content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      overflow: hidden;
+      > .top {
+        display: flex;
+        > .usernickname {
+          font-weight: bold;
+        }
+        > .role {
+          margin-left: .5rem;
+          color: global-variables.$color-gray-400;
+        }
+      }
+      > .description {
+        color: global-variables.$color-gray-500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+  > .controls {
+    .control {
+      color: global-variables.$color-gray-500;
+      cursor: pointer;
+    }
+    .control + .control {
+      margin-left: .5rem;
+    }
+  }
+}

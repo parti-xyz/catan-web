@@ -1,0 +1,33 @@
+%section
+  .container
+    %h3.text-keepall.text-center
+      %i.fa.fa-users
+      멤버 초대하기
+
+    .simple-box.pt-3
+      - if @new_invitations.present? && @new_invitations.any? { |invitation| invitation.errors.any? }
+        .alert-box.my-3
+          .alert.alert-secondary.font-size-sm
+            %p 아래 사항을 확인해 주세요.
+            - @new_invitations.each do |invitation|
+              - next unless invitation.errors.any?
+              %p
+                %strong #{invitation.recipient_code}
+                %br
+                = raw invitation.errors.full_messages.join('<br>')
+
+      = form_with url: bulk_front_invitations_path, local: false do |f|
+        .form-group
+          %h5 이메일이나 닉네임
+          = text_area_tag :recipients, params[:recipients], class: 'form-control', rows: 5
+          %p.help-text.text-muted.font-size-sm
+            초대 메일을 발송합니다. 닉네임이나 이메일을 쉼표나 공백 혹은 줄바꿈으로 구분해서 넣어 주세요. 이메일에 해당되는 계정을 찾을 수 없으면 자동으로
+        .form-group.mt-4
+          %h5 초대 메일에 넣을 메시지
+          = text_area_tag :message, params[:message] || "안녕하세요. @#{current_user.nickname}입니다. '#{current_group.title}' 빠띠 카누에 초대합니다.", class: 'form-control', rows: 10
+          %p.help-text.text-muted.font-size-sm
+            초대 메일 메시지를 작성해 주세요.
+
+        .form-group
+          = submit_tag '저장', class: 'btn btn-primary', data: { disable_with: "처리 중..." }
+

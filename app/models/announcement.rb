@@ -8,7 +8,7 @@ class Announcement < ApplicationRecord
     end
   end
   has_one :current_user_audience,
-    -> { where(member_id: Current.group.member_of(Current.user)) },
+    -> { where(member_id: Current.user&.members) },
     class_name: "Audience"
   accepts_nested_attributes_for :audiences, reject_if: proc { |attributes|
     attributes['member_id'].try(:strip).blank?

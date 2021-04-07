@@ -563,21 +563,47 @@ Rails.application.routes.draw do
       #end
     end
 
-    resources :member_requests, only: [:new] do
+    resources :member_requests, only: [:new, :index, :show, :create] do
       collection do
-        get :private_blocked
+        get :intro
+        get :reject_form
       end
     end
-    resources :member_requests, only: [:create], controller: '/group/member_requests'
+    resources :member_requests, only: [], controller: '/group/member_requests' do
+      collection do
+        post :accept
+        delete :reject
+      end
+    end
+    resources :invitations, only: [:index, :new, :destroy] do
+      collection do
+        post :bulk
+      end
+      member do
+        get :accept
+        patch :resend
+      end
+    end
 
     resources :members, only: [], controller: '/group/members' do
-      delete :cancel
-    end
-    resources :members, only: [:show] do
+      member do
+        delete :cancel
+      end
       collection do
+        put :organizer
+        delete :organizer
+        delete :ban
+      end
+    end
+    resources :members, only: [:show, :index] do
+      collection do
+        get :ban_form
         get 'user/:user_id', action: 'user', as: :user
         get :edit_me
         post :update_me
+      end
+      member do
+        get :statement
       end
     end
 
@@ -590,7 +616,9 @@ Rails.application.routes.draw do
         get :nav
         patch :read_all
         patch :read_all_mentions
+        patch :read_cluster
         patch :notice
+        get :cluster
       end
     end
 

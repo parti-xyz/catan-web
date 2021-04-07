@@ -1,0 +1,16 @@
+@use '../../mq';
+
+.front-app .member-search {
+  width: 30%;
+  @include mq.media("<=phone") {
+    width: 100%;
+    margin-bottom: 3rem;
+  }
+  // > .main {
+  //   width: 60%;
+  // }
+  > .sub {
+    width: 40%;
+  }
+
+}

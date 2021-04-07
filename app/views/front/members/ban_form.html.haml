@@ -1,0 +1,12 @@
+.modal-header
+  %h6.modal-title 탈퇴시키기
+  %button.close.-sm{ "aria-label": "Close", data: { action: 'click->modal#close' } }
+    %span{ "aria-hidden": 'true' } ×
+.modal-body
+  = form_with url: ban_front_members_path(user_id: @user.id), method: :delete, local: false do |f|
+    = hidden_field_tag :page, params[:page]
+    .form-group
+      = label_tag :ban_message, "#{@user.nickname}님에게 이유를 보내주세요."
+      = text_area_tag :ban_message, nil, class: 'form-control'
+    .pull-right
+      = f.submit '전송', class: 'submit btn btn-primary btn-sm', data: { 'confirm': '정말 탈퇴시키시겠습니까?', 'disable-with': '처리 중...' }

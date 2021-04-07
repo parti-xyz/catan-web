@@ -66,32 +66,4 @@ class Front::BaseController < ApplicationController
 
     result
   end
-
-  private
-
-  def current_group_accessible_only_posts
-    Post.where(issue: current_group_accessible_only_issues)
-      .never_blinded(current_user)
-  end
-
-  def current_group_accessible_only_issues
-    current_group.issues.accessible_only(current_user)
-  end
-
-  def current_announcement_posts
-    current_group_accessible_only_posts
-      .includes(announcement: [:current_user_audience])
-      .where.not(announcement_id: nil)
-      .where("announcements.stopped_at": nil)
-  end
-
-  def current_need_to_notice_announcement_posts
-    add_condition_need_to_notice_announcement_posts(current_announcement_posts)
-  end
-
-  def add_condition_need_to_notice_announcement_posts(post_relations)
-    post_relations
-      .where('audiences.noticed_at IS NULL')
-      .where('announcements.stopped_at IS NULL')
-  end
 end

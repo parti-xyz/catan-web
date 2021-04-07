@@ -632,6 +632,9 @@ module ApplicationHelper
     (controller_name == 'users' && action_name == 'pre_sign_up')  ||
     (controller_name == 'users' && action_name == 'inactive_sign_up') ||
     (controller_name == 'users' && action_name == 'email_sign_in') ||
-    (controller_name == 'users' && action_name == 'cancel_form')
+    (controller_name == 'users' && action_name == 'cancel_form') ||
+    (controller_name == 'pages' && action_name == 'dock') ||
+    (controller_name == 'pages' && action_name == 'landing') ||
+    (controller_name == 'pages' && action_name == 'expedition')
   end
 end

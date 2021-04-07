@@ -1,0 +1,30 @@
+- return if invitation.blank?
+
+- user = invitation.user
+%li.list-group-item.member-line
+  .body
+    .content
+      .top
+        .usernickname
+          = invitation.recipient_email
+      .description
+        #{date_f invitation.created_at} @#{invitation.user.nickname}님이 초대
+  - controls = capture do
+    - return unless user_signed_in?
+    - if current_user.admin? || current_group.organized_by?(current_user)
+      = link_to "mailto:#{invitation.recipient_email}", class: 'control' do
+        %i.fa.fa-envelope<>
+      = link_to '재발송',
+                resend_front_invitation_path(invitation),
+                method: :patch,
+                remote: true,
+                class: 'control btn btn-dark btn-sm text-white',
+                data: { 'disable-with': '처리 중...' }
+      = link_to '취소',
+                front_invitation_path(invitation),
+                method: :delete,
+                class: 'control btn btn-light btn-sm',
+                data: { 'confirm': '정말 취소하시겠습니까?' }
+
+  - if controls.present?
+    .controls= controls
