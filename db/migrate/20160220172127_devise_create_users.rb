@@ -70,7 +70,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[4.2]
         created_at = row['created_at']
         updated_at = row['updated_at']
       end
-      confirmed_at = DateTime.now.to_s(:db)
+      confirmed_at = Time.current.to_s(:db)
       query = "INSERT INTO
         users (id, email, encrypted_password, nickname, created_at, updated_at, confirmed_at)
         VALUES(#{id}, '#{email}', '#{new_hashed_password}', '#{nickname}', '#{created_at}', '#{updated_at}', '#{confirmed_at}')"

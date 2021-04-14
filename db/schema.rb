@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_14_045745) do
+ActiveRecord::Schema.define(version: 2021_04_14_144547) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -331,6 +331,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_045745) do
     t.string "navbar_coc_text_color", default: "#5e2abb"
     t.string "organization_slug", default: "default"
     t.integer "labels_count", default: 0
+    t.datetime "iced_at"
     t.index ["blinded_by_id"], name: "index_groups_on_blinded_by_id"
     t.index ["front_wiki_post_by_id"], name: "index_groups_on_front_wiki_post_by_id"
     t.index ["front_wiki_post_id"], name: "index_groups_on_front_wiki_post_id"
@@ -410,7 +411,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_045745) do
     t.integer "members_count", default: 0
     t.integer "hot_score", default: 0
     t.string "hot_score_datestamp"
-    t.datetime "freezed_at"
+    t.datetime "iced_at"
     t.boolean "private", default: false, null: false
     t.integer "last_stroked_user_id"
     t.boolean "notice_only", default: false

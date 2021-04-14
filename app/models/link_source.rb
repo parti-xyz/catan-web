@@ -27,7 +27,7 @@ class LinkSource < ApplicationRecord
     self.body = data.description || self.body
     self.site_name = data.site_name || self.site_name
     self.crawling_status = :completed
-    self.crawled_at = DateTime.now
+    self.crawled_at = Time.current
   end
 
   def unify

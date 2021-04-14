@@ -19,7 +19,7 @@ class Ability
       can [:update_category, :destroy_category], Issue do |issue|
         user.is_organizer?(issue.group)
       end
-      can [:pin, :freeze, :wake], Issue do |issue|
+      can [:pin, :ice, :wake], Issue do |issue|
         user.is_organizer?(issue) || user.is_organizer?(issue.group)
       end
       can [:announce], Issue do |issue|

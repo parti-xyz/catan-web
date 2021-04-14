@@ -11,7 +11,7 @@
                 = t('labels.post_blind_info')
           - else
             = render @post, mode: 'detail', additional_buttons_partial: 'posts/modal_buttons'
-        - if !@post.issue.frozen?
+        - if !@post.issue.iced?
           .another-post
             - anothers = @post.issue.not_blind_hottest_posts(10, current_user).reject { |post| @post == post or @post.private_blocked?(current_user) }
             - if anothers.empty?

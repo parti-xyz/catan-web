@@ -13,7 +13,7 @@ class Survey < ApplicationRecord
     finite.where('sent_closed_message_at < expires_at')
   }
   scope :need_to_send_closed_message, -> {
-    finite.where('? > expires_at', DateTime.now).where(sent_closed_message_at: nil)
+    finite.where('? > expires_at', Time.current).where(sent_closed_message_at: nil)
   }
   scope :of_group, -> (group) { where(id: Post.of_group(group).select(:survey_id)) }
 

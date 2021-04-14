@@ -27,7 +27,7 @@ class MemberIssueService
     ActiveRecord::Base.transaction do
       if @member.save
         @issue.member_requests.where(user: @member.user).try(:destroy_all)
-        @user.update_attributes(member_issues_changed_at: DateTime.now)
+        @user.update_attributes(member_issues_changed_at: Time.current)
       end
       if !@issue.group.member?(@user)
         MemberGroupService.new(group: @issue.group, user: @user).call

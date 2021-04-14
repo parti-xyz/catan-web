@@ -16,7 +16,7 @@
   회원님은
   #{member.joinable.title}
   #{member.joinable.model_name.human} 오거나이저입니다.
-- elsif ['create_issue_organizer', 'create_gruop_organizer'].include? message.action.to_s
+- elsif ['create_issue_organizer', 'create_group_organizer'].include? message.action.to_s
   #{message.action_params_hash["new_organizer_user_nickname"]}님은
   #{member.joinable.title}
   #{member.joinable.model_name.human} 오거나이저입니다.

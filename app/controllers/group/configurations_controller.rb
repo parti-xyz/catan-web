@@ -92,6 +92,10 @@ class Group::ConfigurationsController < Group::BaseController
         end
       end
 
+      if @group.frontable? && !@group.ready_for_frontable?
+        @group.iced_at = Time.current
+      end
+
       if @group.save
         # TODO
         # 그룹 변경 노티 필요

@@ -3,7 +3,7 @@
   - if issue.member?(current_user)
     - unless local_assigns[:simple]
 
-      - if issue.frozen?
+      - if issue.iced?
         %span.parti-admin-btn-container<>
           %span.btn.btn-default.btn-xs.cursor-pointer<>
             z

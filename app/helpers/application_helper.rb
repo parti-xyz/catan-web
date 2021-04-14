@@ -248,7 +248,7 @@ module ApplicationHelper
 
   def meta_icons(model, *extras)
     tags = []
-    if model.try(:frozen?)
+    if model.try(:iced?)
       tags << content_tag(:span, title: '휴면 중') do
         content_tag(:span, 'z') +
         content_tag(:sup, nil, class: 'sup-z') do
@@ -450,9 +450,9 @@ module ApplicationHelper
       end
       concat(content_tag :span, issue.title, class: issue_classes)
 
-      if issue.frozen?
+      if issue.iced?
         concat raw('&nbsp;')
-        concat content_tag :span, nil, class: 'frozen', &-> do
+        concat content_tag :span, nil, class: 'iced', &-> do
           capture do
             concat 'z'
             concat content_tag :sup, 'z'
