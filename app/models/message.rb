@@ -115,6 +115,6 @@ class Message < ApplicationRecord
   private
 
   def setup_group_slug
-    slef.group_slug = group_for_message&.slug
+    self.group_slug = group_for_message&.slug
   end
 end
