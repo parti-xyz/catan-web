@@ -93,7 +93,7 @@ class Group::ConfigurationsController < Group::BaseController
       end
 
       if @group.frontable? && !@group.ready_for_frontable?
-        @group.freezed_at = DateTime.now
+        @group.iced_at = Time.current
       end
 
       if @group.save

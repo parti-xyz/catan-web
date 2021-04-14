@@ -51,7 +51,7 @@
             - if current_group.organized_by?(current_user) || current_user&.admin?
               = link_to edit_current_group_front_categories_path, class: 'dropdown-item' do
                 채널 카테고리 관리
-              = link_to frozen_front_channels_path, class: 'dropdown-item' do
+              = link_to iced_front_channels_path, class: 'dropdown-item' do
                 채널 휴면 관리
             - if current_group.creatable_issue?(current_user) || current_user&.admin?
               = link_to new_front_channel_path, class: 'dropdown-item' do

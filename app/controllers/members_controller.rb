@@ -23,7 +23,7 @@ class MembersController < ApplicationController
     if @member.present?
       ActiveRecord::Base.transaction do
         @member.destroy
-        current_user.update_attributes(member_issues_changed_at: DateTime.now)
+        current_user.update_attributes(member_issues_changed_at: Time.current)
       end
     end
 
@@ -47,7 +47,7 @@ class MembersController < ApplicationController
       ActiveRecord::Base.transaction do
         @member.update_attributes(ban_message: params[:ban_message])
         @member.destroy
-        @user.update_attributes(member_issues_changed_at: DateTime.now)
+        @user.update_attributes(member_issues_changed_at: Time.current)
       end
       if @member.paranoia_destroyed?
         SendMessage.run(source: @member, sender: current_user, action: :ban_issue_member)

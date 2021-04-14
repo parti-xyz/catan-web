@@ -16,7 +16,7 @@ class IssueDestroyJob < ApplicationJob
       Message.where(messagable: issue.members_with_deleted).destroy_all
       Message.where(messagable: issue.member_requests_with_deleted).destroy_all
 
-      User.where(id: issue.members.select(:user_id)).update_all(member_issues_changed_at: DateTime.now)
+      User.where(id: issue.members.select(:user_id)).update_all(member_issues_changed_at: Time.current)
       issue.destroy!
     end
   end

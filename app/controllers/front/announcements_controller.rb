@@ -43,7 +43,7 @@ class Front::AnnouncementsController < Front::BaseController
     @announcement = Announcement.find(params[:id])
     render_403 and return unless can?(:stop, @announcement)
 
-    @announcement.stopped_at = DateTime.now
+    @announcement.stopped_at = Time.current
     if @announcement.save
       flash.now[:notice] = I18n.t('activerecord.successful.messages.completed')
     else

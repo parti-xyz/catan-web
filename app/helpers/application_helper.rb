@@ -452,7 +452,7 @@ module ApplicationHelper
 
       if issue.iced?
         concat raw('&nbsp;')
-        concat content_tag :span, nil, class: 'frozen', &-> do
+        concat content_tag :span, nil, class: 'iced', &-> do
           capture do
             concat 'z'
             concat content_tag :sup, 'z'

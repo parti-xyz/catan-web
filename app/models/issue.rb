@@ -109,8 +109,8 @@ class Issue < ApplicationRecord
   # scopes
   scope :never_blinded, -> { where(blinded_at: nil) }
   scope :blinded_only, -> { where.not(blinded_at: nil) }
-  scope :alive, -> { never_blinded.where(freezed_at: nil) }
-  scope :dead, -> { never_blinded.where.not(freezed_at: nil) }
+  scope :alive, -> { never_blinded.where(iced_at: nil) }
+  scope :dead, -> { never_blinded.where.not(iced_at: nil) }
   scope :only_public, -> {
           where.not(private: true).alive
         }
@@ -371,7 +371,7 @@ class Issue < ApplicationRecord
   def strok_by(someone)
     return if someone.blank?
 
-    self.last_stroked_at = DateTime.now
+    self.last_stroked_at = Time.current
     self.last_stroked_user = someone
     self
   end
@@ -419,7 +419,7 @@ class Issue < ApplicationRecord
     member&.unread_issue?.presence || false
   end
 
-  def deprecated_read!(someone, read_at = DateTime.now)
+  def deprecated_read!(someone, read_at = Time.current)
     member = someone&.smart_issue_member(self)
     return if member.blank?
 
@@ -470,7 +470,7 @@ class Issue < ApplicationRecord
 
     issue_reader = issue_reader!(someone)
     if issue_reader&.persisted? && self.posts.need_to_read_only(someone).empty?
-      issue_reader.update(updated_at: DateTime.now)
+      issue_reader.update(updated_at: Time.current)
     end
   end
 
@@ -492,7 +492,7 @@ class Issue < ApplicationRecord
   end
 
   def iced?
-    freezed_at.present?
+    iced_at.present?
   end
 
   def alive?

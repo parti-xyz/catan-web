@@ -23,7 +23,7 @@ module HistoryTrackable
       ActiveRecord::Base.transaction do
         current_history = if continue_editing && histories.any? && last_history.user == last_author
           attribues_for_saving = build_attribues_for_saving(code, last_history)
-          last_history.update_attributes(attribues_for_saving.merge(created_at: DateTime.now))
+          last_history.update_attributes(attribues_for_saving.merge(created_at: Time.current))
           last_history
         else
           attribues_for_saving = build_attribues_for_saving(code)

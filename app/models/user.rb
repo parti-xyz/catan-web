@@ -317,7 +317,7 @@ class User < ApplicationRecord
       auth["email"] = params['email'] if params['email'].present?
       resource.assign_attributes(auth)
       resource.password = Devise.friendly_token[0,20]
-      resource.confirmed_at = DateTime.now
+      resource.confirmed_at = Time.current
       resource.remote_image_url = auth['image']
     else
       resource.provider = 'email'
@@ -330,7 +330,7 @@ class User < ApplicationRecord
       provider: external_auth.provider,
       email: (external_auth.email || email),
       password: Devise.friendly_token[0,20],
-      confirmed_at: DateTime.now,
+      confirmed_at: Time.current,
       enable_mailing_summary: true,
       push_notification_mode: :on,
       nickname: nickname,
@@ -500,7 +500,7 @@ class User < ApplicationRecord
 
   def mail_delivered!(code)
     m = summary_emails.find_or_initialize_by(code: code)
-    m.mailed_at = DateTime.now
+    m.mailed_at = Time.current
     m.save!
   end
 

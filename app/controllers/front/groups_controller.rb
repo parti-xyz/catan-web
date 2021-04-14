@@ -9,7 +9,7 @@ class Front::GroupsController < Front::BaseController
   def wake
     render_403 && return unless current_group.organized_by?(current_user)
 
-    current_group.freezed_at = nil
+    current_group.iced_at = nil
     if current_group.save
       flash[:notice] = '휴면을 해제했습니다.'
     else
@@ -22,7 +22,7 @@ class Front::GroupsController < Front::BaseController
   def freeze
     render_403 && return unless current_group.organized_by?(current_user)
 
-    current_group.freezed_at = DateTime.now
+    current_group.iced_at = Time.current
     if current_group.save
       flash[:notice] = '휴면 전환했습니다.'
     else

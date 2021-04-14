@@ -92,7 +92,7 @@ class Front::ChannelsController < Front::BaseController
     end
   end
 
-  def frozen
+  def iced
     render_403 and return unless current_group.organized_by?(current_user)
 
     @issues = current_group.issues.dead.load
@@ -104,14 +104,14 @@ class Front::ChannelsController < Front::BaseController
     render_403 and return unless current_group.organized_by?(current_user)
 
     issue = Issue.find(params[:id])
-    issue.freezed_at = nil
+    issue.iced_at = nil
     if issue.save
       flash[:notice] = '휴면을 해제했습니다.'
     else
       errors_to_flash(issue)
     end
 
-    redirect_to frozen_front_channels_path
+    redirect_to iced_front_channels_path
   end
 
   def read_all_posts

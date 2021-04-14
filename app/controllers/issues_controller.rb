@@ -425,7 +425,7 @@ class IssuesController < ApplicationController
   end
 
   def wake
-    @issue.freezed_at = nil
+    @issue.iced_at = nil
     if @issue.save
       flash[:success] = '휴면을 해제했습니다.'
     else
@@ -440,7 +440,7 @@ class IssuesController < ApplicationController
   end
 
   def freeze
-    @issue.freezed_at = DateTime.now
+    @issue.iced_at = Time.current
     if @issue.save
       flash[:success] = '휴면 전환했습니다.'
     else

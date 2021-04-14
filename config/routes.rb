@@ -460,7 +460,7 @@ Rails.application.routes.draw do
       end
       collection do
         get :sync
-        get :frozen
+        get :iced
       end
 
       resources :folders, only: [] do

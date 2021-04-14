@@ -108,7 +108,7 @@ class Admin::IssuesController < Admin::BaseController
       flash[:error] = '채널을 찾을 수 없습니다. 정확한 slug를 입력해주세요.'
       redirect_to admin_issues_path and return
     end
-    issue.freezed_at = DateTime.now
+    issue.iced_at = Time.current
 
     if issue.save
       flash[:success] = '휴면 표시를 완료했습니다.'
@@ -125,7 +125,7 @@ class Admin::IssuesController < Admin::BaseController
       flash[:error] = '채널을 찾을 수 없습니다. 정확한 slug를 입력해주세요.'
       redirect_to admin_issues_path and return
     end
-    issue.blinded_at = DateTime.now
+    issue.blinded_at = Time.current
     issue.blinded_by = current_user
 
     if issue.save

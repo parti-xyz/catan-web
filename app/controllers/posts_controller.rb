@@ -299,7 +299,7 @@ class PostsController < ApplicationController
 
   def pin
     need_to_notification = @post.pinned_at.blank?
-    @post.assign_attributes(pinned: true, pinned_at: DateTime.now, pinned_by: current_user)
+    @post.assign_attributes(pinned: true, pinned_at: Time.current, pinned_by: current_user)
     @post.save!
     @post.read!(current_user)
     @post.issue.deprecated_read_if_no_unread_posts!(current_user)

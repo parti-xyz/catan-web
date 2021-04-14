@@ -55,7 +55,7 @@ class Group < ApplicationRecord
   has_many :labels, dependent: :destroy
   has_many :group_observation, dependent: :destroy, class_name: 'MessageConfiguration::GroupObservation'
 
-  scope :awake, -> { where(freezed_at: nil) }
+  scope :awake, -> { where(iced_at: nil) }
   scope :sort_by_name, -> { order(Arel.sql("case when slug = '#{Group::DEFAULT_SLUG}' then 0 else 1 end")).order(Arel.sql("if(ascii(substring(title, 1)) < 128, 1, 0)")).order(:title) }
   scope :hottest, -> { awake.order(Arel.sql("case when slug = '#{Group::DEFAULT_SLUG}' then 0 else 1 end")).order(hot_score_datestamp: :desc, hot_score: :desc) }
   scope :but, ->(group) { where.not(id: group) }
@@ -347,7 +347,7 @@ class Group < ApplicationRecord
   end
 
   def iced?
-    freezed_at.present?
+    iced_at.present?
   end
 
   def ready_for_frontable?
