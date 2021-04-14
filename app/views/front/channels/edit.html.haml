@@ -26,7 +26,7 @@
             %br
             2. 해당 채널에 새 글을 올릴 수 없습니다.
 
-          = link_to '휴면 전환하기', freeze_front_issue_path(@current_issue, folder_id: @current_folder&.id), method: :put, remote: true, class: 'btn btn-danger'
+          = link_to '휴면 전환하기', ice_front_issue_path(@current_issue, folder_id: @current_folder&.id), method: :put, remote: true, class: 'btn btn-danger'
 
   - if can? :destroy, @current_issue
     %section.mb-3

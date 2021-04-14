@@ -117,7 +117,7 @@ Rails.application.routes.draw do
       post :admit_members
       put :add_my_menu
       put :wake
-      put :freeze
+      put :ice
       delete :remove_my_menu
       put :update_category
       delete :destroy_category
@@ -389,7 +389,7 @@ Rails.application.routes.draw do
     root to: 'monitors#index'
     resources :issues do
       post 'merge', on: :collection
-      post 'freeze', on: :collection
+      post 'ice', on: :collection
       put 'blind', on: :collection
       put 'unblind', on: :member
     end
@@ -471,7 +471,7 @@ Rails.application.routes.draw do
     end
     resources :issues, only: [:update, :create, :destroy], controller: '/issues' do
       member do
-        put :freeze
+        put :ice
         put :wake
         delete :remove_logo
         delete :remove_cover
@@ -626,7 +626,7 @@ Rails.application.routes.draw do
     resources :groups, only: [:edit] do
       member do
         put :wake
-        put :freeze
+        put :ice
       end
       collection do
         post 'coc_wiki', to: '/group/configurations#front_wiki'

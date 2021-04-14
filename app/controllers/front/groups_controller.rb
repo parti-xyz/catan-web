@@ -19,7 +19,7 @@ class Front::GroupsController < Front::BaseController
     turbolinks_redirect_to edit_front_group_path(current_group)
   end
 
-  def freeze
+  def ice
     render_403 && return unless current_group.organized_by?(current_user)
 
     current_group.iced_at = Time.current

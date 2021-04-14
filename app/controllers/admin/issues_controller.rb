@@ -102,8 +102,8 @@ class Admin::IssuesController < Admin::BaseController
     redirect_to admin_issues_path
   end
 
-  def freeze
-    issue = Issue.of_slug(params[:issue_to_be_freezed], params[:issue_to_be_freezed_of_group])
+  def ice
+    issue = Issue.of_slug(params[:issue_to_be_iced], params[:issue_to_be_iced_of_group])
     if issue.blank?
       flash[:error] = '채널을 찾을 수 없습니다. 정확한 slug를 입력해주세요.'
       redirect_to admin_issues_path and return

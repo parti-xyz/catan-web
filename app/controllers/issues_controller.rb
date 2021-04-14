@@ -1,5 +1,5 @@
 class IssuesController < ApplicationController
-  before_action :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover, :destroy_form, :update_category, :destroy_category, :read_all, :unread_until, :freeze]
+  before_action :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover, :destroy_form, :update_category, :destroy_category, :read_all, :unread_until, :ice]
   before_action :fetch_issue_by_slug, only: [:new_posts_count, :slug_home, :slug_hashtag, :slug_members, :slug_links_or_files, :slug_polls_or_surveys, :slug_folders, :slug_wikis]
   load_and_authorize_resource
   before_action :verify_issue_group, only: [:slug_home, :slug_hashtag, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :slug_folders, :edit]
@@ -439,7 +439,7 @@ class IssuesController < ApplicationController
     end
   end
 
-  def freeze
+  def ice
     @issue.iced_at = Time.current
     if @issue.save
       flash[:success] = '휴면 전환했습니다.'
