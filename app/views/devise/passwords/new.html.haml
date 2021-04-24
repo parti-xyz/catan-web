@@ -11,6 +11,7 @@
       = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
         = devise_error_messages!
         .form-group
+          = f.hidden_field :provider, value: 'email'
           = f.email_field :email, placeholder: '이메일을 입력하세요', autofocus: true, class: 'form-control'
           = f.submit '보내기', class: 'btn btn-primary btn-block', data: { disable_with: "전송 중..." }
       = render "devise/shared/links"
