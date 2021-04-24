@@ -254,6 +254,8 @@ ko:
               invalid: '비밀번호가 일치하지 않습니다.'
             email:
               invalid: '이메일이 올바르지 않습니다.'
+            reset_password_token:
+              invalid: '비밀번호 재설정 링크가 유효하지 않습니다. 이 링크가 이미 한 번 사용되었거나 재설정 요청한 지 너무 오래되었습니다. 다시 비밀번호 재설정을 요청해 주세요.'
         related:
           attributes:
             target:
