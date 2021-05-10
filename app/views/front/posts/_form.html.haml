@@ -1,7 +1,7 @@
 - has_no_poll = (current_post.new_record? || current_post.poll.blank? || current_post.poll.new_record?)
 - has_no_survey = (current_post.new_record? || current_post.survey.blank? || current_post.survey.new_record?)
 
-= form_with(model: [:front, current_post], local: false, html: { class: 'post-form', novalidate: true, data: { controller: 'post-form editor-form dirty-form validate-form', action: "ajax:before->post-form#submit ajax:before->validate-form#submit dirty-form:force-dirty->dirty-form#setForceDirty", target: 'dirty-page.form', 'editor-form-upload-url': editor_assets_path, 'rule-filesize': '10485760' } }) do |f|
+= form_with(model: [:front, current_post], local: false, html: { class: 'post-form', novalidate: true, data: { controller: 'post-form editor2-form dirty-form validate-form', action: "ajax:before->post-form#submit ajax:before->validate-form#submit dirty-form:force-dirty->dirty-form#setForceDirty", target: 'dirty-page.form', 'editor-form-upload-url': editor_assets_path, 'rule-filesize': '10485760' } }) do |f|
   = f.hidden_field :issue_id
   = f.hidden_field :has_poll, value: !has_no_poll, data: { target: 'post-form.hasPollField' }
   = f.hidden_field :has_survey, value: !has_no_survey, data: { target: 'post-form.hasSurveyField' }
@@ -42,8 +42,8 @@
     = f.text_field :base_title, class: 'control', required: true, placeholder: '제목...', data: { controller: 'auto-resize', target: 'post-form.baseTitleField', 'value-missing-message': '제목을 입력해 주세요.' }, maxlength: 50, autocomplete: "off"
 
   .form-group
-    %div{ style: 'display: none', data: { target: 'editor-form.source' } }
-      != f.object.body
+    = editor(f.object.body)
+
     = f.hidden_field :body, class: 'form-control', data: { target: 'post-form.bodyField validate-form.editorHtml', 'value-missing-message': '본문 내용이 비었어요.' }
 
   - if current_issue.folders.any?

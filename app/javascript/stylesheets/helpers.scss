@@ -144,3 +144,15 @@ body.-pack {
     }
   }
 }
+
+.js-polyfill-sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+
+.js-polyfill-sticky:before,
+.js-polyfill-sticky:after {
+  content: '';
+  display: table;
+}
