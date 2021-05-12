@@ -686,7 +686,7 @@ $(function() {
       var $all_form_groups = $form.find(".js-editor-file_source-form-group");
 
       if(parseInt($(this).data('rule-filesize')) < current_file.size) {
-        UnobtrusiveFlash.showFlashMessage('10MB이하의 파일만 업로드 가능합니다', {type: 'error'})
+        UnobtrusiveFlash.showFlashMessage('25MB이하의 파일만 업로드 가능합니다', {type: 'error'})
         $form_group.remove();
       } else {
         if( typeof(URL.createObjectURL) === "function" && /^image/.test(current_file.type) ){

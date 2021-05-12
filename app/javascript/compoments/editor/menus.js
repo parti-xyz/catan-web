@@ -318,7 +318,7 @@ function insertImageItem(nodeType, options, uploadUrl, ruleFileSize) {
           if (attrs.file && attrs.file[0]) {
             const currentFile = attrs.file[0]
             if (parseInt(ruleFileSize) < currentFile.size) {
-              appNoty('10MB 이하의 파일만 업로드 가능합니다.', 'warning', true).show()
+              appNoty('25MB 이하의 파일만 업로드 가능합니다.', 'warning', true).show()
             } else {
               startImageUpload(view, attrs.file[0], uploadUrl)
             }
