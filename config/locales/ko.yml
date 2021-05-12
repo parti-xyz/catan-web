@@ -267,7 +267,7 @@ ko:
         file_source:
           attributes:
             attachment:
-              file_size_is_less_than_or_equal_to: 10MB 이하의 파일만 업로드 할 수 있습니다.
+              file_size_is_less_than_or_equal_to: 25MB 이하의 파일만 업로드 할 수 있습니다.
               file_size_is_greater_than: 빈 파일은 업로드 할 수 없습니다.
         section:
           attributes:

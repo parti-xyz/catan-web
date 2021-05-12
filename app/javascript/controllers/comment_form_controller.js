@@ -126,7 +126,7 @@ export default class extends Controller {
     const fileSourceField = fileField.closest(`[data-target~="${this.identifier}.fileSourceField"]`)
 
     if (parseInt(fileField.dataset.ruleFilesize) < currentFile.size) {
-      appNoty('10MB 이하의 파일만 업로드 가능합니다.', 'warning', true).show()
+      appNoty('25MB 이하의 파일만 업로드 가능합니다.', 'warning', true).show()
       fileSourceField.remove()
     } else {
       if (/^image/.test(currentFile.type) ) {
