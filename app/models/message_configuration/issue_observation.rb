@@ -15,4 +15,8 @@ class MessageConfiguration::IssueObservation < ApplicationRecord
   def parent
     MessageConfiguration::GroupObservation.of(user, issue.group)
   end
+
+  def self.parent_class
+    MessageConfiguration::GroupObservation
+  end
 end

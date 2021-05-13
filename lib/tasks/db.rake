@@ -29,7 +29,7 @@ namespace :branchdb do
     end
     puts "DB 생성했습니다. : #{db_prefix}_#{branch}"
 
-    copy_result = system("mysqldump -u#{local_env.dig('database', 'username')} -p#{local_env.dig('database', 'password')} #{db_prefix}_master | mysql -u#{local_env.dig('database', 'username')} -p#{local_env.dig('database', 'password')} #{db_prefix}_#{branch}")
+    copy_result = system("mysqldump -u#{local_env.dig('database', 'username')} -p#{local_env.dig('database', 'password')} --max_allowed_packet=512M #{db_prefix}_master | mysql -u#{local_env.dig('database', 'username')} -p#{local_env.dig('database', 'password')} #{db_prefix}_#{branch}")
 
     puts(copy_result ? "DB를 복사했습니다. : #{$?}" : "DB를 복사하지 못했습니다. : #{$?}")
   end
