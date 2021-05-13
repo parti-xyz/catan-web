@@ -33,7 +33,7 @@ module MessageObservationConfigurable
 
       return parent.overrided_payoff(action) if parent.present?
 
-      MessageObservationConfigurable.default_payoff(action)
+      self.class.default_payoff(action)
     end
 
     def inherit_payoffs
@@ -52,6 +52,15 @@ module MessageObservationConfigurable
 
     def payoff_actions
       payoff_column_names.map { |column_name| MessageObservationConfigurable.payoff_column_name_to_action(column_name) }
+    end
+
+    def default_payoff(action)
+      column_name = MessageObservationConfigurable.payoff_action_to_column_name(action)
+      if !column_defaults.key?(column_name) && parent_class.present?
+        return parent_class.default_payoff(action)
+      end
+
+      column_defaults[column_name] || :ignoring
     end
   end
 
@@ -73,11 +82,7 @@ module MessageObservationConfigurable
     end
   end
 
-  def self.default_payoff(action)
-    return :subscribing_and_app_push if %i[new_issue mention upvote].include?(action.to_sym)
 
-    :ignoring
-  end
 
   def self.all_subscribing_payoffs
     [:subscribing, :subscribing_and_app_push]

@@ -15,4 +15,8 @@ class MessageConfiguration::PostObservation < ApplicationRecord
   def parent
     MessageConfiguration::IssueObservation.of(user, post.issue)
   end
+
+  def self.parent_class
+    MessageConfiguration::IssueObservation
+  end
 end
