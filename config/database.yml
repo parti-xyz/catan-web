@@ -1,45 +1,31 @@
 <%
-  local_env = {}
-  if Rails.env.development? || Rails.env.test?
-    branch = %x[git rev-parse --abbrev-ref HEAD].strip rescue nil
-    branch = branch.gsub('/', '_')
-    local_env = YAML.load_file("#{Rails.root}/local_env.yml").dig(Rails.env) || {}
-
-    changes_count = %x[git ls-files -mo --exclude-standard -- #{Rails.root}/db/migrate | wc -l].strip rescue nil
-    diffs_count = %x[git diff --cached master --name-only -- #{Rails.root}/db/migrate | wc -l].strip rescue nil
-
-    puts "changes db: #{%x[git ls-files -mo --exclude-standard -- #{Rails.root}/db/migrate]}"
-    puts "diffs db: #{%x[git diff --cached master --name-only -- #{Rails.root}/db/migrate]}"
-    if 0 >= changes_count.to_i + diffs_count.to_i
-      branch = 'master'
-    end
-
-    if(local_env.dig('devdb') != nil)
-      branch = local_env.dig('devdb')
-    end
+  if ! Rails.env.production? && !Rails.env.staging?
+    database_environment = BranchDb::SmartDatabaseEnvironment.new
+    db_user = database_environment.user_name
+    db_password = database_environment.password
+    db_name = database_environment.database_name
+    db_host = database_environment.host
+    db_port = database_environment.port
   end
 %>
 
-development:
+default: &default
   encoding: utf8mb4
   collation: utf8mb4_bin
   adapter:   mysql2
-  database:  catan_development_<%= branch %>
-  username:  <%= local_env.dig('database', 'username') %>
-  password:  <%= local_env.dig('database', 'password') %>
+  username:  <%= db_user %>
+  password:  <%= db_password %>
+  database:  <%= db_name %>
+  host:  <%= db_host %>
+  <% if db_port.present? %>
+  port:  <%= db_port %>
+  <% end %>
 
-default: &default
-  adapter: sqlite3
-  pool: 5
-  timeout: 5000
+development:
+  <<: *default
 
 test:
-  encoding: utf8mb4
-  collation: utf8mb4_bin
-  adapter:   mysql2
-  database:  catan_test_<%= branch %>
-  username:  <%= local_env.dig('database', 'username') %>
-  password:  <%= local_env.dig('database', 'password') %>
+  <<: *default
 
 production:
   adapter:    mysql2

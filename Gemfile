@@ -167,6 +167,8 @@ group :development, :test do
   gem 'mocha', '~> 1.1'
   gem 'sassc-rails', '~> 2.1'
   gem 'rails-controller-testing'
+  # gem "branch_db", path: '/Users/dalikim/workbench/branch_db'
+  gem "branch_db", github: "parti-coop/branch_db", tag: "v0.0.4"
 end
 
 group :development do
