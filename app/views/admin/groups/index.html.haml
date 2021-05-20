@@ -49,6 +49,7 @@
           %td
             - group.organizer_members.map(&:user).each do |user|
               = byline(user)
+              = user.email
           %td= ('비공개' if group.private?)
           %td= byline(group.user)
   = paginate @groups, theme: 'catan'
