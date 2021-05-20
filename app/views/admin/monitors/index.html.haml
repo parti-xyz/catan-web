@@ -27,6 +27,28 @@
           %td= data.comments_count
           %td= data.upvotes_count
 
+  %hr
+
+  %h4 최근 24주간 간 신규 카누 수
+
+  %table.table
+    %thead
+      %tr
+        %th.text-nowrap
+          주
+        %th.text-nowrap
+          카누 수
+        %th.text-nowrap
+          가입자 수
+    %tbody
+      - @user_join_week.each do |week, value|
+        %tr
+          %td
+            = static_day_f(week)
+            \~
+            = static_day_f(week + 6.days)
+          %td= @group_week[week]
+          %td= value
 
   %hr
 
@@ -40,7 +62,7 @@
         %th.text-nowrap
           가입자 수
     %tbody
-      - @user_join_statistics.each do |month, value|
+      - @user_join_month.each do |month, value|
         %tr
           %td= month
           %td= value
