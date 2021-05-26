@@ -11,6 +11,7 @@
     .simple-box.-half{ style: 'padding: 3rem 0' }
       = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
         = devise_error_messages!
+        = f.hidden_field :provider, value: 'email'
         = f.hidden_field :touch_group_slug, value: current_group&.slug
         .form-group
           = f.email_field :email, placeholder: '이메일을 입력하세요', autofocus: true, class: 'form-control'
