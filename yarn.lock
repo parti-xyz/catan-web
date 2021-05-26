@@ -1008,6 +1008,11 @@
   dependencies:
     prosemirror-state "^1.3.4"
 
+"@tiptap/extension-image@^2.0.0-beta.13":
+  version "2.0.0-beta.13"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-image/-/extension-image-2.0.0-beta.13.tgz#58a2e66533e2ef63e67aeb7980fe642b75fa17a0"
+  integrity sha512-3uapkYVV8xp62+qYWteKYYIzUgP8AK8HzWFnnN/QMO5yZg7Me3u+r+1hJ7FrCQeT+4IyxBlni7jHDEDftmVR4w==
+
 "@tiptap/extension-italic@^2.0.0-beta.11":
   version "2.0.0-beta.11"
   resolved "https://registry.yarnpkg.com/@tiptap/extension-italic/-/extension-italic-2.0.0-beta.11.tgz#fa5668ede5dd5373277da4bafc26415a2771d7f6"

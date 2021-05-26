@@ -22,11 +22,11 @@
           다음
           %i.fa.fa-arrow-right
     .body.-full.-edit{ data: { controller: 'content-replacement' } }
-      .version{ data: { controller: 'editor-form', 'editor-form-read-only': 'true' } }
-        .d-none{ data: { target: 'editor-form.source' } }
+      .version{ data: { controller: 'editor2-form', 'editor2-form-read-only': 'true' } }
+        .d-none{ data: { target: 'editor2-form.source' } }
           != current_wiki_history.body
         - if current_wiki_history.has_previous?
-          .d-none{ data: { target: 'editor-form.versionSource' } }
+          .d-none{ data: { target: 'editor2-form.versionSource' } }
             != current_wiki_history.previous.body
   - else
     .body.-full{ data: { controller: 'content-replacement' } }

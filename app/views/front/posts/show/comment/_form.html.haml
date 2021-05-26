@@ -7,10 +7,9 @@
 = form_with model: form_model,
             local: false,
             class: 'comment-form',
-            data: { controller: jj('comment-form', 'dirty-form', ('editor-form' if need_html_editor)),
+            data: { controller: jj('comment-form', 'dirty-form', ('editor2-form' if need_html_editor)),
                     target: jj('dirty-page.form', (is_edit_form ? 'comment-form-edit.editorForm' : 'comment-form-new.editorForm')),
-                    action: 'ajax:before->comment-form#submit ajax:success->comment-form-sync#update',
-                    'editor-form-upload-url': editor_assets_path } do |f|
+                    action: 'ajax:before->comment-form#submit ajax:success->comment-form-sync#update' } do |f|
   = f.hidden_field :parent_id, value: parent_comment&.id
   = f.hidden_field :is_html, value: need_html_editor
   .form-group.mb-1.bodyfield
@@ -22,8 +21,8 @@
           댓글을 입력하세요
       .collapse{ class: (need_fake_textarea ? 'hide' : 'show'),
                 data: { target: 'comment-form-new.realTextarea' } }
-        .d-none{ data: { target: 'editor-form.source',
-                        'editor-form-classes': '-comment' } }
+        .d-none{ data: { target: 'editor2-form.source',
+                        'editor2-form-classes': '-comment' } }
           != f.object.is_html? ? f.object.body : simple_format(h(f.object.body))
       = f.hidden_field :body,
                         data: { target: 'comment-form.bodyField',

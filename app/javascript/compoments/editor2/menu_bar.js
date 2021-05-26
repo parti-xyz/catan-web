@@ -13,12 +13,12 @@ export default class MenuBar {
 
     menuTargets.forEach(menuTarget => {
       const menuName = menuTarget.dataset.menuName
-      import(/* webpackMode: "eager" */ `./menu/${menuName}`).then(Menu => {
-        const menu = new Menu.default(editor)
+      import(/* webpackMode: "eager" */ `./menus/${menuName}`).then(Menu => {
+        const menu = new Menu.default(editor, menuTarget)
 
         const onMenuUpdate = (target) => {
           menuTarget.classList.add('border-0')
-          if (menu.isActive()) {
+          if (menu.isActive === 'function' && menu.isActive()) {
             menuTarget.classList.add('btn-dark')
             menuTarget.classList.remove('btn-outline-dark')
           } else {

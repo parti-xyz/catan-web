@@ -16,7 +16,6 @@ import { Prompt, TextField, ImageFileField } from './prompt'
 import { destroyMark, saveMark, toggleWrap } from './commands'
 import { markIsActive, getMarkAttrs, nodeCanInsert, getMarkRange, listIsActive } from './utils'
 import { startImageUpload } from './image_upload_plugin'
-import appNoti from '../../helpers/app_noty'
 import getValidUrl from '../../helpers/valid_url'
 import appNoty from '../../helpers/app_noty'
 
@@ -304,7 +303,7 @@ function linkItem(markType, options) {
         },
         onSave: (attrs) => {
           if (!attrs.href || attrs.href.length <= 0) {
-            appNoti('주소를 입력해 주세요.', 'warning')
+            appNoty('주소를 입력해 주세요.', 'warning')
             return false
           }
           attrs.href = getValidUrl(attrs.href)
