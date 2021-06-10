@@ -17,7 +17,7 @@
                 삭제
 
       .body-wrapper{ class: "#{('body-wrapper--with-chevron_menu' if chevron_menu.present?)} #{('body-wrapper--with-unread' unless comment.read?(current_user))}" }
-        .body{ class: ("body--#{comment.choice}" if comment.choice.present?) }
+        .body{ class: ("body--#{comment.choice}" if comment.choice.present? && !comment.post&.poll&.hidden_voters?) }
           = render 'comments/body', local_assigns
           - dropdown_dom_id = "#{dom_id(comment)}__chevron-buttons"
           - if chevron_menu.present?
