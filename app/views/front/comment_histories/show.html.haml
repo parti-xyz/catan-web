@@ -12,7 +12,7 @@
 .modal-body
   .editor-content
     .body{ data: { controller: 'editor2-form', 'editor2-form-read-only': 'true' } }
-      = editor(ff.object.body, rule_file_size: 10.megabytes, upload_url: editor_assets_path)
+      = editor(comment_format(@comment_history.comment, @comment_history.body))
       -# .d-none{ data: { target: 'editor2-form.source' } }
       -#   != comment_format(@comment_history.comment, @comment_history.body)
       - if @comment_history.has_previous?

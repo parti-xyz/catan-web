@@ -18,7 +18,7 @@ export default class MenuBar {
 
         const onMenuUpdate = (target) => {
           menuTarget.classList.add('border-0')
-          if (menu.isActive === 'function' && menu.isActive()) {
+          if (menu.isActive && menu.isActive()) {
             menuTarget.classList.add('btn-dark')
             menuTarget.classList.remove('btn-outline-dark')
           } else {

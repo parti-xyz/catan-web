@@ -42,7 +42,7 @@
     = f.text_field :base_title, class: 'control', required: true, placeholder: '제목...', data: { controller: 'auto-resize', target: 'post-form.baseTitleField', 'value-missing-message': '제목을 입력해 주세요.' }, maxlength: 50, autocomplete: "off"
 
   .form-group
-    = editor(f.object.body, rule_file_size: 10.megabytes, upload_url: editor_assets_path)
+    = editor(f.object.body)
     = f.hidden_field :body, class: 'form-control', data: { target: 'post-form.bodyField validate-form.editorHtml', 'value-missing-message': '본문 내용이 비었어요.' }
 
   - if current_issue.folders.any?

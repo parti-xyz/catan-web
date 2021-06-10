@@ -70,7 +70,7 @@
             = f.hidden_field :label_id, data: { target: 'label-picker.field' }
         = f.text_field :base_title, placeholder: '제목...', class: 'formtitle', rows: 1, maxlength: 50, data: { controller: 'auto-resize', target: 'wiki-form.titleField' }
       = f.fields_for :wiki do |ff|
-        = editor(ff.object.body, rule_file_size: 10.megabytes, upload_url: editor_assets_path)
+        = editor(ff.object.body)
         = ff.hidden_field :body, data: { target: 'wiki-form.bodyField' }
         -# .d-none{ data: { target: 'editor2-form.source' } }
         -#   != ff.object.body
