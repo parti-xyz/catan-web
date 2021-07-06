@@ -43,11 +43,14 @@ export function startImageUpload(view, file, uploadUrl, callback) {
   tr.setMeta(imageUploadKey, { add: { id, pos: tr.selection.from } })
   view.dispatch(tr)
 
-  uploadFile(file, uploadUrl).then(imageUrl => {
+  uploadFile(file, uploadUrl).then(image => {
+    const { url: imageUrl, original_url: originalImageUrl } = image
     if (!imageUrl) {
       appNoty('앗 뭔가 잘못되었습니다.', 'warning').show()
       return
     }
+
+    console.log (originalImageUrl)
 
     let pos = findPlaceholder(view.state, id)
     // If the content around the placeholder has been deleted, drop
@@ -56,7 +59,7 @@ export function startImageUpload(view, file, uploadUrl, callback) {
     // Otherwise, insert it at the placeholder's position, and remove
     // the placeholder
     view.dispatch(view.state.tr
-      .replaceWith(pos, pos, view.state.schema.nodes.image.create({ src: imageUrl }))
+      .replaceWith(pos, pos, view.state.schema.nodes.image.create({ src: imageUrl, originalSrc: originalImageUrl }))
       .setMeta(imageUploadKey, { remove: { id } }))
   }, () => {
     // On failure, just clean up the placeholder
@@ -80,9 +83,12 @@ function uploadFile(file, uploadUrl) {
   }).then(
     response => response.json()
   ).then(
-    json => json && json.image && json.image.url
+    json => json && json.image
   ).catch(
-    error => console.log(error)
+    error => {
+      appNoty('앗 뭔가 잘못되었습니다.', 'warning').show()
+      console.log(error)
+    }
   )
 }
 

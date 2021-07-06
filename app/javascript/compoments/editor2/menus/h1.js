@@ -4,7 +4,6 @@ export default class {
   }
 
   isActive() {
-    console.log(this.editor.isActive('heading', { level: 1 }))
     return this.editor.isActive('heading', { level: 1 })
   }
 

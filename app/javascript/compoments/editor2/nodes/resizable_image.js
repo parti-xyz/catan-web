@@ -2,6 +2,13 @@
 import Image from '@tiptap/extension-image'
 
 export const ResizableImage = Image.extend({
+  defaultOptions: {
+    ...Image.options,
+    HTMLAttributes: {
+      'data-controller': 'blank-link',
+      'data-action': 'click->blank-link#open'
+    },
+  },
   addAttributes() {
     return {
       ...this.parent?.(),
@@ -14,6 +21,13 @@ export const ResizableImage = Image.extend({
           }
         },
       },
+      originalSrc: {
+        renderHTML: attributes => {
+          return {
+            'data-blank-link-url': attributes.originalSrc,
+          }
+        },
+      }
     }
   },
   addNodeView() {

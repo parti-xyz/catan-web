@@ -1,10 +1,8 @@
 module EditorHelper
   DEFAULT_OPTION = {
     image: {
-      data: {
-        rule_file_size: 10.megabytes,
-        upload_url: Rails.application.routes.url_helpers.editor_assets_path,
-      }
+      rule_file_size: 10.megabytes,
+      upload_url: Rails.application.routes.url_helpers.editor_assets_path,
     },
   }
 
@@ -39,6 +37,10 @@ module EditorHelper
         end
         add_menu('underline') do
           tag.i(class: 'fa fa-fw fa-underline')
+        end
+        add_separator
+        add_menu('bullet_list') do
+          tag.i(class: 'fa fa-fw fa-list-ul')
         end
         add_separator
         add_menu('link') do

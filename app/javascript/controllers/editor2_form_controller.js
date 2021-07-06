@@ -30,7 +30,9 @@ import { camelize } from '../helpers/string'
 import MenuBar from '../compoments/editor2/menu_bar'
 
 export default class extends Controller {
-  static targets = ['target', 'source', 'conflictSource', 'versionSource', 'menuBarWrapper', 'menuBar', 'menuBarSpacer', 'menu']
+  static targets = ['target', 'source', 'conflictSource',
+                    'versionSource', 'menuBarWrapper',
+                    'menuBar', 'menuBarSpacer', 'menu']
 
   connect() {
     if (!this.sourceTarget || !this.targetTarget) { return }
