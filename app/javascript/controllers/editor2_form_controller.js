@@ -18,6 +18,11 @@ import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
 import Link from '@tiptap/extension-link'
+import Table from '@tiptap/extension-table'
+import TableRow from '@tiptap/extension-table-row'
+import TableCell from '@tiptap/extension-table-cell'
+import TableHeader from '@tiptap/extension-table-header'
+import Gapcursor from '@tiptap/extension-gapcursor'
 
 import ParamMap from '../helpers/param_map'
 import { ResizableImage } from '../compoments/editor2/nodes/resizable_image'
@@ -53,8 +58,17 @@ export default class extends Controller {
           openOnClick: false,
         }),
         ResizableImage,
+        Gapcursor,
+        Table.configure({
+          resizable: true,
+        }),
+        TableRow,
+        TableHeader,
+        TableCell,
       ],
-      content: this.sourceTarget.textContent,
+      content: this.sourceTarget.textContent,TableRow,
+        TableHeader,
+        TableCell,
       editorProps: {
         attributes: {
           spellcheck: 'false',

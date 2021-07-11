@@ -115,6 +115,9 @@
     overflow: hidden;
     border: 1px solid global-variables.$color-gray-300;
   }
+  blockquote table {
+    background-color: white;
+  }
   table p {
     margin-top: 1rem;
   }
@@ -125,6 +128,7 @@
 
   td,
   th {
+    min-width: 1em;
     vertical-align: top;
     border: 1px solid global-variables.$color-gray-300;
     padding: 3px 5px;
@@ -132,6 +136,11 @@
     position: relative;
   }
 
+  th {
+    font-weight: bold;
+    text-align: left;
+    background-color: global-variables.$color-gray-100;
+  }
 
   a,
   .mention {

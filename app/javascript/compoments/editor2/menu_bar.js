@@ -20,10 +20,22 @@ export default class MenuBar {
           menuTarget.classList.add('border-0')
           if (menu.isActive && menu.isActive()) {
             menuTarget.classList.add('btn-dark')
+            menuTarget.classList.add('btn-dark-svg')
             menuTarget.classList.remove('btn-outline-dark')
+            menuTarget.classList.remove('btn-outline-dark-svg')
           } else {
             menuTarget.classList.remove('btn-dark')
+            menuTarget.classList.remove('btn-dark-svg')
             menuTarget.classList.add('btn-outline-dark')
+            menuTarget.classList.add('btn-outline-dark-svg')
+          }
+
+          if (menu.isHidden) {
+            if (menu.isHidden()) {
+              menuTarget.classList.add('d-none')
+            } else {
+              menuTarget.classList.remove('d-none')
+            }
           }
         }
         editor.on('selectionUpdate', onMenuUpdate)

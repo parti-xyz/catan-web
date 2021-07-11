@@ -156,3 +156,25 @@ body.-pack {
   content: '';
   display: table;
 }
+
+.btn-outline-dark-svg {
+  &:hover {
+    svg .togglable {
+      fill: white;
+    }
+  }
+}
+
+.btn-dark-svg {
+  svg .togglable {
+    fill: white;
+  }
+}
+
+.fa-fw-svg {
+  height: 1.5em;
+}
+
+.fa-fw.fa-fw-xs {
+  width: 1em;
+}
