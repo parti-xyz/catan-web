@@ -1,7 +1,7 @@
 module EditorHelper
   DEFAULT_OPTION = {
     image: {
-      rule_file_size: 10.megabytes,
+      rule_file_size: 25.megabytes,
       upload_url: Rails.application.routes.url_helpers.editor_assets_path,
     },
   }

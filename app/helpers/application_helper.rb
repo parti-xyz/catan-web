@@ -268,7 +268,6 @@ module ApplicationHelper
         tags << content_tag("i", '', class: ["fa", "fa-lock"], title: '비공개') if model.try(:private?)
       end
     end
-    tags << content_tag("i", '', class: ["fa", "fa-microphone"], title: '오거나이저만 게시') if model.try(:notice_only?)
     extras.compact.each do |icon_name, title|
       tags << content_tag("i", '', class: ["fa", "fa-#{icon_name}"], title: title)
     end

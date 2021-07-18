@@ -10,7 +10,7 @@ class FileSource < ApplicationRecord
 
   validates :name, presence: true
   validates :attachment, presence: true, on: :create
-  validates :attachment, file_size: { less_than_or_equal_to: 10.megabytes, greater_than: 0.byte }
+  validates :attachment, file_size: { less_than_or_equal_to: 25.megabytes, greater_than: 0.byte }
 
   scope :sort_by_seq_no, -> { order(:seq_no).order(:id) }
   scope :only_image, -> { where("file_type like 'image/%'") }

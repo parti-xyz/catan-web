@@ -31,7 +31,7 @@ export default class {
 
     const currentFile = params.file[0]
     if (this.ruleFileSize && this.ruleFileSize < currentFile.size) {
-      appNoty('10MB 이하의 파일만 업로드 가능합니다.', 'warning', true).show()
+      appNoty('25MB 이하의 파일만 업로드 가능합니다.', 'warning', true).show()
       return
     }
 
