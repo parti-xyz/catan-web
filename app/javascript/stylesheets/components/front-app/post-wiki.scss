@@ -119,6 +119,12 @@
 
   &.-coc {
     margin: 1.5rem 3.75rem;
+  }
+  &.-channel-main {
+    margin-top: -1px;
+  }
+  &.-coc,
+  &.-main {
     @include mq.media('<=phone') {
       margin: 1rem;
     }
@@ -145,6 +151,7 @@
     > .body > .buttons {
       position: static;
       margin-top: 3rem;
+      text-align: right;
     }
   }
 }

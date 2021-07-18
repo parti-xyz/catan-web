@@ -32,6 +32,9 @@ class Ability
       can [:manage_folders], [Issue] do |issue|
         issue.try(:postable?, user)
       end
+      can [:main_wiki], Issue do |issue|
+        user.is_organizer?(issue) || user.is_organizer?(issue.group)
+      end
 
       can [:pinned, :new], [Post]
       can [:update, :destroy, :move_to_issue, :move_to_issue_form], [Post] do |post|
@@ -143,7 +146,7 @@ class Ability
         can [:manage], GroupHomeComponent
       end
 
-      can [:coc_wiki, :labels], Group do |group|
+      can [:main_wiki, :labels], Group do |group|
         group.organized_by?(user)
       end
 

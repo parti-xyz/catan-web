@@ -10,14 +10,14 @@
 
 - if Issue.only_alive_of_group(current_group).any?
   %section#home{ style:"padding-bottom: 40px;" }
-    - if current_group.front_wiki_post.present? and !current_group.front_wiki_post.private_blocked?(current_user)
+    - if current_group.main_wiki_post.present? and !current_group.main_wiki_post.private_blocked?(current_user)
       .container.container-xs-full-width
         %section.front-wiki
           .post-card
             .post-card__post
               .post-line
                 .post-body
-                  = render 'wikis/card', post: current_group.front_wiki_post, mode: 'preview-detail', hide_last_stroked_for: true
+                  = render 'wikis/card', post: current_group.main_wiki_post, mode: 'preview-detail', hide_last_stroked_for: true
 
     - home_components_content = capture do
       - current_group.group_home_components.sequenced.each do |group_home_component|

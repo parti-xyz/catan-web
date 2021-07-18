@@ -316,8 +316,8 @@ ActiveRecord::Schema.define(version: 2021_05_13_132401) do
     t.integer "latest_stroked_posts_count_version", default: 0
     t.integer "latest_issues_count", default: 0
     t.integer "latest_issues_count_version", default: 0
-    t.bigint "front_wiki_post_id"
-    t.bigint "front_wiki_post_by_id"
+    t.bigint "main_wiki_post_id"
+    t.bigint "main_wiki_post_by_id"
     t.string "issue_creation_privileges", default: "member", null: false
     t.bigint "blinded_by_id"
     t.datetime "blinded_at"
@@ -333,8 +333,8 @@ ActiveRecord::Schema.define(version: 2021_05_13_132401) do
     t.integer "labels_count", default: 0
     t.datetime "iced_at"
     t.index ["blinded_by_id"], name: "index_groups_on_blinded_by_id"
-    t.index ["front_wiki_post_by_id"], name: "index_groups_on_front_wiki_post_by_id"
-    t.index ["front_wiki_post_id"], name: "index_groups_on_front_wiki_post_id"
+    t.index ["main_wiki_post_by_id"], name: "index_groups_on_main_wiki_post_by_id"
+    t.index ["main_wiki_post_id"], name: "index_groups_on_main_wiki_post_id"
     t.index ["slug", "active"], name: "index_groups_on_slug_and_active", unique: true
   end
 
@@ -424,12 +424,16 @@ ActiveRecord::Schema.define(version: 2021_05_13_132401) do
     t.bigint "blinded_by_id"
     t.datetime "blinded_at"
     t.integer "position", default: 0, null: false
+    t.bigint "main_wiki_post_id"
+    t.bigint "main_wiki_post_by_id"
     t.index ["blinded_by_id"], name: "index_issues_on_blinded_by_id"
     t.index ["category_id"], name: "index_issues_on_category_id"
     t.index ["deleted_at"], name: "index_issues_on_deleted_at"
     t.index ["group_slug", "slug", "active"], name: "index_issues_on_group_slug_and_slug_and_active", unique: true
     t.index ["group_slug", "title", "active"], name: "index_issues_on_group_slug_and_title_and_active", unique: true
     t.index ["last_stroked_user_id"], name: "index_issues_on_last_stroked_user_id"
+    t.index ["main_wiki_post_by_id"], name: "index_issues_on_main_wiki_post_by_id"
+    t.index ["main_wiki_post_id"], name: "index_issues_on_main_wiki_post_id"
   end
 
   create_table "labels", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|

@@ -11,10 +11,10 @@
       %a.btn.btn-key.btn-sm{ href: front_menu_path }
         커뮤니티 채널 보기
 %section
-  - if current_group.front_wiki_post.present?
-    - if !current_group.front_wiki_post.private_blocked?(current_user)
+  - if current_group.main_wiki_post.present?
+    - if !current_group.main_wiki_post.private_blocked?(current_user)
       .post-wiki.-coc
-        = render 'front/wikis/card', current_wiki: current_group.front_wiki_post.wiki
+        = render 'front/wikis/card', current_wiki: current_group.main_wiki_post.wiki
   - else
     .alert.alert-secondary.m-4
       .display-5 커뮤니티 가이드를 준비 중입니다.
