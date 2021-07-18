@@ -157,7 +157,7 @@ module EditorHelper
         'menu-option': options[menu.to_sym],
       ),
       class: 'btn btn-sm',
-      style: 'margin-right: .125rem; margin-top: .125rem; margin-bottom: .125rem; padding: 0.25rem;') do
+      style: 'margin-right: .375rem; margin-top: .125rem; margin-bottom: .125rem; padding: 0.25rem;') do
         yield
       end)
   end
