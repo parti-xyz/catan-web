@@ -9,7 +9,7 @@ class MessageConfiguration::RootObservation < ApplicationRecord
 
     current_code = try(:"payoff_#{action}")
     unless current_code.nil?
-      current_code = MessageObservationConfigurable.default_payoff(action)
+      current_code = MessageConfiguration::RootObservation.default_payoff(action)
     end
 
     if payoffs.kind_of?(Array)
@@ -24,6 +24,10 @@ class MessageConfiguration::RootObservation < ApplicationRecord
   end
 
   def parent
+    nil
+  end
+
+  def self.parent_class
     nil
   end
 end
