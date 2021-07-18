@@ -407,9 +407,12 @@ Rails.application.routes.draw do
       end
     end
     resources :groups do
-      post :update_plan, on: :member
       put 'blind', on: :collection
-      put 'unblind', on: :member
+      member do
+        post 'update_plan'
+        put 'unblind'
+        put 'update_slug'
+      end
     end
     resources :blinds
     resources :active_issue_stats

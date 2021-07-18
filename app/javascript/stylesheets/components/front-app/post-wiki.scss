@@ -119,6 +119,9 @@
 
   &.-coc {
     margin: 1.5rem 3.75rem;
+    @include mq.media('<=phone') {
+      margin: 1rem;
+    }
     > .body {
       border: none;
     }

@@ -1,7 +1,7 @@
 %section#counts
   %h4 그룹 관리
 
-  = link_to '만들기', new_group_configuration_path, class: 'btn btn-default'
+  = link_to '만들기', new_group_configuration_path, class: 'btn btn-primary'
   .role-form
     = form_tag url_for(), method: :get do |f|
       = label_tag :q, '키워드 검색'
@@ -9,44 +9,49 @@
         = text_field_tag :q, params[:q], class: 'form-control'
         %span.input-group-btn
           = submit_tag '조회', class: 'btn btn-default'
-  %table.table(style="width: 1000px")
+
+  %table.table(style="min-width: 1000px;")
     %thead
       %tr
-        %th.text-nowrap
+        %th
           = Group.human_attribute_name(:title)
           \/
           = Group.human_attribute_name(:site_title)
-        %th.text-nowrap Plan
-        %th.text-nowrap= Group.human_attribute_name(:head_title)
-        %th.text-nowrap= Group.human_attribute_name(:slug)
-        %th.text-nowrap= Group.human_attribute_name(:site_keywords)
-        %th.text-nowrap= Group.human_attribute_name(:organizers)
-        %th.text-nowrap= Group.human_attribute_name(:private)
-        %th.text-nowrap 개설 멤버
+        %th
+          = Group.human_attribute_name(:slug)
+        %th Plan
+        -# %th= Group.human_attribute_name(:site_keywords)
+        %th= Group.human_attribute_name(:organizers)
+        %th= Group.human_attribute_name(:private)
+        %th 개설 멤버
     %tbody
       - @groups.each do |group|
         %tr
-          %td.text-nowrap
+          %td
             = link_to group.title, root_url(subdomain: group.subdomain)
+            - if group.site_title != group.title
+              %br
+              = group.site_title
             %br
-            = group.site_title
-            %br
-            = link_to '수정', edit_group_configuration_url(subdomain: group.subdomain), class: 'btn btn-default'
-            = link_to '삭제', admin_group_path(group), method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'btn btn-default'
-          %td.text-nowrap
-            = form_tag update_plan_admin_group_path(group), method: :post, class: 'form-inline' do
+            %span.text-muted.small= l(group.created_at)
+          %td
+            = link_to root_url(subdomain: group.slug), root_url(subdomain: group.slug), target: '_blank'
+            .text-nowrap
+              = link_to '수정', edit_group_configuration_url(subdomain: group.subdomain), class: 'btn btn-primary'
+              = link_to '삭제', admin_group_path(group), method: :delete, data: { prompt: { message: "정말 삭제하시겠습니까? 해당 그룹의 제목을 한 번 더 넣어 주세요: \"#{group.title}\"", param: 'site_title' } }, class: 'btn btn-danger'
+              = link_to '주소 변경', update_slug_admin_group_path(group), method: :put, data: { prompt: { message: "변경할 주소를 넣어주세요 ex)new_slug ", param: 'slug' } }, class: 'btn btn-info'
+          %td
+            = form_tag update_plan_admin_group_path(group), method: :post, class: 'form-inline text-nowrap' do
               .form-group
                 = select_tag :plan, options_for_select(Group.plan.options, group.plan), class: 'form-control'
-              .form-group
-                = submit_tag '변경', data: { confirm: '정말 변경하시겠습니까?' }, class: 'btn btn-default'
-          %td.text-nowrap= group.head_title
-          %td= root_url(subdomain: group.slug)
-          %td= group.site_keywords
+                = submit_tag '변경', data: { confirm: '정말 변경하시겠습니까?' }, class: 'btn btn-primary'
+          -# %td= group.site_keywords
           %td
             - group.organizer_members.map(&:user).each do |user|
               = byline(user)
+              = user.email
           %td= ('비공개' if group.private?)
-          %td.text-nowrap= byline(group.user)
+          %td= byline(group.user)
   = paginate @groups, theme: 'catan'
 
 

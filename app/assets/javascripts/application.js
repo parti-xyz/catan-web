@@ -62,6 +62,7 @@
 //= require search
 //= require bookmark
 //= require validation
+//= require admin
 
 // blank
 $.is_blank = function (obj) {
