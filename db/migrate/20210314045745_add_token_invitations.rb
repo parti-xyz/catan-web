@@ -16,8 +16,6 @@ class AddTokenInvitations < ActiveRecord::Migration[5.2]
         invitation.save
       end
     end
-
-    change_column_null :invitations, :token, false
   end
 
   def down
