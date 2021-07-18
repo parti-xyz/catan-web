@@ -4,7 +4,7 @@
   <% end %>
 <% else %>
   if($('.js-slug-folder-status-display').length > 0) {
-    var $message = $('<span>저장했습니다. <%= j(date_f(DateTime.now)) %></span>');
+    var $message = $('<span>저장했습니다. <%= j(date_f(Time.current)) %></span>');
     $('.js-slug-folder-status-display').html($message);
     $('.js-slug-folder-status-display').find('time[data-time-ago]').timeago();
   }

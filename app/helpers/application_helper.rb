@@ -248,7 +248,7 @@ module ApplicationHelper
 
   def meta_icons(model, *extras)
     tags = []
-    if model.try(:frozen?)
+    if model.try(:iced?)
       tags << content_tag(:span, title: '휴면 중') do
         content_tag(:span, 'z') +
         content_tag(:sup, nil, class: 'sup-z') do
@@ -268,7 +268,6 @@ module ApplicationHelper
         tags << content_tag("i", '', class: ["fa", "fa-lock"], title: '비공개') if model.try(:private?)
       end
     end
-    tags << content_tag("i", '', class: ["fa", "fa-microphone"], title: '오거나이저만 게시') if model.try(:notice_only?)
     extras.compact.each do |icon_name, title|
       tags << content_tag("i", '', class: ["fa", "fa-#{icon_name}"], title: title)
     end
@@ -450,9 +449,9 @@ module ApplicationHelper
       end
       concat(content_tag :span, issue.title, class: issue_classes)
 
-      if issue.frozen?
+      if issue.iced?
         concat raw('&nbsp;')
-        concat content_tag :span, nil, class: 'frozen', &-> do
+        concat content_tag :span, nil, class: 'iced', &-> do
           capture do
             concat 'z'
             concat content_tag :sup, 'z'
@@ -618,6 +617,14 @@ module ApplicationHelper
       message = CGI.unescapeHTML(html_escaped_message)
       [key, message]
     end
+  end
+
+  def partial_svg(name)
+    file_path = "#{Rails.root}/app/assets/images/#{name}.svg"
+    return File.read(file_path).html_safe if File.exist?(file_path)
+    fallback_path = "#{Rails.root}/app/assets/images/png/#{name}.png"
+    return image_tag("png/#{name}.png") if File.exist?(fallback_path)
+    '(not found)'
   end
 
   private

@@ -6,7 +6,7 @@ class NoticeAnnouncement < ActiveInteraction::Base
   def execute
     member = current_group.member_of(current_user)
     audience = announcement.audiences.find_or_create_by(member: member)
-    audience.noticed_at = DateTime.now
+    audience.noticed_at = Time.current
     audience.save
 
     audience

@@ -48,7 +48,7 @@ class OptionsController < ApplicationController
     end
 
     if @option.user == current_user
-      @option.canceled_at = DateTime.now
+      @option.canceled_at = Time.current
       @option.save
     end
 

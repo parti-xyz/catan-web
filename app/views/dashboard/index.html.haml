@@ -36,7 +36,7 @@
             = render 'posts/post_editor', current_issue: nil
 
           .js-invisible-on-mobile-editing
-            = render 'posts/new_posts_count', new_posts_count_url: new_dashboard_posts_count_path(group_slug: current_dashboard_group.try(:slug), last_time: DateTime.now.to_i)
+            = render 'posts/new_posts_count', new_posts_count_url: new_dashboard_posts_count_path(group_slug: current_dashboard_group.try(:slug), last_time: Time.current.to_i)
 
             .posts{data: {'previous-post-last-stroked-at-timestamp': '', is_last: 'false'}}
               #no-data.text-center.alert.collapse

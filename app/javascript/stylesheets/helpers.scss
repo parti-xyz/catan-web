@@ -144,3 +144,37 @@ body.-pack {
     }
   }
 }
+
+.js-polyfill-sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+
+.js-polyfill-sticky:before,
+.js-polyfill-sticky:after {
+  content: '';
+  display: table;
+}
+
+.btn-outline-dark-svg {
+  &:hover {
+    svg .togglable {
+      fill: white;
+    }
+  }
+}
+
+.btn-dark-svg {
+  svg .togglable {
+    fill: white;
+  }
+}
+
+.fa-fw-svg {
+  height: 1.5em;
+}
+
+.fa-fw.fa-fw-xs {
+  width: 1em;
+}

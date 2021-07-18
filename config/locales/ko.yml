@@ -207,6 +207,8 @@ ko:
         canceled: 취소되었습니다.
         no_changed: 이미 저장되었습니다.
         deleted: 삭제되었습니다.
+        will_delete: 곧 삭제됩니다.
+        will_update: 곧 저장됩니다.
         released: 해제되었습니다.
         reported: 신고했습니다.
         conflicted_wiki: 방금 다른 멤버가 위키를 고쳤습니다. 회원님이 고친 내용은 저장되지 않았습니다. 무엇을 고쳤는지 살펴보고 다시 저장해 주세요.
@@ -256,6 +258,8 @@ ko:
               invalid: '비밀번호가 일치하지 않습니다.'
             email:
               invalid: '이메일이 올바르지 않습니다.'
+            reset_password_token:
+              invalid: '비밀번호 재설정 링크가 유효하지 않습니다. 이 링크가 이미 한 번 사용되었거나 재설정 요청한 지 너무 오래되었습니다. 다시 비밀번호 재설정을 요청해 주세요.'
         related:
           attributes:
             target:
@@ -267,7 +271,7 @@ ko:
         file_source:
           attributes:
             attachment:
-              file_size_is_less_than_or_equal_to: 10MB 이하의 파일만 업로드 할 수 있습니다.
+              file_size_is_less_than_or_equal_to: 25MB 이하의 파일만 업로드 할 수 있습니다.
               file_size_is_greater_than: 빈 파일은 업로드 할 수 없습니다.
         section:
           attributes:

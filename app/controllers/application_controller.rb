@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :cache_member_for_current_user
   before_action :prepare_meta_tags, if: -> { request.get? and !Rails.env.test? }
   before_action :set_device_type
+  before_action :blocked_iced_group
   before_action :block_not_exists_group
   before_action :blocked_private_group
   before_action :logging_mobile_app
@@ -125,6 +126,23 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def blocked_iced_group
+    return if request.subdomain.blank?
+    return if current_group.blank?
+    return unless current_group.iced?
+    return if (controller_name == 'pages' && action_name == 'iced') ||
+      (controller_name == 'groups') ||
+      (controller_name == 'members' && action_name == 'cancel')
+
+    if request.xhr?
+      return if request.get?
+      render_403 && return
+    end
+
+    logger.debug("controller_name, action_name: #{controller_name}, #{action_name}")
+    redirect_to front_iced_path
+  end
+
   def block_not_exists_group
     if current_group.blank? and request.subdomain.present?
       redirect_to root_url(subdomain: nil)
@@ -136,24 +154,25 @@ class ApplicationController < ActionController::Base
 
     if current_group.private_blocked?(current_user) &&
     !(
-      (controller_name == 'issues' and action_name == 'home') or
-      (controller_name == 'issues' and action_name == 'index' and request.subdomain.blank?) or
-      (controller_name == 'member_requests' and action_name == 'create') or
-      (controller_name == 'sessions') or
-      (controller_name == 'users' and action_name == 'pre_sign_up') or
-      (controller_name == 'users' and action_name == 'email_sign_in') or
-      (controller_name == 'passwords') or
-      (controller_name == 'members' and action_name == 'magic_join') or
-      (controller_name == 'members' and action_name == 'magic_form') or
-      (controller_name == 'members' and action_name == 'join_group_form') or
-      (controller_name == 'my_menus') or
-      (self.is_a? Group::Eduhope::MembersController and action_name == 'admit') or
+      (controller_name == 'pages' && action_name == 'iced') ||
+      (controller_name == 'issues' && action_name == 'home') ||
+      (controller_name == 'issues' && action_name == 'index' && request.subdomain.blank?) ||
+      (controller_name == 'member_requests' && action_name == 'create') ||
+      (controller_name == 'sessions') ||
+      (controller_name == 'users' && action_name == 'pre_sign_up') ||
+      (controller_name == 'users' && action_name == 'email_sign_in') ||
+      (controller_name == 'passwords') ||
+      (controller_name == 'members' && action_name == 'magic_join') ||
+      (controller_name == 'members' && action_name == 'magic_form') ||
+      (controller_name == 'members' && action_name == 'join_group_form') ||
+      (controller_name == 'my_menus') ||
+      (is_a?(Group::Eduhope::MembersController) && action_name == 'admit') ||
       (helpers.implict_front_namespace? || helpers.explict_front_namespace?) && (
-        (controller_name == 'member_requests' and action_name == 'intro') or
-        (controller_name == 'member_requests' and action_name == 'new') or
-        (controller_name == 'member_requests' and action_name == 'create') or
-        (controller_name == 'users') or
-        (controller_name == 'registrations') or
+        (controller_name == 'member_requests' && action_name == 'intro') ||
+        (controller_name == 'member_requests' && action_name == 'new') ||
+        (controller_name == 'member_requests' && action_name == 'create') ||
+        (controller_name == 'users') ||
+        (controller_name == 'registrations') ||
         (controller_name == 'confirmations')
       )
     )

@@ -1,8 +1,8 @@
-import { Plugin } from 'prosemirror-state'
-
+import { Plugin, PluginKey } from 'prosemirror-state'
 import { markIsActive, getMarkRange, getMarkAttrs } from './utils'
 
-class LinkTooltipPlugin {
+const linkTooltipPluginKey = new PluginKey('linkTooltip')
+class LinkTooltipView {
   constructor(view) {
     this.tooltip = document.createElement('div')
     document.body.appendChild(this.tooltip)
@@ -88,10 +88,9 @@ class LinkTooltipPlugin {
   }
 }
 
-const linkTooltipPlugin = new Plugin({
-  view(editorView) {
-    return new LinkTooltipPlugin(editorView)
-  },
-})
-
-export { linkTooltipPlugin }
+export const createLinkTooltipPlugin = () => {
+  return new Plugin({
+    key: linkTooltipPluginKey,
+    view: view => new LinkTooltipView(view),
+  })
+}

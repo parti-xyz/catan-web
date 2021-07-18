@@ -10,7 +10,7 @@ class Front::MemberRequestsController < ApplicationController
   end
 
   def intro
-    redirect_to root_path && return if user_signed_in? && current_group&.member?(current_user)
+    turbolinks_redirect_to(root_path) && return if user_signed_in? && current_group&.member?(current_user)
     render layout: 'front/simple'
   end
 

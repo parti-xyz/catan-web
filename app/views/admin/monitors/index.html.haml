@@ -1,11 +1,15 @@
 %section#counts
-  %h4 통계
+  %h4 현재 주요 통계
   .well
     %ul.list-unstyled{ style: 'margin-bottom: 0;' }
       %li 계정 수: #{number_with_delimiter User.not_canceled.count}
       %li 최근 24시간 동안 만들어진 계정 수 : +#{number_with_delimiter User.not_canceled.latest.count}
       %li 수다 수 : #{number_with_delimiter Post.count}
       %li 댓글 수 : #{number_with_delimiter Comment.count}
+
+  %hr
+
+  %h4 일별 주요 통계
   %table.table
     %thead
       %tr
@@ -23,3 +27,42 @@
           %td= data.comments_count
           %td= data.upvotes_count
 
+  %hr
+
+  %h4 최근 24주간 간 신규 카누 수
+
+  %table.table
+    %thead
+      %tr
+        %th.text-nowrap
+          주
+        %th.text-nowrap
+          카누 수
+        %th.text-nowrap
+          가입자 수
+    %tbody
+      - @user_join_week.each do |week, value|
+        %tr
+          %td
+            = static_day_f(week)
+            \~
+            = static_day_f(week + 6.days)
+          %td= @group_week[week]
+          %td= value
+
+  %hr
+
+  %h4 최근 24개월 간 월별 가입자 수
+
+  %table.table
+    %thead
+      %tr
+        %th.text-nowrap
+          월
+        %th.text-nowrap
+          가입자 수
+    %tbody
+      - @user_join_month.each do |month, value|
+        %tr
+          %td= month
+          %td= value

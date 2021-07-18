@@ -26,7 +26,7 @@ module Expirable
   end
 
   def assign_expires_after(duration_days)
-    self.expires_at = DateTime.now + duration_days
+    self.expires_at = Time.current + duration_days
   end
 
   def remain_time_human

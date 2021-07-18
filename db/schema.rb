@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_07_230725) do
+ActiveRecord::Schema.define(version: 2021_05_13_132401) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -268,13 +268,13 @@ ActiveRecord::Schema.define(version: 2021_04_07_230725) do
   create_table "group_observations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "group_id", null: false
-    t.string "payoff_create_comment", default: "ignoring"
+    t.string "payoff_create_comment", default: "subscribing_and_app_push"
     t.string "payoff_closed_survey", default: "ignoring"
-    t.string "payoff_create_post", default: "ignoring"
-    t.string "payoff_pin_post", default: "ignoring"
+    t.string "payoff_create_post", default: "subscribing_and_app_push"
+    t.string "payoff_pin_post", default: "subscribing_and_app_push"
     t.string "payoff_mention", default: "subscribing_and_app_push"
     t.string "payoff_upvote", default: "subscribing_and_app_push"
-    t.string "payoff_create_issue", default: "ignoring"
+    t.string "payoff_create_issue", default: "subscribing_and_app_push"
     t.string "payoff_update_issue_title", default: "ignoring"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -331,7 +331,7 @@ ActiveRecord::Schema.define(version: 2021_04_07_230725) do
     t.string "navbar_coc_text_color", default: "#5e2abb"
     t.string "organization_slug", default: "default"
     t.integer "labels_count", default: 0
-    t.datetime "freezed_at"
+    t.datetime "iced_at"
     t.index ["blinded_by_id"], name: "index_groups_on_blinded_by_id"
     t.index ["main_wiki_post_by_id"], name: "index_groups_on_main_wiki_post_by_id"
     t.index ["main_wiki_post_id"], name: "index_groups_on_main_wiki_post_id"
@@ -357,10 +357,10 @@ ActiveRecord::Schema.define(version: 2021_04_07_230725) do
   create_table "issue_observations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "issue_id", null: false
-    t.string "payoff_create_comment", default: "ignoring"
+    t.string "payoff_create_comment", default: "subscribing_and_app_push"
     t.string "payoff_closed_survey", default: "ignoring"
-    t.string "payoff_create_post", default: "ignoring"
-    t.string "payoff_pin_post", default: "ignoring"
+    t.string "payoff_create_post", default: "subscribing_and_app_push"
+    t.string "payoff_pin_post", default: "subscribing_and_app_push"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["issue_id"], name: "index_issue_observations_on_issue_id"
@@ -411,7 +411,7 @@ ActiveRecord::Schema.define(version: 2021_04_07_230725) do
     t.integer "members_count", default: 0
     t.integer "hot_score", default: 0
     t.string "hot_score_datestamp"
-    t.datetime "freezed_at"
+    t.datetime "iced_at"
     t.boolean "private", default: false, null: false
     t.integer "last_stroked_user_id"
     t.boolean "notice_only", default: false
@@ -653,7 +653,7 @@ ActiveRecord::Schema.define(version: 2021_04_07_230725) do
   create_table "post_observations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "post_id", null: false
-    t.string "payoff_create_comment", default: "ignoring"
+    t.string "payoff_create_comment", default: "subscribing_and_app_push"
     t.string "payoff_closed_survey", default: "ignoring"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -807,13 +807,13 @@ ActiveRecord::Schema.define(version: 2021_04_07_230725) do
 
   create_table "root_observations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.bigint "group_id", null: false
-    t.string "payoff_create_comment", default: "ignoring"
+    t.string "payoff_create_comment", default: "subscribing_and_app_push"
     t.string "payoff_closed_survey", default: "ignoring"
-    t.string "payoff_create_post", default: "ignoring"
-    t.string "payoff_pin_post", default: "ignoring"
+    t.string "payoff_create_post", default: "subscribing_and_app_push"
+    t.string "payoff_pin_post", default: "subscribing_and_app_push"
     t.string "payoff_mention", default: "subscribing_and_app_push"
     t.string "payoff_upvote", default: "subscribing_and_app_push"
-    t.string "payoff_create_issue", default: "ignoring"
+    t.string "payoff_create_issue", default: "subscribing_and_app_push"
     t.string "payoff_update_issue_title", default: "ignoring"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

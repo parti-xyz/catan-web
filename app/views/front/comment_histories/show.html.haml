@@ -11,9 +11,5 @@
     %span{ "aria-hidden": 'true' } ×
 .modal-body
   .editor-content
-    .body{ data: { controller: 'editor-form', 'editor-form-read-only': 'true' } }
-      .d-none{ data: { target: 'editor-form.source' } }
-        != comment_format(@comment_history.comment, @comment_history.body)
-      - if @comment_history.has_previous?
-        .d-none{ data: { target: 'editor-form.versionSource' } }
-          != comment_format(@comment_history.comment, @comment_history.previous.body)
+    .body{ data: { controller: 'editor2-form', 'editor2-form-read-only': 'true' } }
+      = editor(comment_format(@comment_history.comment, @comment_history.body), version_source_body: (comment_format(@comment_history.comment, @comment_history.previous.body) if @comment_history.has_previous?))

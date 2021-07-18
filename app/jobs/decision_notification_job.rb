@@ -23,9 +23,9 @@ class DecisionNotificationJob < ApplicationJob
       post = Post.find_by(id: decision_history.post_id)
     end
 
-    decision_history.update_columns(mailed_at: DateTime.now)
+    decision_history.update_columns(mailed_at: Time.current)
     not_sent_histories.each do |decision_history|
-      decision_history.update_columns(mailed_at: DateTime.now)
+      decision_history.update_columns(mailed_at: Time.current)
     end
   end
 end

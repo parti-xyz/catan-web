@@ -9,6 +9,35 @@
         .card-body
           = render 'front/groups/form', local_group: current_group
 
+      %h5 그룹 휴면
+      .card.mb-4
+        .card-body
+          - if current_group.iced?
+            - if current_group.ready_for_frontable?
+              %p 그룹 휴면을 해제합니다.
+              = link_to '휴면 해제하기', wake_front_group_path(current_group), method: :put, remote: true, class: 'btn btn-danger'
+            - else
+              %p 그룹 휴면을 해제할 수 없습니다.
+              - if current_user.admin?
+                비공개 채널이 있습니다. (관리자만 보입니다.)
+                %ul.ml-4
+                  - current_group.issues.where(private: true).each do |issue|
+                    %li
+                      = issue.title
+                      \/
+                      = issue.id
+                / Issue.where(id: #{current_group.issues.where(private: true).map(&:id)})
+              - else
+                비공개 채널이 있습니다. 휴면을 해제하려면
+                %a(href='mailto:help@parti.coop')
+                  help@parti.coop
+                으로 메일을 보내주세요.
+          - else
+            %p 그룹을 휴면으로 전환합니다.
+            %p
+              휴면 그룹은 새 글을 올릴 수 없습니다.
+            = link_to '휴면 전환하기', ice_front_group_path(current_group), method: :put, remote: true, class: 'btn btn-danger'
+
       %h5 그룹 삭제
       .card.mb-4
         .card-body

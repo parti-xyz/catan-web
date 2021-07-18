@@ -15,13 +15,13 @@
 %hr
 
 %h4 채널 얼리기
-= form_tag freeze_admin_issues_path, method: :post do
+= form_tag ice_admin_issues_path, method: :post do
   .form-group
     %label 채널 슬러그
-    = text_field_tag :issue_to_be_freezed, nil, class: 'form-control'
+    = text_field_tag :issue_to_be_iced, nil, class: 'form-control'
   .form-group
     %label 그룹 슬러그
-    = text_field_tag :issue_to_be_freezed_of_group, nil, class: 'form-control'
+    = text_field_tag :issue_to_be_iced_of_group, nil, class: 'form-control'
     채널을 얼립니다.
   .help-block
     얼린 채널은

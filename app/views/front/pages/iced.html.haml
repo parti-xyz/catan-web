@@ -1,0 +1,18 @@
+%section.text-center
+  .container
+    %h4.text-keepall
+      %i.fa.fa-cube
+      "#{current_group.title}" 그룹은 휴면 중입니다.
+    .simple-box.text-center{ style: 'padding: 2rem 0'}
+      - if (current_group.organized_by?(current_user) && current_group.frontable?) || current_user&.admin?
+        - if current_group.frontable?
+          %p.text-center
+            = link_to '그룹 관리', edit_front_group_path(current_group), class: 'text-primary'
+        - else
+          %p.text-center
+            = link_to '그룹 관리', edit_group_configuration_url(subdomain: current_group.subdomain), class: 'text-primary'
+      - else
+        %p.text-center
+          다른 그룹을 탐색해 보세요.
+          %br
+          = link_to '다른 그룹 탐색', expedition_url(subdomain: nil), class: 'text-primary'

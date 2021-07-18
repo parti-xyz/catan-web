@@ -506,7 +506,7 @@ class Post < ApplicationRecord
   end
 
   def strok_by(someone, subject = nil)
-    self.last_stroked_at = DateTime.now
+    self.last_stroked_at = Time.current
     self.last_stroked_user = (someone || self.user)
     self.last_stroked_for = subject
 
@@ -516,7 +516,7 @@ class Post < ApplicationRecord
   end
 
   def strok_by!(someone, subject = nil)
-    update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone&.id, last_stroked_for: subject)
+    update_columns(last_stroked_at: Time.current, last_stroked_user_id: someone&.id, last_stroked_for: subject)
     read!(someone)
     StrokedPostUserJob.perform_async(self.id, someone&.id)
   end
@@ -668,7 +668,7 @@ class Post < ApplicationRecord
     return unless group.member?(someone)
 
     post_reader = self.post_readers.find_or_create_by(user: someone)
-    post_reader.updated_at = DateTime.now
+    post_reader.updated_at = Time.current
     post_reader.save
 
     post_reader

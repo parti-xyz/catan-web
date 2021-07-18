@@ -7,12 +7,9 @@ class MessageConfiguration::RootObservation < ApplicationRecord
   def observable?(action, payoffs)
     return false if payoffs.blank?
 
-    current_code = try(:"payoff_#{action}")
-    unless current_code.nil?
-      current_code = MessageObservationConfigurable.default_payoff(action)
-    end
-
-    if payoffs.kind_of?(Array)
+    current_code = try(:"payoff_#{action}") || MessageConfiguration::RootObservation.default_payoff(action)
+    current_code = current_code&.to_sym
+    if payoffs.is_a?(Array)
       payoffs.include?(current_code)
     else
       payoffs == current_code
@@ -24,6 +21,10 @@ class MessageConfiguration::RootObservation < ApplicationRecord
   end
 
   def parent
+    nil
+  end
+
+  def self.parent_class
     nil
   end
 end

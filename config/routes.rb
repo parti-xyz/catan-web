@@ -117,7 +117,7 @@ Rails.application.routes.draw do
       post :admit_members
       put :add_my_menu
       put :wake
-      put :freeze
+      put :ice
       delete :remove_my_menu
       put :update_category
       delete :destroy_category
@@ -389,7 +389,7 @@ Rails.application.routes.draw do
     root to: 'monitors#index'
     resources :issues do
       post 'merge', on: :collection
-      post 'freeze', on: :collection
+      post 'ice', on: :collection
       put 'blind', on: :collection
       put 'unblind', on: :member
     end
@@ -407,9 +407,12 @@ Rails.application.routes.draw do
       end
     end
     resources :groups do
-      post :update_plan, on: :member
       put 'blind', on: :collection
-      put 'unblind', on: :member
+      member do
+        post 'update_plan'
+        put 'unblind'
+        put 'update_slug'
+      end
     end
     resources :blinds
     resources :active_issue_stats
@@ -445,11 +448,12 @@ Rails.application.routes.draw do
     get :mentions, to: 'messages#mentions'
     get :messages, to: 'messages#index'
     patch :read_all_posts, to: 'pages#read_all_posts'
-    get :search, to: 'pages#search' #, as: :search
+    get :search, to: 'pages#search'
     get :group_sidebar, to: 'pages#group_sidebar'
     get :coc, to: 'pages#coc'
     get :menu, to: 'pages#menu'
     get :search_form, to: 'pages#search_form'
+    get :iced, to: 'pages#iced'
 
     resources :channels, only: [:show, :edit, :new] do
       member do
@@ -461,7 +465,7 @@ Rails.application.routes.draw do
       end
       collection do
         get :sync
-        get :frozen
+        get :iced
       end
 
       resources :folders, only: [] do
@@ -472,7 +476,7 @@ Rails.application.routes.draw do
     end
     resources :issues, only: [:update, :create, :destroy], controller: '/issues' do
       member do
-        put :freeze
+        put :ice
         put :wake
         delete :remove_logo
         delete :remove_cover
@@ -623,9 +627,12 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :groups, only: [:edit]
     resources :groups, only: [:update], controller: '/group/configurations'
-    resources :groups, only: [] do
+    resources :groups, only: [:edit] do
+      member do
+        put :wake
+        put :ice
+      end
       collection do
         post 'main_wiki', to: '/group/configurations#main_wiki'
         delete 'main_wiki', to: '/group/configurations#destroy_main_wiki'

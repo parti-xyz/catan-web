@@ -4,7 +4,7 @@ class MemberRequestsController < ApplicationController
   load_and_authorize_resource :member_request, through: :issue, shallow: true
 
   def create
-    render_404 and return if @issue.member?(current_user) or @issue.frozen?
+    render_404 and return if @issue.member?(current_user) or @issue.iced?
 
     @member_request.user = current_user
     if @member_request.save

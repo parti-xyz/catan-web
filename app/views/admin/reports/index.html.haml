@@ -25,8 +25,9 @@
               = report.reason.text
             %td.text-nowrap= report.reportable_type
             %td= report.reportable_id
-            %td= link_to smart_post_url(report.reportable), target: '_blank' do
-              = (report.reportable.try(:title) || excerpt(report.reportable.try(:body), from_html: true)),
+            %td
+              = link_to smart_post_url(report.reportable), target: '_blank' do
+                = (report.reportable.try(:title) || excerpt(report.reportable.try(:body), from_html: true))
             %td= report.user.nickname
             %td= date_f report.created_at
 

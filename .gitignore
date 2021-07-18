@@ -54,3 +54,4 @@ yarn-debug.log*
 .yalc
 
 *.sql
+TAGS

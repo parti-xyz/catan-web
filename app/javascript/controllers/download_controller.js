@@ -12,7 +12,8 @@ export default class extends Controller {
 
     if(ufo.isApp()) {
       const fileSourceId = this.data.get('fileSourceId')
-      ufo.post("download", { file: fileSourceId, name: fileSourceName });
+      const fileName = this.data.get('fileName')
+      ufo.post("download", { post: 0, file: +fileSourceId, name: fileName });
     } else if (event.shiftKey || event.ctrlKey || event.metaKey) {
       window.open(downloadUrl, '_blank');
     } else {
