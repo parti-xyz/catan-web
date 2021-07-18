@@ -72,7 +72,7 @@ var __parti_prepare_folder = function($base) {
             });
 
             _cookies_folder_ids = _.uniq(_cookies_folder_ids);
-            if(_cookies_folder_ids.length > 2000) {
+            if(_cookies_folder_ids.length > 500) {
               _cookies_folder_ids.shift()
             }
             Cookies.set('opened_folder_ids', _cookies_folder_ids, { domain: '.' + __root_domain, expires: 7 });
@@ -205,7 +205,7 @@ var __parti_prepare_folder = function($base) {
             });
 
             _cookies_folder_ids = _.uniq(_cookies_folder_ids);
-            if(_cookies_folder_ids.length > 2000) {
+            if(_cookies_folder_ids.length > 500) {
               _cookies_folder_ids.shift()
             }
             Cookies.set('opened_folder_ids', _cookies_folder_ids, { domain: '.' + __root_domain, expires: 7 });
