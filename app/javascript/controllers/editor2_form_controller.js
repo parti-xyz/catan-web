@@ -24,11 +24,13 @@ import TableCell from '@tiptap/extension-table-cell'
 import TableHeader from '@tiptap/extension-table-header'
 import Gapcursor from '@tiptap/extension-gapcursor'
 
+import { TextSelection } from "prosemirror-state"
+
 import ParamMap from '../helpers/param_map'
 import { ResizableImage } from '../compoments/editor2/nodes/resizable_image'
 import { createLinkTooltipPlugin } from '../compoments/editor2/plugins/link_tooltip_plugin'
 import { createImageUploadPlugin } from '../compoments/editor2/plugins/image_upload_plugin'
-import { computeConflictDocument } from '../compoments/editor2/plugins/conflict_plugin'
+import { createDiffDocumentPlugin } from '../compoments/editor2/plugins/diff_plugin'
 
 
 import { camelize } from '../helpers/string'
@@ -66,9 +68,7 @@ export default class extends Controller {
         TableHeader,
         TableCell,
       ],
-      content: this.sourceTarget.textContent,TableRow,
-        TableHeader,
-        TableCell,
+      content: this.sourceTarget.textContent,
       editorProps: {
         attributes: {
           spellcheck: 'false',
@@ -78,20 +78,24 @@ export default class extends Controller {
     })
 
     if (this.hasConflictSourceTarget) {
-      const { conflictDoc, conflictDocumentPlugin } = computeConflictDocument(
+      this.conflictDocumentPlugin = createDiffDocumentPlugin(
         this.editor.schema,
-        this.sourceTarget,
-        this.conflictSourceTarget
+        this.sourceTarget.textContent,
+        this.conflictSourceTarget.textContent,
+        'conflict',
       )
-      this.reconfigureDoc(conflictDoc)
-      this.conflictDocumentPlugin = conflictDocumentPlugin
       this.editor.registerPlugin(this.conflictDocumentPlugin)
-    // } else if (this.hasVersionSourceTarget) {
+    } else if (this.hasVersionSourceTarget) {
     //   let diff = this.computeVersionDocument(currentSchema, this.sourceTarget, this.versionSourceTarget)
     //   doc = diff.doc
     //   plugins = plugins.concat(diff.plugins)
-    } else {
-      // this.reconfigureDoc(DOMParser.fromSchema(this.editor.schema).parse(this.sourceTarget))
+      this.versionDocumentPlugin = createDiffDocumentPlugin(
+        this.editor.schema,
+        this.sourceTarget.textContent,
+        this.versionSourceTarget.textContent,
+        'version',
+      )
+      this.editor.registerPlugin(this.versionDocumentPlugin)
     }
 
     this.linkTooltipPlugin = createLinkTooltipPlugin()
@@ -136,6 +140,7 @@ export default class extends Controller {
       if (this.linkTooltipPlugin) this.editor.unregisterPlugin(this.linkTooltipPlugin.key)
       if (this.imageUploadPlugin) this.editor.unregisterPlugin(this.imageUploadPlugin.key)
       if (this.conflictDocumentPlugin) this.editor.unregisterPlugin(this.conflictDocumentPlugin.key)
+      if (this.versionDocumentPlugin) this.editor.unregisterPlugin(this.versionDocumentPlugin.key)
 
       this.editor.destroy()
       this.editor = null
@@ -191,23 +196,6 @@ export default class extends Controller {
     return div.innerHTML
   }
 
-  reconfigureDoc(newDoc) {
-    const newState = this.editor.state.reconfigure({ doc })
-    this.editor.view.updateState(newState)
-
-    this.editor
-      .chain()
-      .command(({ tr }) => {
-        const { doc } = tr
-        const selection = TextSelection.create(doc, 0, doc.content.size)
-        tr.setSelection(selection)
-          .replaceSelectionWith(newDoc, false)
-          .setMeta('preventUpdate', true)
-        return true
-      })
-      .run()
-  }
-
   insertText(text) {
     if (!this.editor) return
 
@@ -221,10 +209,23 @@ export default class extends Controller {
       .run()
   }
 
-  hasDangerConflict() {
-    if (!this.editorState || !this.conflictDocumentPlugin) { return false }
+  focus() {
+    if (!this.editor || this.editor.view) { return }
 
-    let decos = this.conflictPlugin.getState(this.editorState)
+    this.editor.view.focus()
+
+    scrollIntoView(this.editor.view.dom, {
+      cancellable: true,
+      align: {
+        topOffset: 100,
+      }
+    })
+  }
+
+  hasDangerConflict() {
+    if (!this.editor.state || !this.conflictDocumentPlugin) { return false }
+
+    let decos = this.conflictDocumentPlugin.getState(this.editor.state)
     let found = decos.find(null, null, spec => spec.danger)
     return found.length > 0
   }
@@ -232,7 +233,7 @@ export default class extends Controller {
   resolveConflict(event) {
     event.preventDefault()
 
-    if (!this.editor || !this.conflictPlugin) { return }
+    if (!this.editor || !this.conflictDocumentPlugin) { return }
 
     const paramMap = new ParamMap(this, event.currentTarget)
     const action = paramMap.get('conflictAction')
@@ -251,14 +252,14 @@ export default class extends Controller {
           }
         }
 
-        tr.setMeta(this.conflictPlugin, { action, controlId })
+        tr.setMeta(this.conflictDocumentPlugin, { action, controlId })
         return true
       })
       .run()
   }
 
   findConflictContentDeco(controlId) {
-    let decos = this.conflictPlugin.getState(this.editorState, )
+    let decos = this.conflictDocumentPlugin.getState(this.editor.state)
     let found = decos.find(null, null, spec => spec.id == controlId)
     return found.length ? found[0] : null
   }
@@ -333,11 +334,9 @@ export default class extends Controller {
     function findInsertEndIndex(startIndex) {
       for (let i = startIndex; i < changes.length; i++) {
         // if we are at the end then that's the end index
-        if (i === (changes.length - 1))
-          return i
+        if (i === (changes.length - 1)) return i
         // if the next change is discontinuous then this is the end index
-        if ((changes[i].toA + 1) !== changes[i + 1].fromA)
-          return i
+        if ((changes[i].toA + 1) !== changes[i + 1].fromA) return i
       }
     }
 

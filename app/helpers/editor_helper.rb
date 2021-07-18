@@ -71,52 +71,72 @@ module EditorHelper
         add_menu('insert_table') do
           tag_svg('editors/menus/insert_table')
         end
-        add_menu('add_table_column_before') do
-          tag_svg('editors/menus/add_table_column_before')
-        end
-        add_menu('add_table_column_after') do
-          tag_svg('editors/menus/add_table_column_after')
-        end
-        add_menu('remove_table_column') do
-          tag_svg('editors/menus/remove_table_column')
-        end
-        add_menu('add_table_row_before') do
-          tag_svg('editors/menus/add_table_row_before')
-        end
-        add_menu('add_table_row_after') do
-          tag_svg('editors/menus/add_table_row_after')
-        end
-        add_menu('remove_table_row') do
-          tag_svg('editors/menus/remove_table_row')
-        end
-        add_menu('merge_table_cells') do
-          tag_svg('editors/menus/merge_table_cells')
-        end
-        add_menu('split_table_cell') do
-          tag_svg('editors/menus/split_table_cell')
-        end
-        add_menu('toggle_table_header_column') do
-          tag_svg('editors/menus/toggle_table_header_column')
-        end
-        add_menu('toggle_table_header_row') do
-          tag_svg('editors/menus/toggle_table_header_row')
-        end
-        add_menu('delete_table') do
-          tag_svg('editors/menus/delete_table')
-        end
+        concat(tag.div(class: 'text-nowrap') do
+          add_menu('add_table_column_before') do
+            tag_svg('editors/menus/add_table_column_before')
+          end
+          add_menu('add_table_column_after') do
+            tag_svg('editors/menus/add_table_column_after')
+          end
+          add_menu('remove_table_column') do
+            tag_svg('editors/menus/remove_table_column')
+          end
+          add_menu('add_table_row_before') do
+            tag_svg('editors/menus/add_table_row_before')
+          end
+          add_menu('add_table_row_after') do
+            tag_svg('editors/menus/add_table_row_after')
+          end
+          add_menu('remove_table_row') do
+            tag_svg('editors/menus/remove_table_row')
+          end
+          add_menu('merge_table_cells') do
+            tag_svg('editors/menus/merge_table_cells')
+          end
+          add_menu('split_table_cell') do
+            tag_svg('editors/menus/split_table_cell')
+          end
+          add_menu('toggle_table_header_column') do
+            tag_svg('editors/menus/toggle_table_header_column')
+          end
+          add_menu('toggle_table_header_row') do
+            tag_svg('editors/menus/toggle_table_header_row')
+          end
+          add_menu('delete_table') do
+            tag_svg('editors/menus/delete_table')
+          end
+        end)
       end)
 
       concat(tag.div({
         data: { target: 'editor2-form.target' },
         class: 'border-top-0',
-      }.deep_merge(options[:target] || {})))
+      }.deep_merge(merged_options[:target] || {})))
 
       concat(tag.div({
         data: { target: 'editor2-form.source' },
         style: 'display: none',
-      }.deep_merge(options[:soruce] || {})) do
+      }.deep_merge(merged_options[:soruce] || {})) do
         body
       end)
+
+      if merged_options[:conflict_source_body].present?
+        concat(tag.div({
+          data: { target: 'editor2-form.conflictSource' },
+          style: 'display: none',
+        }.deep_merge(merged_options[:conflict_source] || {})) do
+          merged_options[:conflict_source_body]
+        end)
+      end
+
+      if merged_options[:version_source_body].present?
+        concat(tag.div({
+          data: { target: 'editor2-form.versionSource' },
+          style: 'display: none',
+        }.deep_merge(merged_options[:version_source] || {})) do
+          merged_options[:version_source_body]
+        end)
+      end
     end
   end
 

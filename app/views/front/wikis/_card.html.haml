@@ -23,10 +23,7 @@
           %i.fa.fa-arrow-right
     .body.-full.-edit{ data: { controller: 'content-replacement' } }
       .version{ data: { controller: 'editor2-form', 'editor2-form-read-only': 'true' } }
-        = editor(current_wiki_history.body)
-        - if current_wiki_history.has_previous?
-          .d-none{ data: { target: 'editor2-form.versionSource' } }
-            != current_wiki_history.previous.body
+        = editor(current_wiki_history.body, version_source_body: (current_wiki_history.previous.body if current_wiki_history.has_previous?))
   - else
     .body.-full{ data: { controller: 'content-replacement' } }
       .article

@@ -7,7 +7,7 @@
     "@rails/webpacker": "4.2.2",
     "@stimulus/polyfills": "1.1.1",
     "@technik-sde/prosemirror-recreate-transform": "1.1.0",
-    "@tiptap/core": "^2.0.0-beta.85",
+    "@tiptap/core": "^2.0.0-beta.86",
     "@tiptap/extension-bullet-list": "^2.0.0-beta.14",
     "@tiptap/extension-gapcursor": "^2.0.0-beta.18",
     "@tiptap/extension-image": "^2.0.0-beta.14",
@@ -41,14 +41,14 @@
     "prosemirror-changeset": "2.1.2",
     "prosemirror-example-setup": "1.1.2",
     "prosemirror-menu": "1.1.4",
-    "prosemirror-model": "^1.14.1",
+    "prosemirror-model": "^1.14.2",
     "prosemirror-schema-basic": "1.1.2",
-    "prosemirror-schema-list": "^1.1.4",
+    "prosemirror-schema-list": "^1.1.5",
     "prosemirror-state": "^1.3.4",
     "prosemirror-tables": "^1.1.1",
     "prosemirror-transform": "^1.3.2",
     "prosemirror-utils": "^0.9.6",
-    "prosemirror-view": "^1.18.7",
+    "prosemirror-view": "^1.18.10",
     "rfc6902": "3.0.4",
     "ripplet.js": "0.2.0",
     "sass": "1.26.3",
@@ -72,9 +72,10 @@
     "webpack-dev-server": "3.11.0"
   },
   "resolutions": {
-    "@types/prosemirror-model": "^1.13.0",
-    "@types/prosemirror-transform": "^1.1.3",
-    "prosemirror-model": "^1.14.1",
+    "@types/prosemirror-model": "^1.13.1",
+    "@types/prosemirror-transform": "^1.1.4",
+    "prosemirror-view": "^1.18.10",
+    "prosemirror-model": "^1.14.2",
     "prosemirror-transform": "^1.3.2"
   }
 }

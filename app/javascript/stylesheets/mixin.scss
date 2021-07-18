@@ -160,12 +160,11 @@
     font-weight: 600;
   }
   h1 {
-    font-size: 1rem;
-    font-weight: 400;
-    padding-bottom: 0.3em;
+    font-size: 1.25rem;
+    font-weight: 900;
     margin-top: 3rem;
     margin-bottom: 1rem;
-    padding: .5rem;
+    padding: .75rem;
     color: white;
     border-radius: 2px;
     background-color: global-variables.$color-brand-400;
@@ -176,28 +175,22 @@
     }
   }
   h2 {
-    font-size: 1rem;
+    font-size: 1.125rem;
     font-weight: 700;
-    padding-bottom: 0.3em;
-    margin-top: 1rem;
-    margin-bottom: 0.75rem;
+    padding: .5em;
+    margin-top: 1.25rem;
+    margin-bottom: 1rem;
     color: global-variables.$color-brand-600;
-    border-bottom: 1px solid global-variables.$color-gray-300;
+    border: 1px solid global-variables.$color-brand-200;
   }
   h3 {
     font-size: 1rem;
-    padding-left: 8px;
+    font-weight: 700;
     position: relative;
+    padding-left: 0.3em;
+    padding-bottom: 0.3em;
     color: global-variables.$color-brand-500;
-    &:before {
-      content: ' ';
-      height: 100%;
-      width: 4px;
-      background-color: global-variables.$color-gray-300;
-      position: absolute;
-      left: 0;
-      top: 0;
-    }
+    border-bottom: 1px solid global-variables.$color-brand-200;
   }
   h4 {
     font-size: 1rem;

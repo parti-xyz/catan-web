@@ -22,7 +22,7 @@
       .collapse{ class: (need_fake_textarea ? 'hide' : 'show'),
                 data: { target: 'comment-form-new.realTextarea' } }
         = editor(f.object.is_html? ? f.object.body : simple_format(h(f.object.body)),
-          source: { data: { 'editor-form-classes': '-comment' } })
+          source: { data: { 'editor2-form-classes': '-comment' } })
       = f.hidden_field :body,
                         data: { target: 'comment-form.bodyField',
                                 'value-missing-message': '본문 내용이 비었어요.' }

@@ -70,13 +70,8 @@
             = f.hidden_field :label_id, data: { target: 'label-picker.field' }
         = f.text_field :base_title, placeholder: '제목...', class: 'formtitle', rows: 1, maxlength: 50, data: { controller: 'auto-resize', target: 'wiki-form.titleField' }
       = f.fields_for :wiki do |ff|
-        = editor(ff.object.body)
+        = editor(ff.object.body, conflict_source_body: (current_wiki.conflicted_body if current_wiki.conflict?))
         = ff.hidden_field :body, data: { target: 'wiki-form.bodyField' }
-        -# .d-none{ data: { target: 'editor2-form.source' } }
-        -#   != ff.object.body
-        - if current_wiki.conflict?
-          .d-none{ data: { target: 'editor2-form.conflictSource' } }
-            != current_wiki.conflicted_body
 
   - if controls.present?
     .controls
