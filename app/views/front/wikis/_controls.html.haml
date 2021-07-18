@@ -1,3 +1,5 @@
 - if can?(:update, current_wiki) && current_wiki.active?
+  - unless current_page?(controller: 'front/posts', action: 'show', namespace_slug: :front, id: current_wiki.post.id)
+    = link_to '게시글 보기', front_post_path(current_wiki.post), class: 'btn btn-sm btn-link'
   = link_to edit_front_post_path(current_wiki.post), class: 'btn btn-primary btn-sm', data: { 'turbolinks-action': 'replace' } do
     편집
