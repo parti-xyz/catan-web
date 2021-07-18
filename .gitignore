@@ -53,5 +53,5 @@ yarn-debug.log*
 .vscode
 .yalc
 
-TAGS
 *.sql
+TAGS
