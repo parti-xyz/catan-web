@@ -1,13 +1,14 @@
 class Group::ConfigurationsController < Group::BaseController
-  skip_before_action :verify_current_group, only: [:new, :create]
+  skip_before_action :verify_current_group, only: [:new, :create, :spin_off]
   before_action :authenticate_user!
-  before_action :only_organizer, only: [:edit, :update, :front_wiki, :destroy_front_wiki]
+  before_action :only_organizer, only: [:edit, :update, :main_wiki, :destroy_main_wiki]
+  before_action :only_admin, only: [:spin_off]
 
   def new
     @group = Group.new
     @group.user = current_user
     @group.members.build(user: current_user, is_organizer: true)
-    render layout: 'application'
+    render layout: 'front/simple'
   end
 
   def create
@@ -28,6 +29,38 @@ class Group::ConfigurationsController < Group::BaseController
       redirect_to smart_group_url(@group)
     else
       render 'new', layout: 'application'
+    end
+  end
+
+  def spin_off
+    @issue = Issue.find(params[:issue_id])
+
+    @group = Group.new
+    @group.plan = Group.plan.lite
+    @group.user = @issue.organizer_members.first&.user || current_user
+    @group.slug = params[:group][:slug]
+    @group.title = @issue.title
+    @group.head_title = @issue.title
+    @group.logo = "data:image/png;base64,#{Catan::Avatar::generate_avatar(@group.title)}"
+    @group.frontable = true
+
+    @issue.members.each do |member|
+      @group.members.build(user: member.user, is_organizer: member.is_organizer)
+    end
+
+    ActiveRecord::Base.transaction do
+      if @group.save
+        random_issue = Issue.create(title: '잡담', slug: 'random', group_slug: @group.slug)
+        IssueCreateService.new(issue: random_issue, current_user: current_user, current_group: @group, flash: flash).call
+
+        @issue.group_slug = @group.slug
+        @issue.category = nil
+        @issue.save
+
+        redirect_to smart_group_url(@group)
+      else
+        redirect_back(fallback_location: root_url)
+      end
     end
   end
 
@@ -57,6 +90,10 @@ class Group::ConfigurationsController < Group::BaseController
         @group.organizer_members.each do |member|
           member.update_attributes(is_organizer: false) unless organizer_users.include? member.user
         end
+      end
+
+      if @group.frontable? && !@group.ready_for_frontable?
+        @group.iced_at = Time.current
       end
 
       if @group.save
@@ -117,12 +154,12 @@ class Group::ConfigurationsController < Group::BaseController
     end
   end
 
-  def front_wiki
+  def main_wiki
     @post = Post.find(params[:post_id])
     @group = @post.issue.group
 
-    @group.front_wiki_post = @post
-    @group.front_wiki_post_by = current_user
+    @group.main_wiki_post = @post
+    @group.main_wiki_post_by = current_user
     @group.save!
 
     if helpers.explict_front_namespace?
@@ -132,12 +169,12 @@ class Group::ConfigurationsController < Group::BaseController
     end
   end
 
-  def destroy_front_wiki
+  def destroy_main_wiki
     @post = Post.find(params[:post_id])
     @group = @post.issue.group
 
-    @group.front_wiki_post = nil
-    @group.front_wiki_post_by = current_user
+    @group.main_wiki_post = nil
+    @group.main_wiki_post_by = current_user
     @group.save!
 
     if helpers.explict_front_namespace?

@@ -82,7 +82,6 @@ class Front::ChannelsController < Front::BaseController
   def sync
     head(204) and return if !user_signed_in? || !current_group.member?(current_user)
 
-
     @issues = current_group.issues.includes(:current_user_issue_reader).accessible_only(current_user).includes(:current_user_issue_reader, :group)
     @need_to_notice_count = (current_group.member?(current_user) ? current_need_to_notice_announcement_posts.count : 0)
     @unread_messages_count = (current_group.member?(current_user) ? Message.where(user: current_user).of_group(current_group).unread.count : 0)
@@ -93,9 +92,31 @@ class Front::ChannelsController < Front::BaseController
     end
   end
 
+  def iced
+    render_403 and return unless current_group.organized_by?(current_user)
+
+    @issues = current_group.issues.dead.load
+
+    render layout: 'front/simple'
+  end
+
+  def wake
+    render_403 and return unless current_group.organized_by?(current_user)
+
+    issue = Issue.find(params[:id])
+    issue.iced_at = nil
+    if issue.save
+      flash[:notice] = '휴면을 해제했습니다.'
+    else
+      errors_to_flash(issue)
+    end
+
+    redirect_to iced_front_channels_path
+  end
+
   def read_all_posts
     render_403 and return unless user_signed_in?
-    render_403 and reuurn unless current_group.member?(current_user)
+    render_403 and return unless current_group.member?(current_user)
 
     outcome = IssueReadAllPosts.run(user_id: current_user.id, issue_id: params[:id], limit: 100)
 
@@ -111,5 +132,29 @@ class Front::ChannelsController < Front::BaseController
     end
 
     turbolinks_redirect_to front_channel_path(id: params[:id])
+  end
+
+  def main_wiki
+    @post = Post.find(params[:post_id])
+    @issue = @post.issue
+
+    @issue.main_wiki_post = @post
+    @issue.main_wiki_post_by = current_user
+    @issue.save!
+
+    flash[:notice] = t('activerecord.successful.messages.created')
+    turbolinks_redirect_to(smart_front_post_url(@post))
+  end
+
+  def destroy_main_wiki
+    @post = Post.find(params[:post_id])
+    @issue = @post.issue
+
+    @issue.main_wiki_post = nil
+    @issue.main_wiki_post_by = current_user
+    @issue.save!
+
+    flash[:notice] = t('activerecord.successful.messages.released')
+    turbolinks_redirect_to(smart_front_post_url(@post))
   end
 end

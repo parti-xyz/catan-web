@@ -108,6 +108,30 @@ ActiveRecord::Schema.define(version: 2021_05_13_132401) do
     t.index ["group_slug"], name: "index_categories_on_group_slug"
   end
 
+  create_table "comment_authors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "comment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["comment_id"], name: "index_comment_authors_on_comment_id"
+    t.index ["user_id", "comment_id"], name: "index_comment_authors_on_user_id_and_comment_id", unique: true
+    t.index ["user_id"], name: "index_comment_authors_on_user_id"
+  end
+
+  create_table "comment_histories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.bigint "comment_id", null: false
+    t.bigint "user_id", null: false
+    t.text "body", limit: 16777215
+    t.string "code", null: false
+    t.integer "diff_body_adds_count", default: 0
+    t.integer "diff_body_removes_count", default: 0
+    t.boolean "trivial_update_body", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["comment_id"], name: "index_comment_histories_on_comment_id"
+    t.index ["user_id"], name: "index_comment_histories_on_user_id"
+  end
+
   create_table "comment_readers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "comment_id", null: false
     t.integer "user_id", null: false
@@ -131,6 +155,11 @@ ActiveRecord::Schema.define(version: 2021_05_13_132401) do
     t.datetime "almost_deleted_at"
     t.integer "comments_count", default: 0, null: false
     t.bigint "wiki_history_id"
+    t.boolean "is_html", default: false
+    t.boolean "is_decision", default: false
+    t.integer "last_comment_history_id"
+    t.integer "comment_histories_count", default: 0
+    t.integer "last_author_id", null: false
     t.index ["deleted_at"], name: "index_comments_on_deleted_at"
     t.index ["parent_id"], name: "index_comments_on_parent_id"
     t.index ["post_id"], name: "index_comments_on_post_id"
@@ -287,8 +316,8 @@ ActiveRecord::Schema.define(version: 2021_05_13_132401) do
     t.integer "latest_stroked_posts_count_version", default: 0
     t.integer "latest_issues_count", default: 0
     t.integer "latest_issues_count_version", default: 0
-    t.bigint "front_wiki_post_id"
-    t.bigint "front_wiki_post_by_id"
+    t.bigint "main_wiki_post_id"
+    t.bigint "main_wiki_post_by_id"
     t.string "issue_creation_privileges", default: "member", null: false
     t.bigint "blinded_by_id"
     t.datetime "blinded_at"
@@ -302,9 +331,10 @@ ActiveRecord::Schema.define(version: 2021_05_13_132401) do
     t.string "navbar_coc_text_color", default: "#5e2abb"
     t.string "organization_slug", default: "default"
     t.integer "labels_count", default: 0
+    t.datetime "iced_at"
     t.index ["blinded_by_id"], name: "index_groups_on_blinded_by_id"
-    t.index ["front_wiki_post_by_id"], name: "index_groups_on_front_wiki_post_by_id"
-    t.index ["front_wiki_post_id"], name: "index_groups_on_front_wiki_post_id"
+    t.index ["main_wiki_post_by_id"], name: "index_groups_on_main_wiki_post_by_id"
+    t.index ["main_wiki_post_id"], name: "index_groups_on_main_wiki_post_id"
     t.index ["slug", "active"], name: "index_groups_on_slug_and_active", unique: true
   end
 
@@ -317,6 +347,7 @@ ActiveRecord::Schema.define(version: 2021_05_13_132401) do
     t.string "recipient_email"
     t.string "joinable_type", null: false
     t.text "message", limit: 16777215
+    t.string "token", null: false
     t.index ["joinable_id", "joinable_type"], name: "index_invitations_on_joinable_id_and_joinable_type"
     t.index ["joinable_id"], name: "index_invitations_on_joinable_id"
     t.index ["recipient_id"], name: "index_invitations_on_recipient_id"
@@ -380,7 +411,7 @@ ActiveRecord::Schema.define(version: 2021_05_13_132401) do
     t.integer "members_count", default: 0
     t.integer "hot_score", default: 0
     t.string "hot_score_datestamp"
-    t.datetime "freezed_at"
+    t.datetime "iced_at"
     t.boolean "private", default: false, null: false
     t.integer "last_stroked_user_id"
     t.boolean "notice_only", default: false
@@ -393,12 +424,16 @@ ActiveRecord::Schema.define(version: 2021_05_13_132401) do
     t.bigint "blinded_by_id"
     t.datetime "blinded_at"
     t.integer "position", default: 0, null: false
+    t.bigint "main_wiki_post_id"
+    t.bigint "main_wiki_post_by_id"
     t.index ["blinded_by_id"], name: "index_issues_on_blinded_by_id"
     t.index ["category_id"], name: "index_issues_on_category_id"
     t.index ["deleted_at"], name: "index_issues_on_deleted_at"
     t.index ["group_slug", "slug", "active"], name: "index_issues_on_group_slug_and_slug_and_active", unique: true
     t.index ["group_slug", "title", "active"], name: "index_issues_on_group_slug_and_title_and_active", unique: true
     t.index ["last_stroked_user_id"], name: "index_issues_on_last_stroked_user_id"
+    t.index ["main_wiki_post_by_id"], name: "index_issues_on_main_wiki_post_by_id"
+    t.index ["main_wiki_post_id"], name: "index_issues_on_main_wiki_post_id"
   end
 
   create_table "labels", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
@@ -411,14 +446,6 @@ ActiveRecord::Schema.define(version: 2021_05_13_132401) do
     t.bigint "group_id"
     t.index ["deprecated_issue_id"], name: "index_labels_on_deprecated_issue_id"
     t.index ["group_id"], name: "index_labels_on_group_id"
-  end
-
-  create_table "landing_pages", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
-    t.text "body", null: false
-    t.string "section", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "title"
   end
 
   create_table "likes", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
@@ -525,6 +552,7 @@ ActiveRecord::Schema.define(version: 2021_05_13_132401) do
     t.string "bulk_session"
     t.string "cluster_owner_type"
     t.bigint "cluster_owner_id"
+    t.string "group_slug"
     t.index ["cluster_owner_type", "cluster_owner_id"], name: "index_messages_on_cluster_owner_type_and_cluster_owner_id"
     t.index ["messagable_type", "messagable_id"], name: "index_messages_on_messagable_type_and_messagable_id"
     t.index ["sender_id"], name: "index_messages_on_sender_id"
@@ -692,6 +720,7 @@ ActiveRecord::Schema.define(version: 2021_05_13_132401) do
     t.bigint "last_title_edited_user_id"
     t.bigint "label_id"
     t.bigint "announcement_id"
+    t.boolean "has_decision_comments", default: false
     t.index ["announcement_id"], name: "index_posts_on_announcement_id"
     t.index ["deleted_at"], name: "index_posts_on_deleted_at"
     t.index ["event_id"], name: "index_posts_on_event_id"

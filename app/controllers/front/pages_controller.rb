@@ -11,6 +11,10 @@ class Front::PagesController < Front::BaseController
     @current_issue = Issue.find_by(id: params[:issue_id])
   end
 
+  def iced
+    render layout: 'front/simple'
+  end
+
   def all
     if user_signed_in?
       current_user.update_attributes(last_visitable: current_group)
@@ -60,7 +64,7 @@ class Front::PagesController < Front::BaseController
     end
     render_404 and return unless current_group.member?(current_user)
 
-    @posts = current_announcement_posts
+    @posts = current_group_announcement_posts
       .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :folder, :label, announcement: [:current_user_audience], wiki: [ :last_wiki_history] , issue: [ :current_user_issue_reader ])
       .order(last_stroked_at: :desc)
       .page(params[:page]).per(10)

@@ -19,7 +19,7 @@ class Ability
       can [:update_category, :destroy_category], Issue do |issue|
         user.is_organizer?(issue.group)
       end
-      can [:pin, :freeze, :wake], Issue do |issue|
+      can [:pin, :ice, :wake], Issue do |issue|
         user.is_organizer?(issue) || user.is_organizer?(issue.group)
       end
       can [:announce], Issue do |issue|
@@ -31,6 +31,9 @@ class Ability
       end
       can [:manage_folders], [Issue] do |issue|
         issue.try(:postable?, user)
+      end
+      can [:main_wiki], Issue do |issue|
+        user.is_organizer?(issue) || user.is_organizer?(issue.group)
       end
 
       can [:pinned, :new], [Post]
@@ -107,6 +110,9 @@ class Ability
       end
 
       can :manage, [Comment, Upvote, Member], user_id: user.id
+      can :update, Comment do |comment|
+        comment.is_decision? && comment&.post&.issue&.group&.member?(user)
+      end
 
       can [:destroy], Member do |member|
         member.user == user or user.is_organizer?(member.joinable)
@@ -140,7 +146,7 @@ class Ability
         can [:manage], GroupHomeComponent
       end
 
-      can [:coc_wiki, :labels], Group do |group|
+      can [:main_wiki, :labels], Group do |group|
         group.organized_by?(user)
       end
 

@@ -22,12 +22,8 @@
           다음
           %i.fa.fa-arrow-right
     .body.-full.-edit{ data: { controller: 'content-replacement' } }
-      .version{ data: { controller: 'editor-form', 'editor-form-read-only': 'true' } }
-        .d-none{ data: { target: 'editor-form.source' } }
-          != current_wiki_history.body
-        - if current_wiki_history.has_previous?
-          .d-none{ data: { target: 'editor-form.versionSource' } }
-            != current_wiki_history.previous.body
+      .version{ data: { controller: 'editor2-form', 'editor2-form-read-only': 'true' } }
+        = editor(current_wiki_history.body, version_source_body: (current_wiki_history.previous.body if current_wiki_history.has_previous?))
   - else
     .body.-full{ data: { controller: 'content-replacement' } }
       .article
@@ -35,7 +31,7 @@
       .buttons
         = render 'front/wikis/controls', current_wiki: current_wiki
 
-  .authors
+  .author-users
     .label 작성
     - current_wiki.authors.each do |user|
       %span.user{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(user), options: h({ container: '.front-app' }.to_json) } } }

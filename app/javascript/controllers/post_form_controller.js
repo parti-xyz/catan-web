@@ -185,7 +185,7 @@ export default class extends Controller {
   }
 
   get editorController() {
-    return this.application.getControllerForElementAndIdentifier(this.element, "editor-form")
+    return this.application.getControllerForElementAndIdentifier(this.element, "editor2-form")
   }
 
   formatBytes(bytes, decimals) {

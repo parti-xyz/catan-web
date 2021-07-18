@@ -1,9 +1,5 @@
-%li.menu-line{ class: ('highlight' if current_page?('/discover')) }
-  = link_to discover_url(subdomain: nil), 'aria-label': only_mobile_app(request, 'drawer-discover') do
-    %i.fa.fa-fort-awesome.fa-fw
-    새로운 발견
 %li.menu-line{ class: ('highlight' if (current_page?('/parties') and current_group.blank?)) }
-  = link_to issues_url(subdomain: nil) do
+  = link_to expedition_url(subdomain: nil) do
     %i.fa.fa-compass.fa-fw
     그룹 탐색
 - if !user_signed_in? or !current_user.member_issues.any?

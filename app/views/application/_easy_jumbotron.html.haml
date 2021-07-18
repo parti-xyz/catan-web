@@ -1,0 +1,9 @@
+- yield p = np
+.easy-jumbotron
+  - if current_group.blank?
+    = link_to root_url, class: 'logo' do
+      C
+  - if p.content_for? :leading
+    .leading= p.yield :leading
+  - if p.content_for? :guide
+    .guide= p.yield :guide

@@ -1,23 +1,21 @@
 %section
   .container
-    %h1.font-size-lg-phone.text-center.sign-up__txt.text-keepall
-      가입이 거의 완료되었습니다!
+    = render 'application/easy_jumbotron' do |p|
+      - p.content_for :leading do
+        가입이 거의 완료되었습니다!
+      - p.content_for :guide do
+        %p.text-center
+          = image_tag 'tada.png'
+        %p.text-keepall.text-center
+          잠시 후 계정 확인 링크가 담긴 이메일을 보내드립니다.
+          %br.d-sm-none.d-md-block
+          이메일의 "확인하기" 버튼을 클릭해주세요.
+        - if current_group.present?
+          %p.text-center
+            %i.fa.fa-info-circle.text-primary
+            %strong.text-primary.text-keepall #{group_basic_title(current_group)}의 멤버 가입까지 마치면 모든 절차가 완료됩니다.
 
-    %p.text-center
-      = image_tag 'tada.png'
-
-    %p.text-keepall.text-center
-      잠시 후 계정확인 링크가 담긴 이메일을 보내드립니다.
-      %br.d-sm-none.d-md-block
-      이메일의 링크를 클릭한 후, 멤버 인증을 진행해주세요.
-
-    %p.text-center
-      %i.fa.fa-info-circle.text-primary
-      %strong.text-primary.text-keepall 그룹 가입까지 마치면 모든 절차가 완료됩니다.
-
-%hr
-
-%section.mt-4
+%section.mt-5.pt-5
   .container
     .text-center
       %p

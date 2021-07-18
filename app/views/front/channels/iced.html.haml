@@ -1,0 +1,23 @@
+%section
+  .container
+    %h3.text-keepall.text-center
+      %i.fa.fa-list-alt
+      채널 휴면 관리
+
+    .simple-box.pt-3
+      .form-text.text-muted.small.mb-3 휴면 상태인 채널 목록입니다.
+
+      - if @issues.any?
+        %ul.list-group
+          - @issues.each do |issue|
+            %li.list-group-item.d-flex.align-items-center
+              %span.flex-grow-1
+                \#
+                = issue.title
+              %span
+                = link_to '활성화', wake_front_channel_path(issue), method: :patch, class: 'btn btn-block btn-sm btn-light'
+
+      - else
+        .alert-box.my-3
+          .alert.alert-secondary.font-size-sm
+            휴면 상태인 채널이 없습니다.

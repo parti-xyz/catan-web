@@ -87,14 +87,15 @@ gem 'coffee-rails', '~> 4.2', '>= 4.2.2'
 gem 'jquery-rails'
 gem 'bootstrap-sass', '>= 3.4.1'
 gem 'bootswatch-rails'
-gem 'haml-rails', '~> 1.0'
+gem 'haml-rails', '~> 2.0', '>= 2.0.1'
 gem 'html_truncator'
 gem 'rails-timeago', '~> 2.13'
 gem 'browser', '~> 2.0', '>= 2.0.2'
 gem 'geo_pattern', '~> 1.4'
-gem 'redcarpet', '~> 3.3', '>= 3.3.4'
+gem 'redcarpet', '~> 3.5'
 gem 'cocoon', '~> 1.2', '>= 1.2.9'
 gem 'jquery-slick-rails'
+gem 'nice_partials'
 
 # tool
 gem 'dotenv'
@@ -116,7 +117,7 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'apple-app-site-association', '~> 0.1.2'
 
 # crawling
-gem 'mechanize', '~> 2.7', '>= 2.7.5'
+gem 'mechanize', '~> 2.7'
 gem 'video_info', '~> 2.6'
 gem 'fastimage', '~> 2.1'
 
@@ -132,7 +133,7 @@ end
 gem 'luminosity_contrast'
 
 # paging
-gem 'kaminari', '~> 1.1', '>= 1.1.1'
+gem 'kaminari', '~> 1.2'
 gem 'bootstrap-kaminari-views', '~> 0.0.5'
 
 # scheduler
@@ -166,6 +167,8 @@ group :development, :test do
   gem 'mocha', '~> 1.1'
   gem 'sassc-rails', '~> 2.1'
   gem 'rails-controller-testing'
+  # gem "branch_db", path: '/Users/dalikim/workbench/branch_db'
+  gem "branch_db", github: "parti-coop/branch_db", tag: "v0.0.4"
 end
 
 group :development do

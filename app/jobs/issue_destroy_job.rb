@@ -13,10 +13,7 @@ class IssueDestroyJob < ApplicationJob
     issue = Issue.find_by(id: issue_id)
     return if issue.blank?
 
-    mailing_user_ids = (issue.posts.pluck(:user_id) + issue.members.pluck(:user_id)).uniq
-
-    mailing_user_ids.each do |user_id|
-      PartiMailer.on_destroy(organizer.id, user_id, issue_id, message).deliver_later
-    end
+    User.where(id: issue.members.select(:user_id)).update_all(member_issues_changed_at: Time.current)
+    issue.destroy!
   end
 end

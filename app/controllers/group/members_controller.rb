@@ -46,8 +46,11 @@ class Group::MembersController < Group::BaseController
         MemberMailer.on_ban(@member.id, current_user.id).deliver_later
       end
     end
+
     respond_to do |format|
-      format.js
+      format.js do
+        turbolinks_reload if helpers.explict_front_namespace?
+      end
     end
   end
 
@@ -64,9 +67,13 @@ class Group::MembersController < Group::BaseController
       end
     end
 
-    respond_to do |format|
-      format.js
-      format.html { redirect_to(request.referrer || smart_group_url(@member.group)) }
+    if helpers.explict_front_namespace?
+      render partial: 'front/members/member_line', locals: { member: @member }, layout: nil
+    else
+      respond_to do |format|
+        format.js
+        format.html { redirect_to(request.referrer || smart_group_url(@member.group)) }
+      end
     end
   end
 

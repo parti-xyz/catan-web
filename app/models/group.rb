@@ -48,16 +48,17 @@ class Group < ApplicationRecord
   has_many :categories, dependent: :destroy, foreign_key: :group_slug, primary_key: :slug
   has_many :group_home_components, dependent: :destroy
   has_many :group_push_notification_preferences, dependent: :destroy
-  belongs_to :front_wiki_post, class_name: 'Post', optional: true
-  belongs_to :front_wiki_post_by, class_name: 'User', optional: true
+  belongs_to :main_wiki_post, class_name: 'Post', optional: true
+  belongs_to :main_wiki_post_by, class_name: 'User', optional: true
   belongs_to :blinded_by, class_name: "User", foreign_key: 'blinded_by_id', optional: true
   has_many :last_visited_users, as: :last_visitable, class_name: 'User', dependent: :nullify
   has_many :labels, dependent: :destroy
   has_many :group_observation, dependent: :destroy, class_name: 'MessageConfiguration::GroupObservation'
 
+  scope :awake, -> { where(iced_at: nil) }
   scope :recent, -> { order(created_at: :desc) }
   scope :sort_by_name, -> { order(Arel.sql("case when slug = '#{Group::DEFAULT_SLUG}' then 0 else 1 end")).order(Arel.sql("if(ascii(substring(title, 1)) < 128, 1, 0)")).order(:title) }
-  scope :hottest, -> { order(Arel.sql("case when slug = '#{Group::DEFAULT_SLUG}' then 0 else 1 end")).order(hot_score_datestamp: :desc, hot_score: :desc) }
+  scope :hottest, -> { awake.order(Arel.sql("case when slug = '#{Group::DEFAULT_SLUG}' then 0 else 1 end")).order(hot_score_datestamp: :desc, hot_score: :desc) }
   scope :but, ->(group) { where.not(id: group) }
   scope :not_private_blocked, ->(current_user) {
     never_blinded.where(id: Member.where(user: current_user).where(joinable_type: 'Group').select('members.joinable_id'))
@@ -70,10 +71,10 @@ class Group < ApplicationRecord
   scope :only_public, -> { never_blinded.where.not(private: true) }
   scope :searchable_groups, ->(current_user = nil) {
     if current_user.present?
-      only_public
+      awake.only_public
         .or(where(id: current_user.member_groups))
     else
-      only_public
+      awake.only_public
     end
   }
   scope :sibilings, ->(group) {
@@ -340,6 +341,18 @@ class Group < ApplicationRecord
 
   def group_for_message
     self
+  end
+
+  def group_for_invitation
+    self
+  end
+
+  def iced?
+    iced_at.present?
+  end
+
+  def ready_for_frontable?
+    !issues.exists?(private: true)
   end
 
   private

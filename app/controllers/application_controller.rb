@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :cache_member_for_current_user
   before_action :prepare_meta_tags, if: -> { request.get? and !Rails.env.test? }
   before_action :set_device_type
+  before_action :blocked_iced_group
   before_action :block_not_exists_group
   before_action :blocked_private_group
   before_action :logging_mobile_app
@@ -125,6 +126,23 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def blocked_iced_group
+    return if request.subdomain.blank?
+    return if current_group.blank?
+    return unless current_group.iced?
+    return if (controller_name == 'pages' && action_name == 'iced') ||
+      (controller_name == 'groups') ||
+      (controller_name == 'members' && action_name == 'cancel')
+
+    if request.xhr?
+      return if request.get?
+      render_403 && return
+    end
+
+    logger.debug("controller_name, action_name: #{controller_name}, #{action_name}")
+    redirect_to front_iced_path
+  end
+
   def block_not_exists_group
     if current_group.blank? and request.subdomain.present?
       redirect_to root_url(subdomain: nil)
@@ -132,34 +150,35 @@ class ApplicationController < ActionController::Base
   end
 
   def blocked_private_group
-    return if current_group.blank? or current_user.try(:admin?)
+    return if current_group.blank? || current_user&.admin?
 
-    if current_group.private_blocked? current_user and
+    if current_group.private_blocked?(current_user) &&
     !(
-      (controller_name == 'issues' and action_name == 'home') or
-      (controller_name == 'issues' and action_name == 'index' and request.subdomain.blank?) or
-      (controller_name == 'member_requests' and action_name == 'create') or
-      (controller_name == 'sessions') or
-      (controller_name == 'users' and action_name == 'pre_sign_up') or
-      (controller_name == 'users' and action_name == 'email_sign_in') or
-      (controller_name == 'passwords') or
-      (controller_name == 'members' and action_name == 'magic_join') or
-      (controller_name == 'members' and action_name == 'magic_form') or
-      (controller_name == 'members' and action_name == 'join_group_form') or
-      (controller_name == 'my_menus') or
-      (self.is_a? Group::Eduhope::MembersController and action_name == 'admit') or
+      (controller_name == 'pages' && action_name == 'iced') ||
+      (controller_name == 'issues' && action_name == 'home') ||
+      (controller_name == 'issues' && action_name == 'index' && request.subdomain.blank?) ||
+      (controller_name == 'member_requests' && action_name == 'create') ||
+      (controller_name == 'sessions') ||
+      (controller_name == 'users' && action_name == 'pre_sign_up') ||
+      (controller_name == 'users' && action_name == 'email_sign_in') ||
+      (controller_name == 'passwords') ||
+      (controller_name == 'members' && action_name == 'magic_join') ||
+      (controller_name == 'members' && action_name == 'magic_form') ||
+      (controller_name == 'members' && action_name == 'join_group_form') ||
+      (controller_name == 'my_menus') ||
+      (is_a?(Group::Eduhope::MembersController) && action_name == 'admit') ||
       (helpers.implict_front_namespace? || helpers.explict_front_namespace?) && (
-        (controller_name == 'member_requests' and action_name == 'private_blocked') or
-        (controller_name == 'member_requests' and action_name == 'new') or
-        (controller_name == 'member_requests' and action_name == 'create') or
-        (controller_name == 'users') or
-        (controller_name == 'registrations') or
+        (controller_name == 'member_requests' && action_name == 'intro') ||
+        (controller_name == 'member_requests' && action_name == 'new') ||
+        (controller_name == 'member_requests' && action_name == 'create') ||
+        (controller_name == 'users') ||
+        (controller_name == 'registrations') ||
         (controller_name == 'confirmations')
       )
     )
       logger.debug("controller_name, action_name: #{controller_name}, #{action_name}")
       if helpers.implict_front_namespace? || helpers.explict_front_namespace?
-        redirect_to private_blocked_front_member_requests_path
+        redirect_to intro_front_member_requests_path
       else
         respond_to do |format|
           format.html do
@@ -241,8 +260,7 @@ class ApplicationController < ActionController::Base
     "dashboard#index" => "내 홈",
     "dashboard#intro" => "시작",
     "bookmark#index" => "북마크",
-    "pages#discover" => "새로운 발견",
-    "pages#about" => "소개",
+    "pages#landing" => "시작",
     "pages#privacy" => "방침",
     "pages#terms" => "약관",
     "issues#home" => nil,
@@ -312,14 +330,12 @@ class ApplicationController < ActionController::Base
   end
 
   def prepare_store_location
-    #랜딩 페이지를 볼 떄는 랜딩 페이지를 저장하게.
-    #비로그인 계정이 랜딩페이지를 볼때는 랜딩페이지가 / 인데
-    #로그인 후에는 /discover 로 바꿔야 하는. discover_root_path
-    if !user_signed_in? and request.fullpath == "/" and current_group.nil?
-      store_location_force(discover_url(subdomain: nil))
-    elsif !user_signed_in? and
-        (controller_name == 'pages' and action_name == 'privacy') or
-        (controller_name == 'pages' and action_name == 'terms')
+    if controller_name == 'pages' && action_name == 'landing'
+      store_location_force(root_url(subdomain: nil))
+    elsif !user_signed_in? && (
+      (controller_name == 'pages' && action_name == 'privacy') ||
+      (controller_name == 'pages' && action_name == 'terms')
+    )
       store_location_force(root_url(subdomain: nil))
     else
       store_location(current_group)
@@ -428,10 +444,12 @@ class ApplicationController < ActionController::Base
   end
 
   def turbolinks_redirect_to(url = {}, options = {})
-    turbolinks = options.delete(:turbolinks)
-    options.merge(turbolinks: turbolinks.to_s == "advance" ? action : "replace")
     response.headers["X-Trubolinks-Redirect"] = 'true'
     redirect_to(url, options)
+  end
+
+  def turbolinks_reload
+    render template: 'front/pages/reload', format: :js
   end
 
   def prepare_unobtrusive_flash_frontable
@@ -446,6 +464,46 @@ class ApplicationController < ActionController::Base
     if not_member_users.present? && not_member_users.any?
       "필독 요청한 #{not_member_users.map(&:nickname).join(', ')}님은 그룹 멤버가 아니라 필독 요청할 수 없습니다."
     end
+  end
+
+  def group_accessible_only_posts(group)
+    return Post.none if group.blank?
+    Post.where(issue: group_accessible_only_issues(group))
+      .never_blinded(current_user)
+  end
+
+  def current_group_accessible_only_posts
+    group_accessible_only_posts(current_group)
+  end
+
+  def group_accessible_only_issues(group)
+    return Issue.none if group.blank?
+    group.issues.accessible_only(current_user)
+  end
+
+  def group_announcement_posts(group)
+    group_accessible_only_posts(group)
+      .includes(announcement: [:current_user_audience])
+      .where.not(announcement_id: nil)
+      .where("announcements.stopped_at": nil)
+  end
+
+  def current_group_announcement_posts
+    group_announcement_posts(current_group)
+  end
+
+  def current_need_to_notice_announcement_posts
+    add_condition_need_to_notice_announcement_posts(current_group_announcement_posts)
+  end
+
+  def need_to_notice_announcement_posts(group)
+    add_condition_need_to_notice_announcement_posts(group_announcement_posts(group))
+  end
+
+  def add_condition_need_to_notice_announcement_posts(post_relations)
+    post_relations
+      .where('audiences.noticed_at IS NULL')
+      .where('announcements.stopped_at IS NULL')
   end
 
   def response_header_modal_command(command)

@@ -1,0 +1,25 @@
+%section
+  .container
+    %h3.text-keepall.text-center
+      %i.fa.fa-users
+      멤버 초대 관리
+
+    .simple-box.pt-3
+      .form-text.text-muted.small.mb-3.d-flex.justify-content-between.align-items-center
+        - if @invitations.any?
+          %span #{@invitations.total_count}명을 초대 중입니다.
+        - else
+          %span 그룹에 초대해 보세요.
+        = link_to '초대하기', new_front_invitation_path, class: 'btn btn-primary btn-sm btn-block-phone'
+
+      - if @invitations.any?
+        %ul.list-group.mb-0
+          = render partial: 'front/invitations/invitation_line', collection: @invitations, as: :invitation
+        .mt-4
+          = paginate @invitations, theme: 'catan'
+
+      - else
+        .alert-box.my-3
+          .alert.alert-secondary.font-size-sm.d-flex.align-items-center.justify-content-between
+            진행 중인 초대가 없습니다.
+

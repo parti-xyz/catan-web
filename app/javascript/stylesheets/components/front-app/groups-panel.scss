@@ -1,0 +1,102 @@
+@use "../../global-variables";
+@use "../../mq";
+@use "../../bootstrap";
+
+.front-app .groups-panel {
+  border: 1px solid global-variables.$color-gray-100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  > .group {
+    padding: 1rem 1.5rem;
+    display: flex;
+    &:hover {
+      background-color: global-variables.$color-gray-100;
+    }
+    > .content {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      min-width: 100px;
+      padding-right: 0.25rem;
+      > .title {
+        font-size: bootstrap.$font-size-lg;
+        font-weight: 600;
+        line-height: 1.75rem;
+        line-height: 1.75rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        > .group-parties-section-title {
+          .meta {
+            color: global-variables.$color-gray-600;
+            font-size: bootstrap.$font-size-base;
+          }
+        }
+      }
+      > .members {
+        display: flex;
+        margin-top: 0.25rem;
+        margin-left: 0.25rem;
+        > .users {
+          display: flex;
+          > .user-byline {
+            margin-left: -0.25rem;
+            &:nth-child(1) {
+              z-index: 6;
+            }
+            &:nth-child(2) {
+              z-index: 5;
+            }
+            &:nth-child(3) {
+              z-index: 4;
+            }
+            &:nth-child(4) {
+              z-index: 3;
+            }
+            &:nth-child(5) {
+              z-index: 2;
+            }
+          }
+        }
+        > .count {
+          font-size: bootstrap.$font-size-sm;
+          line-height: 1.25rem;
+          color: global-variables.$color-gray-600;
+          margin-left: 0.25rem;
+        }
+      }
+      > .desc {
+        margin-top: 0.25rem;
+        font-size: bootstrap.$font-size-sm;
+        color: global-variables.$color-gray-600;
+      }
+    }
+    > .action {
+      padding-right: 1.5rem;
+      transition-property: padding-left, padding-right;
+      transition-duration: 0.2s;
+      font-size: bootstrap.$font-size-lg;
+      display: flex;
+      align-items: center;
+      @include mq.media("<=tablet") {
+        display: none;
+      }
+    }
+    &:hover > .action {
+      padding-left: 0.25rem;
+      padding-right: 1.25rem;
+      color: global-variables.$color-brand-800;
+    }
+  }
+  > .group + .group {
+    border-top: 1px solid global-variables.$color-gray-200;
+  }
+  > .subtitle {
+    padding: 1rem 1.5rem;
+    font-weight: 300;
+    border-bottom: 1px solid global-variables.$color-gray-200;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

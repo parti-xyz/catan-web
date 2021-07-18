@@ -25,7 +25,7 @@ caption, th, td {
   vertical-align: middle;
 }
 
-body.-pack a:hover:not(.btn) {
+body.-pack a:hover:not(.btn):not(.hover\:text-decoration-underline) {
   text-decoration: none;
 }
 

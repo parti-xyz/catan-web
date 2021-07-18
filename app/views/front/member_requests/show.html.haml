@@ -1,0 +1,24 @@
+- user = @member_request.user
+.modal-header
+  %h6.modal-title #{user.nickname}님의 가입 요청
+  %button.close.-sm{ "aria-label": "Close", data: { action: 'click->modal#close' } }
+    %span{ "aria-hidden": 'true' } ×
+.modal-body
+  - if @member_request.description.present?
+    .card.border-0
+      .card-body{ style: 'margin-bottom: -1rem' }
+        %p
+          %strong 소개
+        = simple_format h(@member_request.description)
+  .card.mt-3.border-0
+    .card-body{ style: 'margin-bottom: -1rem' }
+      %p
+        %strong
+          가입 전에 확인한 사항
+        %span.text-muted (오거나이저 혹은 자신만 보이는 정보입니다.)
+      - if @member_request.statement.present?
+        = simple_format h(@member.statement)
+      - else
+        %p.text-muted
+          확인한 사항이 없습니다.
+

@@ -13,7 +13,7 @@
         .contents-header.xs-horizontal-padding
           %h4.contents-header__title 채널 휴면하기
         .well
-          - if @issue.frozen?
+          - if @issue.iced?
             .help-block 채널 휴면을 해제합니다.
             = link_to '휴면 해제하기', wake_issue_path(@issue), method: :put, class: 'btn btn-primary'
           - else
@@ -25,7 +25,7 @@
               %br
               2. 해당 채널에 새 글을 올릴 수 없습니다.
 
-            = link_to '휴면 전환하기', freeze_issue_path(@issue), method: :put, class: 'btn btn-primary'
+            = link_to '휴면 전환하기', ice_issue_path(@issue), method: :put, class: 'btn btn-primary'
 
   - if can? :destroy, @issue
     %section
@@ -35,3 +35,21 @@
         .well
           .help-block 채널을 삭제합니다. 이 작업은 되돌릴 수 없습니다.
           = link_to '삭제하기', destroy_form_issue_path(@issue), class: 'btn btn-danger'
+
+  - if current_user.admin?
+    %section
+      .container.container-xs-full-width
+        .contents-header.xs-horizontal-padding
+          %h4.contents-header__title 채널을 그룹으로
+        .well
+          - issue_slug = @issue.slug
+          - exists_confict_group = Group.exists?(slug: issue_slug)
+          .help-block 채널을 그룹으로 분리합니다. 이 채널을 분리할 그룹의 slug을 기입하세요.
+          - if exists_confict_group
+            .help-block https://#{issue_slug}.parti.xyz 는 이미 사용 중입니다.
+          = form_with url: spin_off_group_configuration_path(issue_id: @issue.id), method: :post do |f|
+            .form-group
+              = f.label :'group[slug]', '그룹 주소'
+              = f.text_field :'group[slug]', value: (issue_slug unless exists_confict_group)
+
+            = f.submit '분리하기', class: 'btn btn-danger'

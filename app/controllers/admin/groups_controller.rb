@@ -57,7 +57,7 @@ class Admin::GroupsController < Admin::BaseController
       flash[:error] = '그룹을 찾을 수 없습니다. 정확한 slug를 입력해주세요.'
       redirect_to admin_groups_path and return
     end
-    group.blinded_at = DateTime.now
+    group.blinded_at = Time.current
     group.blinded_by = current_user
 
     if group.save

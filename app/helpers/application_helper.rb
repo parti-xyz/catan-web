@@ -36,15 +36,17 @@ module ApplicationHelper
   end
 
   def excerpt(text, options = {})
+    return if text.blank?
+
     options[:length] = 130 unless options.has_key?(:length)
 
     result = text
     if options[:from_html]
-      result = strip_tags(result)
-      result = HTMLEntities.new.decode(result)
+      result = HTMLEntities.new.decode ::Catan::SpaceSanitizer.new.do(result)
     end
     return result if result.blank?
-    return result.truncate(options[:length], options)
+
+    result.truncate(options[:length], options)
   end
 
   def date_f(date)
@@ -67,11 +69,14 @@ module ApplicationHelper
     end
   end
 
-  def comment_format(issue, text, html_options = {}, options = {})
-    options.merge!(wrapper_tag: 'span') if options[:wrapper_tag].blank?
-    parsed_text = simple_format(h(text), html_options.merge(class: 'comment-body-line bodyline'), options).to_str
-    # parsed_text = parse_hashtags(issue, parsed_text)
-    parsed_text = parse_mentions(issue.group, parsed_text)
+  def comment_format(comment, body = nil)
+    comment_body = body || comment.body
+    parsed_text = if comment.is_html
+      comment_body
+    else
+      simple_format(h(comment_body), { class: 'comment-body-line' }, { wrapper_tag: 'span' }).to_str
+    end
+    parsed_text = parse_mentions(comment.issue.group, parsed_text)
     Rinku.auto_link(parsed_text, :all,
       "class='auto_link' target='_blank'",
       nil).html_safe()
@@ -243,7 +248,7 @@ module ApplicationHelper
 
   def meta_icons(model, *extras)
     tags = []
-    if model.try(:frozen?)
+    if model.try(:iced?)
       tags << content_tag(:span, title: '휴면 중') do
         content_tag(:span, 'z') +
         content_tag(:sup, nil, class: 'sup-z') do
@@ -444,9 +449,9 @@ module ApplicationHelper
       end
       concat(content_tag :span, issue.title, class: issue_classes)
 
-      if issue.frozen?
+      if issue.iced?
         concat raw('&nbsp;')
-        concat content_tag :span, nil, class: 'frozen', &-> do
+        concat content_tag :span, nil, class: 'iced', &-> do
           capture do
             concat 'z'
             concat content_tag :sup, 'z'
@@ -508,7 +513,7 @@ module ApplicationHelper
   end
 
   def implict_front_namespace?(group = nil)
-    (group || current_group)&.frontable?
+    (group || current_group)&.frontable? || implict_front_namespace_pages?
   end
 
   def explict_front_namespace?
@@ -596,5 +601,47 @@ module ApplicationHelper
       }
     })
     raw engine.render
+  end
+
+  def jj(*args)
+    args.join(' ')
+  end
+
+  def extract_unobtrusive_flash_frontable!
+    existing_cookie = cookies[:flash]
+    cookies.delete :flash, domain: :all
+
+    cookie_flashes = (existing_cookie && safe_json_parse(existing_cookie)) || []
+    cookie_flashes.map do |cookie_flash|
+      (key, html_escaped_message) = cookie_flash
+      message = CGI.unescapeHTML(html_escaped_message)
+      [key, message]
+    end
+  end
+
+  def partial_svg(name)
+    file_path = "#{Rails.root}/app/assets/images/#{name}.svg"
+    return File.read(file_path).html_safe if File.exist?(file_path)
+    fallback_path = "#{Rails.root}/app/assets/images/png/#{name}.png"
+    return image_tag("png/#{name}.png") if File.exist?(fallback_path)
+    '(not found)'
+  end
+
+  private
+
+  def safe_json_parse(json)
+    JSON.parse(json)
+  rescue JSON::JSONError
+    nil
+  end
+
+  def implict_front_namespace_pages?
+    (controller_name == 'users' && action_name == 'pre_sign_up')  ||
+    (controller_name == 'users' && action_name == 'inactive_sign_up') ||
+    (controller_name == 'users' && action_name == 'email_sign_in') ||
+    (controller_name == 'users' && action_name == 'cancel_form') ||
+    (controller_name == 'pages' && action_name == 'dock') ||
+    (controller_name == 'pages' && action_name == 'landing') ||
+    (controller_name == 'pages' && action_name == 'expedition')
   end
 end

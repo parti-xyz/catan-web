@@ -195,6 +195,8 @@ ko:
       label:
         title: 이름
         body: 설명
+      invitation:
+        recipient_email: 이메일
       report:
         reason: 이유
     successful:
@@ -279,6 +281,10 @@ ko:
           attributes:
             title:
               taken: 이미 사용 중입니다. 새 폴더를 다른 이름으로 만들어주세요.
+        invitation:
+          attributes:
+            recipient_email:
+              taken: 이미 초대가 진행 중입니다.
   labels:
     app_name_human: 빠띠 카누
     new_post_file_source_button: "사진\xB7파일"
@@ -401,8 +407,8 @@ ko:
   views:
     pin: 고정했습니다.
     unpin: 고정 해제했습니다.
-    front_wiki: 그룹홈에 게시했습니다.
-    destroy_front_wiki: 그룹홈에서 내렸습니다.
+    main_wiki: 그룹홈에 게시했습니다.
+    destroy_main_wiki: 그룹홈에서 내렸습니다.
     behold: 확인했습니다.
     unbehold: 확인 취소했습니다.
     started_issue_destroying: '채널 삭제가 시작되었습니다. 잠시 후에 완료됩니다.'

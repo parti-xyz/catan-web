@@ -1,0 +1,33 @@
+.landing-page.-full
+  .left
+    .g
+      C
+    .features
+      .feature
+        .icon
+          🗃
+        .text
+          관심사가 비슷한 사람들과 느슨하게 연결하고 협력하세요.
+      .feature
+        .icon
+          📋
+        .text
+          공동문서 도구 &ldquo;위키&rdquo;로 정보와 지식을 함께 모으고 정리하세요.
+      .feature
+        .icon
+          🗳
+        .text
+          찬반 투표와 설문으로 섬세하게 대화하며 서로의 생각을 나누세요.
+  .right{ style: 'flex: 1;' }
+    .box
+      .logo
+        C
+      .leading
+        %span.text-nowrap 빠띠 카누
+        %br
+        %span.text-nowrap 함께 모여 만드는 액션 그룹
+      .links
+        .text 지금 빠띠 카누 계정을 만드세요.
+        = link_to '계정 만들기', pre_sign_up_front_users_path, class: 'btn btn-md btn-primary btn-block'
+        = link_to '로그인', new_user_session_path, class: 'btn btn-md btn-outline-primary btn-block'
+

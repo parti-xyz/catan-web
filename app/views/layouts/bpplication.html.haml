@@ -33,6 +33,8 @@
   %body.-pack{ class: "#{body_class} #{local_assigns[:additional_body_class]}", data: { 'root-domain': root_domain, controller: 'sign-in-launcher' } }
     - flash.each do |type, message|
       %div.collapse{ data: { controller: 'flash-message', 'flash-message': { type: type, message: message } } }
+    - extract_unobtrusive_flash_frontable!.each do |type, message|
+      %div.collapse{ data: { controller: 'flash-message', 'flash-message': { type: type, message: message } } }
 
     = content_for?(:content) ? yield(:content) : yield
 

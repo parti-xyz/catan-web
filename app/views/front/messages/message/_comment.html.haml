@@ -8,8 +8,8 @@
     %small.text-muted.text.ml-1
       = date_f message.created_at
   %div
-    = excerpt(comment.body, length: 100)
+    = excerpt(comment.body_striped_tags, length: 100)
   - if comment.parent.present?
     .text-muted{ style: 'margin-top: 1em; font-size: 12px;' }
       %strong @#{comment.parent.user.nickname}
-      = excerpt(comment.parent.body, length: 100)
+      = excerpt(comment.parent.body_striped_tags, length: 100)

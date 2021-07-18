@@ -1,4 +1,4 @@
 setTimeout(function() {
-  $("<%= switchable_post_front_wiki_buttons_dom_selector(@post) %>").replaceWith("<%= j render('posts/front_wiki_buttons', post: @post) %>");
-  UnobtrusiveFlash.showFlashMessage("<%= t('views.destroy_front_wiki') %>", {type: 'notice'});
+  $("<%= switchable_post_main_wiki_buttons_dom_selector(@post) %>").replaceWith("<%= j render('posts/main_wiki_buttons', post: @post) %>");
+  UnobtrusiveFlash.showFlashMessage("<%= t('views.destroy_main_wiki') %>", {type: 'notice'});
 }, 100);

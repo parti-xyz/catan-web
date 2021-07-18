@@ -13,7 +13,7 @@ class MemberGroupService
   def call
     return if @group.blank? or @group.member?(@user)
     ActiveRecord::Base.transaction do
-      @member = @group.members.create(user: @user, description: @description, statement: @statement, created_at: DateTime.now, updated_at: DateTime.now)
+      @member = @group.members.create(user: @user, description: @description, statement: @statement, created_at: Time.current, updated_at: Time.current)
       return if @member.blank?
       (group.default_issues || []).each do |issue|
         MemberIssueService.new(issue: issue, user: @user, need_to_message_organizer: false, is_force: true).call

@@ -3,7 +3,7 @@ var need_to_close_modal = false;
 <% else %>
   need_to_close_modal = true;
   if($('.js-slug-folder-status-display').length > 0) {
-    var $message = $('<span>폴더를 새로 만들었습니다. <%= j(date_f(DateTime.now)) %></span>');
+    var $message = $('<span>폴더를 새로 만들었습니다. <%= j(date_f(Time.current)) %></span>');
     $('.js-slug-folder-status-display').html($message);
     $('.js-slug-folder-status-display').find('time[data-time-ago]').timeago();
   }

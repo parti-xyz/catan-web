@@ -2,7 +2,7 @@ include GroupHelper
 include MobileAppHelper
 
 Rails.application.routes.draw do
-  class DefaultGroupRouteConstraint
+  class NoGroupRouteConstraint
     def matches?(request)
       fetch_group(request).blank?
     end
@@ -46,11 +46,11 @@ Rails.application.routes.draw do
     match '*path', to: redirect(subdomain: '', path: '/p/role'), via: :all
   end
 
-  constraints(DefaultGroupRouteConstraint.new) do
+  constraints(NoGroupRouteConstraint.new) do
     authenticated :user do
-      root 'pages#authenticated_home'
+      root 'pages#dock'
     end
-    root 'pages#discover', as: :discover_root
+    root 'pages#landing'
   end
   constraints(FrontGroupRouteConstraint.new) do
     root 'front/pages#root'
@@ -64,7 +64,6 @@ Rails.application.routes.draw do
     collection do
       get 'access_token'
       get 'pre_sign_up'
-      get 'email_sign_in'
       put 'notification'
       get 'inactive_sign_up'
       get 'cancel_form'
@@ -118,7 +117,7 @@ Rails.application.routes.draw do
       post :admit_members
       put :add_my_menu
       put :wake
-      put :freeze
+      put :ice
       delete :remove_my_menu
       put :update_category
       delete :destroy_category
@@ -268,10 +267,11 @@ Rails.application.routes.draw do
   namespace :group do
     resource :configuration do
       member do
-        post 'front_wiki'
-        delete 'front_wiki', to: 'configurations#destroy_front_wiki'
+        post 'main_wiki'
+        delete 'main_wiki', to: 'configurations#destroy_main_wiki'
         delete :remove_key_visual_foreground_image
         delete :remove_key_visual_background_image
+        post :spin_off
       end
     end
     resources :members do
@@ -353,10 +353,7 @@ Rails.application.routes.draw do
   get '/p/:slug/hashtags/:hashtag', to: "issues#slug_hashtag", as: :slug_issue_hashtags
   get '/u/:slug', to: "users#posts", as: 'slug_user'
 
-  get '/about', to: "pages#about", as: 'about'
-  get '/discover', to: "pages#discover", as: 'discover'
   get '/privacy', to: "pages#privacy", as: 'privacy'
-  get '/pricing', to: "pages#pricing", as: 'pricing'
   get '/privacy/v1', to: "pages#privacy_v1", as: 'privacy_v1'
   get '/terms', to: "pages#terms", as: 'terms'
   get '/terms/v1', to: "pages#terms_v1", as: 'terms_v1'
@@ -392,7 +389,7 @@ Rails.application.routes.draw do
     root to: 'monitors#index'
     resources :issues do
       post 'merge', on: :collection
-      post 'freeze', on: :collection
+      post 'ice', on: :collection
       put 'blind', on: :collection
       put 'unblind', on: :member
     end
@@ -441,25 +438,34 @@ Rails.application.routes.draw do
   resources :reports
 
   # front
+  get :dock, to: 'pages#dock', as: :dock
+  get :landing, to: 'pages#landing', as: :landing
+  get :expedition, to: 'pages#expedition', as: :expedition
+
   namespace :front, defaults: { namespace_slug: 'front' } do
     get :all, to: 'pages#all'
     get :announcements, to: 'pages#announcements'
     get :mentions, to: 'messages#mentions'
     get :messages, to: 'messages#index'
     patch :read_all_posts, to: 'pages#read_all_posts'
-    get :search, to: 'pages#search' #, as: :search
+    get :search, to: 'pages#search'
     get :group_sidebar, to: 'pages#group_sidebar'
     get :coc, to: 'pages#coc'
     get :menu, to: 'pages#menu'
     get :search_form, to: 'pages#search_form'
+    get :iced, to: 'pages#iced'
 
     resources :channels, only: [:show, :edit, :new] do
       member do
         get :destroy_form
         patch :read_all_posts
+        patch :wake
+        post 'main_wiki'
+        delete 'main_wiki', to: 'channels#destroy_main_wiki'
       end
       collection do
         get :sync
+        get :iced
       end
 
       resources :folders, only: [] do
@@ -470,7 +476,7 @@ Rails.application.routes.draw do
     end
     resources :issues, only: [:update, :create, :destroy], controller: '/issues' do
       member do
-        put :freeze
+        put :ice
         put :wake
         delete :remove_logo
         delete :remove_cover
@@ -495,6 +501,11 @@ Rails.application.routes.draw do
               delete :cancel
               get :users
             end
+          end
+        end
+        resources :comments, only: [] do
+          shallow do
+            resources :comment_histories, only: [:index, :show]
           end
         end
       end
@@ -557,21 +568,47 @@ Rails.application.routes.draw do
       #end
     end
 
-    resources :member_requests, only: [:new] do
+    resources :member_requests, only: [:new, :index, :show, :create] do
       collection do
-        get :private_blocked
+        get :intro
+        get :reject_form
       end
     end
-    resources :member_requests, only: [:create], controller: '/group/member_requests'
+    resources :member_requests, only: [], controller: '/group/member_requests' do
+      collection do
+        post :accept
+        delete :reject
+      end
+    end
+    resources :invitations, only: [:index, :new, :destroy] do
+      collection do
+        post :bulk
+      end
+      member do
+        get :accept
+        patch :resend
+      end
+    end
 
     resources :members, only: [], controller: '/group/members' do
-      delete :cancel
-    end
-    resources :members, only: [:show] do
+      member do
+        delete :cancel
+      end
       collection do
+        put :organizer
+        delete :organizer
+        delete :ban
+      end
+    end
+    resources :members, only: [:show, :index] do
+      collection do
+        get :ban_form
         get 'user/:user_id', action: 'user', as: :user
         get :edit_me
         post :update_me
+      end
+      member do
+        get :statement
       end
     end
 
@@ -590,12 +627,15 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :groups, only: [:edit]
     resources :groups, only: [:update], controller: '/group/configurations'
-    resources :groups, only: [] do
+    resources :groups, only: [:edit] do
+      member do
+        put :wake
+        put :ice
+      end
       collection do
-        post 'coc_wiki', to: '/group/configurations#front_wiki'
-        delete 'coc_wiki', to: '/group/configurations#destroy_front_wiki'
+        post 'main_wiki', to: '/group/configurations#main_wiki'
+        delete 'main_wiki', to: '/group/configurations#destroy_main_wiki'
         delete 'remove_key_visual_foreground_image', to: '/group/configurations#remove_key_visual_foreground_image'
       end
     end

@@ -1,0 +1,39 @@
+@use '../../mixin';
+@use '../../global-variables';
+
+.base-app .easy-jumbotron {
+  > .logo {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1.5rem;
+    display: block;
+    width: 3.75rem;
+    height: 3.75rem;
+    color: global-variables.$color-brand-700;
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 2.5rem;
+    text-align: center;
+    padding: 0.625rem 0;
+    border-radius: 1rem;
+    border: solid 1px global-variables.$color-brand-700;
+  }
+  > .leading {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.25px;
+    line-height: 38px;
+    max-width: 700px;
+    text-align: center;
+  }
+  > .guide {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: .5rem;
+    line-height: 1.2rem;
+    color: global-variables.$color-gray-800;
+    text-align: center;
+  }
+}

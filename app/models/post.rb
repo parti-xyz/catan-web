@@ -91,7 +91,8 @@ class Post < ApplicationRecord
   has_many :file_sources, dependent: :destroy, as: :file_sourceable
   has_many :decision_histories, dependent: :destroy
   has_one :post_searchable_index, dependent: :destroy, autosave: true
-  has_one :front_wiki_group, dependent: :nullify, class_name: "Group", foreign_key: :front_wiki_post_id
+  has_one :main_wiki_group, dependent: :nullify, class_name: "Group", foreign_key: :main_wiki_post_id
+  has_one :main_wiki_issue, dependent: :nullify, class_name: "Issue", foreign_key: :main_wiki_post_id
   has_many :post_readers, dependent: :destroy
   has_one :current_user_post_reader,
     -> { where(user_id: Current.user.try(:id)) },
@@ -237,18 +238,13 @@ class Post < ApplicationRecord
   before_save :process_blind
 
   def specific_desc_striped_tags(length = 0)
-    striped_body = body.try(:strip)
-    striped_body = '' if striped_body.nil?
-    sanitized_body = sanitize_html striped_body
-    sanitized_body = nil if sanitized_body.blank?
-
     desc = self.base_title.presence ||
       self.poll.try(:title).presence ||
-      sanitized_body.presence ||
+      striped_tags(body).presence ||
       self.file_sources.first.try(:name).presence ||
       self.link_source.try(:title).presence
 
-    desc = "(요약 없음)" if desc.blank?
+    desc = '(요약 없음)' if desc.blank?
 
     return desc if length <= 0
     return desc.try(:truncate, length)
@@ -369,8 +365,12 @@ class Post < ApplicationRecord
     !upvotes.exists?(user: someone)
   end
 
-  def front_wiki?
-    self.issue.group.front_wiki_post == self
+  def main_wiki_group?
+    issue.group.main_wiki_post == self
+  end
+
+  def main_wiki_issue?
+    issue.main_wiki_post == self
   end
 
   def self.recommends(exclude)
@@ -434,17 +434,7 @@ class Post < ApplicationRecord
   end
 
   def meta_tag_title
-    body.present? ? "#{sanitize_html(body).truncate(15)} | #{issue.title} 채널" : "#{issue.title} 채널"
-  end
-
-  def meta_tag_description
-    if poll.present?
-      poll.title
-    else
-      strip_body = body.try(:strip)
-      strip_body = '' if strip_body.nil?
-      sanitize_html(strip_body)
-    end
+    "#{self.title} | #{issue.title} 채널"
   end
 
   def meta_tag_image
@@ -516,7 +506,7 @@ class Post < ApplicationRecord
   end
 
   def strok_by(someone, subject = nil)
-    self.last_stroked_at = DateTime.now
+    self.last_stroked_at = Time.current
     self.last_stroked_user = (someone || self.user)
     self.last_stroked_for = subject
 
@@ -526,7 +516,7 @@ class Post < ApplicationRecord
   end
 
   def strok_by!(someone, subject = nil)
-    update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone&.id, last_stroked_for: subject)
+    update_columns(last_stroked_at: Time.current, last_stroked_user_id: someone&.id, last_stroked_for: subject)
     read!(someone)
     StrokedPostUserJob.perform_async(self.id, someone&.id)
   end
@@ -678,7 +668,7 @@ class Post < ApplicationRecord
     return unless group.member?(someone)
 
     post_reader = self.post_readers.find_or_create_by(user: someone)
-    post_reader.updated_at = DateTime.now
+    post_reader.updated_at = Time.current
     post_reader.save
 
     post_reader
@@ -712,6 +702,10 @@ class Post < ApplicationRecord
     issue.frontable?
   end
 
+  def reset_has_decision_comments!
+    self.update_columns(has_decision_comments: comments.exists?(is_decision: true))
+  end
+
   private
 
   def reindex_for_search
@@ -731,10 +725,6 @@ class Post < ApplicationRecord
         self.tag_list.add(hashtag.gsub(/\A[[:space:]]+|[[:space:]]+\z/, ''))
       end
     end
-  end
-
-  def sanitize_html text
-    HTMLEntities.new.decode ::Catan::SpaceSanitizer.new.do(text)
   end
 
   def references_check

@@ -1,5 +1,5 @@
 class IssuesController < ApplicationController
-  before_action :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover, :destroy_form, :update_category, :destroy_category, :read_all, :unread_until, :freeze]
+  before_action :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover, :destroy_form, :update_category, :destroy_category, :read_all, :unread_until, :ice]
   before_action :fetch_issue_by_slug, only: [:new_posts_count, :slug_home, :slug_hashtag, :slug_members, :slug_links_or_files, :slug_polls_or_surveys, :slug_folders, :slug_wikis]
   load_and_authorize_resource
   before_action :verify_issue_group, only: [:slug_home, :slug_hashtag, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :slug_folders, :edit]
@@ -31,7 +31,6 @@ class IssuesController < ApplicationController
       @no_tags_selected = 'yes'
     else
       base = Issue.tagged_with(params[:selected_tags], any: true).except(:select).select(:id).union(Issue.search_for(params[:selected_tags].join(' OR ')).select(:id))
-      base = base.union(LandingPage.parsed_section_for_all_issue_subject(params[:selected_tags]).select(:id))
 
       @issues = @issues.where(id: base)
     end
@@ -237,7 +236,7 @@ class IssuesController < ApplicationController
         (@issue.blinds_nickname.split(",") || []).map(&:strip).compact.uniq.each do |nickname|
           user = User.find_by(nickname: nickname)
           if user.present?
-            deleting_nicknames.reject!{ |nickname| nickname == user.nickname}
+            deleting_nicknames.reject!{ |nickname| nickname == user.nickname }
             @issue.blinds.build(user: user) unless @issue.blinds.exists?(user_id: user.id)
           end
         end
@@ -246,6 +245,10 @@ class IssuesController < ApplicationController
       if @issue.save
         if @issue.previous_changes["is_default"].present? and @issue.is_default?
           IssueForceDefaultJob.perform_async(@issue.id, current_user.id)
+        end
+
+        if @issue.saved_change_to_attribute?('group_slug')
+          Message.of_issue(@issue).update_all('group_slug', @issue.group_slug)
         end
 
         if @issue.saved_change_to_attribute?('title')
@@ -340,7 +343,7 @@ class IssuesController < ApplicationController
           @ambiguous_recipient_codes << recipient_code
           @has_error_recipient_codes = true
           next
-        else recipients.count == 1
+        elsif recipients.count == 1
           recipient = recipients.first
         end
       else
@@ -422,7 +425,7 @@ class IssuesController < ApplicationController
   end
 
   def wake
-    @issue.freezed_at = nil
+    @issue.iced_at = nil
     if @issue.save
       flash[:success] = '휴면을 해제했습니다.'
     else
@@ -436,8 +439,8 @@ class IssuesController < ApplicationController
     end
   end
 
-  def freeze
-    @issue.freezed_at = DateTime.now
+  def ice
+    @issue.iced_at = Time.current
     if @issue.save
       flash[:success] = '휴면 전환했습니다.'
     else

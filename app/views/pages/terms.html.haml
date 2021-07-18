@@ -29,11 +29,14 @@
     padding-left: 15px;
     margin-top: 0;
   }
+
+.mb-5
+  = render 'application/easy_jumbotron' do |p|
+    - p.content_for :leading do
+      이용약관
 %section.page-bg
   .container
     .page-wrapper
-      %h3.page-wrapper__title
-        이용약관
       .page-wrapper__txt
         .margin-top-two
         %b 제 1조 목적
@@ -289,7 +292,7 @@
       %hr
       .margin-top-one
         %h4 이전 이용약관
-        %ul
+        %ul.list-unstyled
           %li
-            =link_to '버전 1', terms_v1_url
+            =link_to '- 버전 1', terms_v1_url, target: '_blank'
 

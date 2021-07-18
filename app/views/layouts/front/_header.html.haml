@@ -1,3 +1,5 @@
+- return if current_group.blank?
+
 .front-navbar{ data: { controller: ('watermark' unless Rails.env.production?), 'watermark-text': Rails.env } }
 
   - if current_group.private_blocked?(current_user)
@@ -34,16 +36,27 @@
             - if current_group.organized_by?(current_user) || current_user&.admin?
               = link_to edit_front_group_path(current_group), class: 'dropdown-item' do
                 그룹 관리
+            = link_to front_members_path, class: 'dropdown-item' do
+              그룹 멤버
             - if current_group.organized_by?(current_user) || current_user&.admin?
-              = link_to group_members_path, class: 'dropdown-item', target: '_blank' do
-                멤버 관리
-                %i.fa.fa-external-link
+              = link_to front_member_requests_path, class: 'dropdown-item' do
+                멤버 신청 관리
+                - member_requests_count = current_group.member_requests.count
+                - if member_requests_count > 0
+                  .badge.badge-dark.ml-1= member_requests_count
+            - if current_group.organized_by?(current_user) || current_user&.admin?
+              = link_to front_invitations_path, class: 'dropdown-item' do
+                멤버 초대 관리
+            .dropdown-divider
             - if current_group.organized_by?(current_user) || current_user&.admin?
               = link_to edit_current_group_front_categories_path, class: 'dropdown-item' do
                 채널 카테고리 관리
+              = link_to iced_front_channels_path, class: 'dropdown-item' do
+                채널 휴면 관리
             - if current_group.creatable_issue?(current_user) || current_user&.admin?
               = link_to new_front_channel_path, class: 'dropdown-item' do
                 채널 만들기
+            .dropdown-divider
             - if current_group.organized_by?(current_user) || current_user&.admin?
               = link_to front_labels_path, class: 'dropdown-item' do
                 라벨 관리
@@ -54,8 +67,8 @@
             - if group_menus.present?
               .dropdown-divider
             = link_to edit_me_front_members_path, class: 'dropdown-item' do
-              내 프로필
-            = link_to "#{current_group.title} 그룹 탈퇴", front_member_cancel_path(current_user.smart_group_member(current_group)), method: :delete, class: 'dropdown-item', data: { confirm: "정말 #{current_group.title} 그룹에서 탈퇴하시겠습니까? 그룹에 게시한 글은 모두 보존되며 빠띠 가입도 유지됩니다." }
+              내 프로필 관리
+            = link_to "#{current_group.title} 그룹 탈퇴", cancel_front_member_path(current_user.smart_group_member(current_group)), method: :delete, class: 'dropdown-item', data: { confirm: "정말 #{current_group.title} 그룹에서 탈퇴하시겠습니까? 그룹에 게시한 글은 모두 보존되며 빠띠 가입도 유지됩니다." }
 
   .profilemenus
     - if user_signed_in? && current_group&.member?(current_user)
@@ -72,32 +85,30 @@
           .userimagebg{ style: "background-image: url(#{current_user.image.sm.url})" }
         .dropdown-menu.usermenu.dropdown-menu-right
           = link_to '계정 설정', edit_user_registration_path, class: 'dropdown-item'
-          = link_to '로그아웃', destroy_user_session_path, method: :delete, class: 'dropdown-item'
-          - member_groups = current_user.member_groups.sibilings(current_group).load
-          - member_groups.each_with_index do |group, index|
-            - if index == 0
-              .dropdown-divider
-              .dropdown-header
-                내 그룹
-            = link_to root_url(subdomain: group.subdomain), class: 'dropdown-item', target: ('_blank' if group != current_group) do
-              = group.title
-              - if group != current_group
-                %i.fa.fa-external-link.small.text-muted
-              - if group == current_group
-                %i.fa.fa-check
+          .dropdown-divider
+          .dropdown-item.d-flex
+            = link_to dock_url(subdomain: nil), class: 'flex-grow-1 flex-shrink-1' do
+              내 그룹
+            = link_to dock_url(subdomain: nil), class: 'badge badge-light font-size-xs d-flex align-items-center', target: '_blank' do
+              %span 새 창
+              %i.fa.fa-external-link.small.text-muted
+
           - if current_group.organization.default?
-            .dropdown-divider
-            = link_to issues_url(subdomain: nil), class: 'dropdown-item', target: '_blank' do
-              다른 그룹 탐색
-              %i.fa.fa-external-link.small.text-muted
-            = link_to new_group_configuration_url(subdomain: nil), class: 'dropdown-item', target: '_blank' do
+            .dropdown-item.d-flex
+              = link_to expedition_url(subdomain: nil), class: 'flex-grow-1 flex-shrink-1 mr-1' do
+                새로운 그룹 탐색
+              = link_to expedition_url(subdomain: nil), class: 'badge badge-light font-size-xs d-flex align-items-center', target: '_blank' do
+                %span 새 창
+                %i.fa.fa-external-link.small.text-muted
+            = link_to new_group_configuration_url(subdomain: nil), class: 'dropdown-item' do
               그룹 만들기
-              %i.fa.fa-external-link.small.text-muted
+          .dropdown-divider
+          = link_to '로그아웃', destroy_user_session_path, method: :delete, class: 'dropdown-item'
     - else
-      -# .menuitem
-      -#   = link_to issues_url(subdomain: nil), target: '_blank', class: 'link' do
-      -#     다른 그룹 탐색
-      -#     %i.fa.fa-external-link.small
+      .menuitem
+        = link_to expedition_url(subdomain: nil), target: '_blank', class: 'link' do
+          다른 그룹 탐색
+          %i.fa.fa-external-link.small
       .menuitem
         = link_to '멤버 가입', pre_sign_up_front_users_path, class: 'link'
       .menuitem

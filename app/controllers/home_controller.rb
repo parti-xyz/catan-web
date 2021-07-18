@@ -19,7 +19,6 @@ class HomeController < ApplicationController
         render 'home/group_home_private_blocked' and return
       end
 
-
       @issues = home_group_issues(current_group)
       @hot_issues = @issues.first(10)
 

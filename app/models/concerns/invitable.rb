@@ -13,5 +13,4 @@ module Invitable
       invitations.exists?(recipient_email: recipient)
     end
   end
-  
 end

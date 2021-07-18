@@ -299,7 +299,7 @@ class PostsController < ApplicationController
 
   def pin
     need_to_notification = @post.pinned_at.blank?
-    @post.assign_attributes(pinned: true, pinned_at: DateTime.now, pinned_by: current_user)
+    @post.assign_attributes(pinned: true, pinned_at: Time.current, pinned_by: current_user)
     @post.save!
     @post.read!(current_user)
     @post.issue.deprecated_read_if_no_unread_posts!(current_user)
@@ -360,12 +360,12 @@ class PostsController < ApplicationController
     if @post.poll.present?
       prepare_meta_tags title: @post.issue.title,
         image: @post.meta_tag_image,
-        description: "\"#{@post.meta_tag_description}\" 어떻게 생각하시나요?",
+        description: "\"#{@post.poll.title}\" 어떻게 생각하시나요?",
         twitter_card_type: 'summary_large_image'
     else
       prepare_meta_tags title: @post.meta_tag_title,
         image: @post.meta_tag_image,
-        description: @post.meta_tag_description
+        description: @post.specific_desc_striped_tags(100)
     end
   end
 

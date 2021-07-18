@@ -1,0 +1,43 @@
+- search_panel = capture do
+  .mt-5
+    = form_with url: '', method: :get do |f|
+      .d-flex.flex-column.flex-md-row.align-items-center
+        .form-group.flex-grow-1.flex-shrink-1.my-md-0.pr-md-2.w-100.w-md-auto
+          = f.text_field :keyword, value: params[:keyword], placeholder: '검색할 키워드를 입력하세요.', class: 'form-control px-1 text-center text-md-left'
+        .form-group.d-flex.my-0.member-search
+          .pr-1.flex-shrink-1.flex-grow-1.main
+            = f.button class: 'btn btn-primary btn-block' do
+              %i.fa.fa-search
+              찾기
+          - if params[:keyword].present?
+            .pl-1flex-shrink-0.flex-grow-0.sub
+              = link_to front_members_path, class: 'btn btn-white btn-block' do
+                취소
+
+%section
+  .container
+    %h3.text-keepall.text-center
+      %i.fa.fa-users
+      그룹 멤버
+
+    .simple-box.pt-3
+      - if params[:keyword].blank?
+        .form-text.text-muted.small.mb-3 #{@members.total_count}명의 그룹 멤버입니다.
+      - else
+        .pb-3
+          = search_panel
+
+      - if @members.any?
+        %ul.list-group.mb-0
+          = render partial: 'front/members/member_line', collection: @members, as: :member
+        .mt-4
+          = paginate @members, theme: 'catan'
+
+        - if params[:keyword].blank?
+          = search_panel
+
+      - else
+        .alert-box.my-3
+          .alert.alert-secondary.font-size-sm.d-flex.align-items-center.justify-content-between
+            멤버가 없습니다.
+

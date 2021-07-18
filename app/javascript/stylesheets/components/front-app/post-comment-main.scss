@@ -1,11 +1,21 @@
 @use '../../global-variables';
 @use '../../bootstrap';
+@use '../../mixin';
 
 .front-app .post-comment-main {
   position: relative;
   // elements
   > .view.collapse:not(.show) {
     display: none;
+  }
+
+  > .view > .decision {
+    display: inline-block;
+    font-size: .875rem;
+    font-weight: bold;
+    color: global-variables.$color-brand-primary;
+    margin-top: .25rem;
+    margin-bottom: .25rem;
   }
 
   > .view > .user > .usernickname {
@@ -49,8 +59,16 @@
     opacity: 0.4;
   }
   > .view > .body > .bodyline a,
-  > .view > .body > .bodyline > .mention {
+  > .view > .body > .bodyline .mention {
     color: global-variables.$color-brand-primary;
+  }
+  > .view > .body > .bodyline.-html {
+    @include mixin.editor-content;
+  }
+
+  > .view > .body > .author-users {
+    margin-top: .5rem;
+    margin-bottom: 1rem;
   }
 
   > .view > .moremenu {

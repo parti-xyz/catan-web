@@ -43,6 +43,11 @@
 
 - if @all_posts_total_count > 0
   .channel-box{ data: { controller: 'channel-read-emit list-nav-reset' } }
+    - if @current_issue.main_wiki_post.present? && @posts&.current_page == 1
+      %section.mb-5
+        .post-wiki.-channel-main
+          = render 'front/wikis/card', current_wiki: @current_issue.main_wiki_post.wiki
+
     - if @search_q.present?
       .alert-box.my-3
         .alert.alert-secondary.font-size-sm.d-flex.align-items-center.justify-content-between

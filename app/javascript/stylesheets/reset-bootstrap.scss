@@ -8,12 +8,12 @@
 }
 
 .dropdown-header:first-child,
-.dropdown-item:first-child {
+.dropdown-item:first-child:not(.collapse.hide) {
   padding-top: bootstrap.$dropdown-item-padding-y * 1.5;
 }
 
 .dropdown-header:last-child,
-.dropdown-item:last-child {
+.dropdown-item:last-child:not(.collapse.hide) {
   padding-bottom: bootstrap.$dropdown-item-padding-y * 1.5;
 }
 

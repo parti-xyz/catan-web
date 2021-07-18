@@ -1,0 +1,29 @@
+@use '../../global-variables';
+@use '../../bootstrap';
+@use '../../mixin';
+
+.front-app .author-users {
+  display: flex;
+  align-items: center;
+  font-size: small;
+
+  > .label {
+    flex: none;
+    margin-right: .25rem;
+    font-size: bootstrap.$font-size-xs;
+    color: global-variables.$color-gray-600;
+  }
+
+  > .user {
+    flex: none;
+    display: flex;
+    margin-right: .25rem;
+  }
+
+  > .user > .image {
+    border: 1px solid white;
+    display: inline-block;
+    background-color: white;
+    @include mixin.background-image-round(1.5rem);
+  }
+}

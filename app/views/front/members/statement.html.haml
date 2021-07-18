@@ -1,0 +1,12 @@
+- user = @member.user
+.modal-header
+  %h6.modal-title #{user.nickname}님이 가입 전에 확인한 사항
+  %button.close.-sm{ "aria-label": "Close", data: { action: 'click->modal#close' } }
+    %span{ "aria-hidden": 'true' } ×
+.modal-body
+  .p-4
+    - if @member.statement.present?
+      = simple_format h(@member.statement)
+    - else
+      .text-muted
+        확인한 사항이 없습니다.

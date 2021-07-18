@@ -156,7 +156,7 @@ var __parti_prepare_drawer = function($base) {
           }
 
           _cookies_group_ids = _.uniq(_cookies_group_ids);
-          if(_cookies_group_ids.length > 2000) {
+          if(_cookies_group_ids.length > 500) {
             _cookies_group_ids.shift()
           }
           Cookies.set('opened_group_ids', _cookies_group_ids, { domain: '.' + __root_domain, expires: 7 });

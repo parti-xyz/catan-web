@@ -22,9 +22,6 @@
   > .body.-edit {
     border: none;
   }
-  > .body.-edit > .version > div > .ProseMirror-menubar-wrapper > .ProseMirror-menubar {
-    display: none;
-  }
   > .body > .inputgroup > .label {
     padding: 0 .5rem;
     height: 1.75rem;
@@ -109,31 +106,9 @@
   > .body > .buttons > .btn + .btn {
     margin-left: .25rem;
   }
-  > .authors {
-    display: flex;
-    align-items: center;
+
+  > .author-users {
     margin-top: .75rem;
-    font-size: small;
-  }
-
-  > .authors > .label {
-    flex: none;
-    margin-right: .25rem;
-    font-size: bootstrap.$font-size-xs;
-    color: global-variables.$color-gray-600;
-  }
-
-  > .authors > .user {
-    flex: none;
-    display: flex;
-    margin-right: .25rem;
-  }
-
-  > .authors > .user > .image {
-    border: 1px solid white;
-    display: inline-block;
-    background-color: white;
-    @include mixin.background-image-round(1.5rem);
   }
 
   @include mq.media('<=phone') {
@@ -144,6 +119,12 @@
 
   &.-coc {
     margin: 1.5rem 3.75rem;
+  }
+  &.-channel-main {
+    margin-top: -1px;
+  }
+  &.-coc,
+  &.-main {
     @include mq.media('<=phone') {
       margin: 1rem;
     }
@@ -154,7 +135,7 @@
       border: none;
       padding: 0;
     }
-    > .authors {
+    > .author-users {
       display: none;
     }
 
@@ -170,6 +151,7 @@
     > .body > .buttons {
       position: static;
       margin-top: 3rem;
+      text-align: right;
     }
   }
 }
