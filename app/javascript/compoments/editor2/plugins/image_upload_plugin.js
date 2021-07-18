@@ -1,34 +1,35 @@
 import { Plugin, PluginKey } from "prosemirror-state"
 import { Decoration, DecorationSet } from "prosemirror-view"
-import appNoty from '../../helpers/app_noty'
+import appNoty from '../../../helpers/app_noty'
 
 const imageUploadKey = new PluginKey("imageUpload")
-const imageUploadPlugin = new Plugin({
-  key: imageUploadKey,
-  state: {
-    init() { return DecorationSet.empty },
-    apply(tr, set) {
-      // Adjust decoration positions to changes made by the transaction
-      set = set.map(tr.mapping, tr.doc)
-      // See if the transaction adds or removes any placeholders
-      let action = tr.getMeta(this)
-      if (action && action.add) {
-        let widget = document.createElement("placeholder")
-        let deco = Decoration.widget(action.add.pos, widget, {id: action.add.id})
-        set = set.add(tr.doc, [deco])
-      } else if (action && action.remove) {
-        set = set.remove(set.find(null, null,
-                                  spec => spec.id == action.remove.id))
+export const createImageUploadPlugin = () => {
+  return new Plugin({
+    key: imageUploadKey,
+    state: {
+      init() { return DecorationSet.empty },
+      apply(tr, set) {
+        // Adjust decoration positions to changes made by the transaction
+        set = set.map(tr.mapping, tr.doc)
+        // See if the transaction adds or removes any placeholders
+        let action = tr.getMeta(this)
+        if (action && action.add) {
+          let widget = document.createElement("placeholder")
+          let deco = Decoration.widget(action.add.pos, widget, {id: action.add.id})
+          set = set.add(tr.doc, [deco])
+        } else if (action && action.remove) {
+          set = set.remove(set.find(null, null, spec => spec.id == action.remove.id))
+        }
+        return set
       }
-      return set
+    },
+    props: {
+      decorations(state) { return this.getState(state) }
     }
-  },
-  props: {
-    decorations(state) { return this.getState(state) }
-  }
-})
+  })
+}
 
-export function startImageUpload(view, file, uploadUrl) {
+export function startImageUpload(view, file, uploadUrl, callback) {
   if (!uploadUrl) {
     appNoty('앗 뭔가 잘못되었습니다.', 'warning').show()
     return
@@ -42,11 +43,14 @@ export function startImageUpload(view, file, uploadUrl) {
   tr.setMeta(imageUploadKey, { add: { id, pos: tr.selection.from } })
   view.dispatch(tr)
 
-  uploadFile(file, uploadUrl).then(imageUrl => {
+  uploadFile(file, uploadUrl).then(image => {
+    const { url: imageUrl, original_url: originalImageUrl } = image
     if (!imageUrl) {
       appNoty('앗 뭔가 잘못되었습니다.', 'warning').show()
       return
     }
+
+    console.log (originalImageUrl)
 
     let pos = findPlaceholder(view.state, id)
     // If the content around the placeholder has been deleted, drop
@@ -55,7 +59,7 @@ export function startImageUpload(view, file, uploadUrl) {
     // Otherwise, insert it at the placeholder's position, and remove
     // the placeholder
     view.dispatch(view.state.tr
-      .replaceWith(pos, pos, view.state.schema.nodes.image.create({ src: imageUrl }))
+      .replaceWith(pos, pos, view.state.schema.nodes.image.create({ src: imageUrl, originalSrc: originalImageUrl }))
       .setMeta(imageUploadKey, { remove: { id } }))
   }, () => {
     // On failure, just clean up the placeholder
@@ -64,14 +68,6 @@ export function startImageUpload(view, file, uploadUrl) {
 }
 
 function uploadFile(file, uploadUrl) {
-  // let reader = new FileReader
-  // return new Promise((accept, fail) => {
-  //   reader.onload = () => accept(reader.result)
-  //   reader.onerror = () => fail(reader.error)
-  //   // Some extra delay to make the asynchronicity visible
-  //   setTimeout(() => reader.readAsDataURL(file), 1500)
-  // })
-
   let formData = new FormData()
   formData.append('file', file)
 
@@ -87,9 +83,12 @@ function uploadFile(file, uploadUrl) {
   }).then(
     response => response.json()
   ).then(
-    json => json && json.image && json.image.url
+    json => json && json.image
   ).catch(
-    error => console.log(error)
+    error => {
+      appNoty('앗 뭔가 잘못되었습니다.', 'warning').show()
+      console.log(error)
+    }
   )
 }
 
@@ -98,5 +97,3 @@ function findPlaceholder(state, id) {
   let found = decos.find(null, null, spec => spec.id == id)
   return found.length ? found[0].from : null
 }
-
-export { imageUploadKey, imageUploadPlugin }

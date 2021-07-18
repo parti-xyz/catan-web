@@ -20,7 +20,7 @@ export default class extends Controller {
   }
 
   get editorController() {
-    return this.application.getControllerForElementAndIdentifier(this.editorFormTarget, "editor-form")
+    return this.application.getControllerForElementAndIdentifier(this.editorFormTarget, "editor2-form")
   }
 
   close(event) {

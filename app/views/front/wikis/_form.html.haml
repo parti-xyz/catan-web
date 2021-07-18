@@ -1,4 +1,4 @@
-= form_with(model: (current_wiki.new_record? ? [:front, current_wiki.post] : [:wiki, :front, current_wiki.post]), local: false, html: { class: 'post-form -wiki-form', novalidate: true, data: { controller: 'wiki-form editor-form dirty-form', action: 'ajax:before->wiki-form#submit ajax:success->wiki-form#success dirty-form:force-dirty->dirty-form#setForceDirty', target: 'dirty-page.form', 'editor-form-upload-url': editor_assets_path, 'rule-filesize': '10485760' } }) do |f|
+= form_with(model: (current_wiki.new_record? ? [:front, current_wiki.post] : [:wiki, :front, current_wiki.post]), local: false, html: { class: 'post-form -wiki-form', novalidate: true, data: { controller: 'wiki-form editor2-form dirty-form', action: 'ajax:before->wiki-form#submit ajax:success->wiki-form#success dirty-form:force-dirty->dirty-form#setForceDirty', target: 'dirty-page.form' } }) do |f|
   - if current_wiki.conflict?
     .alert.alert-warning.conflictinfo
       %p
@@ -70,12 +70,8 @@
             = f.hidden_field :label_id, data: { target: 'label-picker.field' }
         = f.text_field :base_title, placeholder: '제목...', class: 'formtitle', rows: 1, maxlength: 50, data: { controller: 'auto-resize', target: 'wiki-form.titleField' }
       = f.fields_for :wiki do |ff|
+        = editor(ff.object.body, conflict_source_body: (current_wiki.conflicted_body if current_wiki.conflict?))
         = ff.hidden_field :body, data: { target: 'wiki-form.bodyField' }
-        .d-none{ data: { target: 'editor-form.source' } }
-          != ff.object.body
-        - if current_wiki.conflict?
-          .d-none{ data: { target: 'editor-form.conflictSource' } }
-            != current_wiki.conflicted_body
 
   - if controls.present?
     .controls

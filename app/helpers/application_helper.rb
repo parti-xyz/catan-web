@@ -620,6 +620,14 @@ module ApplicationHelper
     end
   end
 
+  def partial_svg(name)
+    file_path = "#{Rails.root}/app/assets/images/#{name}.svg"
+    return File.read(file_path).html_safe if File.exist?(file_path)
+    fallback_path = "#{Rails.root}/app/assets/images/png/#{name}.png"
+    return image_tag("png/#{name}.png") if File.exist?(fallback_path)
+    '(not found)'
+  end
+
   private
 
   def safe_json_parse(json)
