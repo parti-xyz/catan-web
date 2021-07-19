@@ -1,7 +1,7 @@
 @use '../../bootstrap';
 @use '../../mixin';
 
-.front-app .audiences-popover {
+.popover.popover-audiences-card .audiences-card {
   font-size: bootstrap.$font-size-sm;
 
   > .noticed + .need-to-notice {

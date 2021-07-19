@@ -1,7 +1,7 @@
 @use "./front-variables";
 @use "../mq";
 
-@forward "./front-app/audiences-popover";
+@forward "./front-app/audiences-card";
 @forward "./front-app/author-users";
 @forward "./front-app/bookmarks-box";
 @forward "./front-app/bookmark-form";
@@ -55,7 +55,6 @@
 @forward "./front-app/playground-main";
 @forward "./front-app/playground-header";
 @forward "./front-app/playground-sidebar";
-@forward "./front-app/popover-post-poll-votings-users";
 @forward "./front-app/pagination-header";
 @forward "./front-app/post-body";
 @forward "./front-app/post-box";
