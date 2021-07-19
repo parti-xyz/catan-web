@@ -156,41 +156,37 @@
     margin-top: .75rem;
     margin-bottom: .5rem;
     line-height: 1.25;
-    color: global-variables.$color-brand-400;
+    color: global-variables.$color-brand-500;
     font-weight: 600;
-  }
-  h1 {
-    font-size: 1.25rem;
-    font-weight: 900;
-    margin-top: 3rem;
-    margin-bottom: 1rem;
-    padding: .75rem;
-    color: white;
-    border-radius: 2px;
-    background-color: global-variables.$color-brand-400;
-    text-shadow: 1px 1px global-variables.$color-gray-600;
-    a {
-      color: global-variables.$color-bnc-nav-bg;
-      text-decoration: underline;
+    strong {
+      text-shadow: none;
+      font-weight: 900;
     }
   }
-  h2 {
-    font-size: 1.125rem;
-    font-weight: 700;
-    padding: .5em;
-    margin-top: 1.25rem;
+  h1 {
+    font-size: 1.615rem;
+    font-weight: 400;
+    margin-top: 3rem;
     margin-bottom: 1rem;
+    padding: .75rem 0;
+    color: global-variables.$color-brand-700;
+    text-shadow: .5px .5px global-variables.$color-gray-800;
+  }
+  h2 {
+    font-size: 1.25rem;
+    font-weight: 400;
+    padding: .5em 0;
+    margin-top: 1.25rem;
+    margin-bottom: .75rem;
     color: global-variables.$color-brand-600;
-    border: 1px solid global-variables.$color-brand-200;
+    text-shadow: .5px .5px global-variables.$color-gray-800;
   }
   h3 {
     font-size: 1rem;
-    font-weight: 700;
-    position: relative;
-    padding-left: 0.3em;
-    padding-bottom: 0.3em;
+    font-weight: 400;
+    padding: .25em 0;
     color: global-variables.$color-brand-500;
-    border-bottom: 1px solid global-variables.$color-brand-200;
+    text-shadow: .5px .5px global-variables.$color-gray-800;
   }
   h4 {
     font-size: 1rem;
