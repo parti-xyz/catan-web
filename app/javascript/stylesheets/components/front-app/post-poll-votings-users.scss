@@ -2,7 +2,7 @@
 @use '../front-variables';
 @use '../../mixin';
 
-.front-app .post-poll-votings-users {
+.popover.popover-post-poll-votings-users .post-poll-votings-users {
   width: 100%;
   min-width: 400px;
   overflow: auto;

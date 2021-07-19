@@ -11,7 +11,7 @@
       - if preview_noticed_audiences_limit_count < announcement.noticed_audiences_count
         %strong + #{announcement.noticed_audiences_count - preview_noticed_audiences.size}
 - more_link = capture do
-  .more{ data: { controller: 'content-popover', 'content-popover': { url: audiences_front_announcement_path(announcement), options: h({ container: '.front-app' }.to_json) } } }
+  .more{ data: { controller: 'content-popover', 'content-popover': { url: audiences_front_announcement_path(announcement), 'class-name': 'popover-audiences-card', options: h({ container: '.front-app' }.to_json) } } }
     자세히 보기
     %i.fa.fa-angle-down
 
