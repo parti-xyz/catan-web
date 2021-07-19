@@ -4,6 +4,7 @@ import Image from '@tiptap/extension-image'
 export const ResizableImage = Image.extend({
   defaultOptions: {
     ...Image.options,
+    inline: true,
     HTMLAttributes: {
       'data-controller': 'blank-link',
       'data-action': 'click->blank-link#open'
