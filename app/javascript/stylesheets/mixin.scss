@@ -38,12 +38,12 @@
 
 @mixin editor-content {
   font-size: 0.95rem;
-  line-height: 1.5;
+  line-height: 1.6;
 
-  *:first-child {
+  > *:first-child {
     margin-top: 0 !important;
   }
-  *:last-child {
+  > *:last-child {
     margin-bottom: 0 !important;
   }
 
@@ -170,7 +170,7 @@
     margin-bottom: 1rem;
     padding: .75rem 0;
     color: global-variables.$color-brand-700;
-    text-shadow: .5px .5px global-variables.$color-gray-800;
+    text-shadow: .5px .5px 1px global-variables.$color-gray-800;
   }
   h2 {
     font-size: 1.25rem;
@@ -179,14 +179,14 @@
     margin-top: 1.25rem;
     margin-bottom: .75rem;
     color: global-variables.$color-brand-600;
-    text-shadow: .5px .5px global-variables.$color-gray-800;
+    text-shadow: .5px .5px 1px global-variables.$color-gray-800;
   }
   h3 {
     font-size: 1rem;
     font-weight: 400;
     padding: .25em 0;
     color: global-variables.$color-brand-500;
-    text-shadow: .5px .5px global-variables.$color-gray-800;
+    text-shadow: .5px .5px 1px global-variables.$color-gray-800;
   }
   h4 {
     font-size: 1rem;
