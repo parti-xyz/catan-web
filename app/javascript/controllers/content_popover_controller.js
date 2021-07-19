@@ -18,11 +18,10 @@ export default class extends Controller {
         trigger: 'focus',
         html: true,
         sanitize: false,
-        class: this.data.get('className'),
         animation: false,
         placement: 'bottom',
         delay: { show: 0, hide: 200 },
-      }))
+      })).on('show.bs.popover', this.setCustomClass.bind(this))
       this.binded = true
     }
   }
@@ -33,7 +32,10 @@ export default class extends Controller {
 
   show() {
     jQuery(this.element).popover('show')
+    this.setCustomClass()
+  }
 
+  setCustomClass() {
     let popover = jQuery(this.element).data('bs.popover')
     if (!popover) { return }
 
